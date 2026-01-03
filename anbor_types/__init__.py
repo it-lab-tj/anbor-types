@@ -1,7 +1,10 @@
+import msgspec
 from pydantic import BaseModel, ConfigDict, Field
 
 from anbor_types.api import const
 from typing import (
+    Generic,
+    List,
     TypeAlias,
     Callable,
     Awaitable,
@@ -44,6 +47,13 @@ class ListQuery(Query):
         lt=const.MAX_LIMIT + 1,
     )
     offset: int = Field(default=const.DEFAULT_OFFSET, gt=const.MIN_OFFSET - 1)
+
+
+class ListQueryResponse(msgspec.Struct, Generic[T]):
+    count: int
+    rows: List[T]
+
+    model_config = ConfigDict(arbitrary_types_allowed=True, extra="forbid", frozen=True)
 
 
 class Command(BaseModel):
