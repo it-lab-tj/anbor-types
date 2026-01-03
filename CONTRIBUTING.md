@@ -32,22 +32,22 @@
 
 ### Примеры корректных коммитов
 
-feat(client): add async product fetch
-fix(handshake): fix token expiration bug
-refactor(api): simplify dto mapping
-break(api): change product dto structure
+feat(client): add async product fetch <br>
+fix(handshake): fix token expiration bug<br>
+refactor(api): simplify dto mapping<br>
+break(api): change product dto structure<br>
 
 ---
 
 ### Запрещённые коммиты
 
-fix
-update
-some changes
-temp
-лол
-not finished
-finished
+fix <br>
+update <br>
+some changes <br>
+temp <br>
+лол <br>
+not finished <br>
+finished <br>
 
 ---
 

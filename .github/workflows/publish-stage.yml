@@ -1,0 +1,51 @@
+name: Publish Python package
+
+on:
+  push:
+    tags:
+      - "v*"
+
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install build tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry twine
+
+      - name: Set version from git tag
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          poetry version "$VERSION"
+
+      - name: Build package
+        run: |
+          poetry build
+
+      - name: Publish to GitHub Packages Registry
+          pypa/gh-action-pypi-publish@v1
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          twine upload \
+            --repository-url https://pypi.pkg.github.com/${{ github.repository_owner }} \
+            dist/*
+
+      - name: Clean dist
+        run: rm -rf dist
