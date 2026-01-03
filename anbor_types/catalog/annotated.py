@@ -1,22 +1,18 @@
+from typing import Annotated, Optional
 
-from typing import TypeAlias, Annotated, Optional
-
-from pydantic import BeforeValidator, constr, conlist
+from pydantic import constr, conlist
 
 from anbor_types import ID_T
 from anbor_types.catalog.category.dto import CharValueDTO
 from anbor_types.catalog.product import constraints as product_constraints
 from anbor_types.common import constraints as common_constraints
 from anbor_types.common.annotated import ATSingleLineStr
-from anbor_types.utils.functions import parse_single_line_str
-
-
 
 
 # ===== BASE =====
 type ATCatalogEntryName = Annotated[
     ATSingleLineStr,
-    constr(     
+    constr(
         max_length=common_constraints.NAME_MAX_LENGTH,
         min_length=common_constraints.NAME_MIN_LENGTH,
         pattern=common_constraints.NAME_REGEX,

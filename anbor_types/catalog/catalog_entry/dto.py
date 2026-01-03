@@ -4,8 +4,8 @@ from typing import Optional
 import msgspec
 
 from anbor_types import ID_T, BasePydanticModel
-from anbor_types.catalog.annotated import ATCatalogEntryDescription, ATCatalogEntryName, ATInformationStr
-from anbor_types.common.annotated import ATDiscount, ATPrice
+from anbor_types.catalog.annotated import ATCatalogEntryDescription, ATCatalogEntryName
+from anbor_types.common.annotated import ATDiscount, ATPrice, ATInformationStr
 
 
 class CatalogEntryListDTO(msgspec.Struct):

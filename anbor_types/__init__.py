@@ -25,8 +25,6 @@ class FactoryT(Protocol[T]):
     def __call__(self) -> T | Awaitable[T]: ...
 
 
-
-
 class BasePydanticModel(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
@@ -38,7 +36,6 @@ class Query(BaseModel):
 
     model_config = ConfigDict(arbitrary_types_allowed=True, extra="forbid", frozen=True)
 
-    
 
 class ListQuery(Query):
     limit: int = Field(
@@ -56,6 +53,3 @@ class Command(BaseModel):
     """
 
     model_config = ConfigDict(arbitrary_types_allowed=True, extra="forbid", frozen=True)
-
-
-

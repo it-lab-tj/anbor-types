@@ -1,4 +1,3 @@
-
 from anbor_types import ListQuery
 
 

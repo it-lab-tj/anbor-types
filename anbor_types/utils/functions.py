@@ -1,5 +1,4 @@
 import re
-from datetime import UTC, datetime
 
 
 re_rm_whitespace = re.compile(r"\s+")

@@ -3,7 +3,6 @@ from decimal import Decimal
 import regex
 
 
-
 TITLE_REGEX = regex.compile(r"^[\p{L}\p{N} _-]+$")
 
 
@@ -31,8 +30,7 @@ DISCOUNT_MIN = Decimal("0")
 ANY_PRICE_MIN = Decimal("0")
 
 
-#==== =====
-
+# ==== =====
 
 
 DECIMAL_BALANCE_DIGITS = 30
@@ -49,4 +47,3 @@ DECIMAL_RATE_PLACES = 6
 
 DECIMAL_DISCOUNT_DIGITS = 5
 DECIMAL_DISCOUNT_PLACES = 2
-            

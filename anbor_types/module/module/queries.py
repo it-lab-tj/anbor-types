@@ -1,7 +1,4 @@
-
 from anbor_types import Query
-
-
 
 
 class ConnectedModulesListQuery(Query): ...

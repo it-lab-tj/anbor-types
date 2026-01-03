@@ -1,26 +1,30 @@
-from dataclasses import Field
 from decimal import Decimal
 from typing import Annotated, List, Optional
 
-from pydantic import conlist
+from pydantic import conlist, Field
 
 from anbor_types import ID_T, BasePydanticModel
 from anbor_types.catalog import annotated
-from anbor_types.catalog.catalog_entry.dto import CatalogEntryCreateDTO, CatalogEntryListDTO
+from anbor_types.catalog.catalog_entry.dto import (
+    CatalogEntryCreateDTO,
+    CatalogEntryListDTO,
+)
 from anbor_types.catalog.product.constraints import IMAGES_MAX_COUNT, PROFILES_MAX_COUNT
 from anbor_types.common import annotated as common_annotated
 
 
 # ===== PRODUCT PROFILE =====
 
+
 class ProductProfileCreateDTO(BasePydanticModel):
     identifier: annotated.ATProductProfileIdentifier
-    char_values: Optional[annotated.ATProductProfileCharValues] = Field(default_factory=list)
-
-
+    char_values: Optional[annotated.ATProductProfileCharValues] = Field(
+        default_factory=list
+    )
 
 
 # ===== PRODUCT =====
+
 
 class ProductListDTO(CatalogEntryListDTO):
     buying_price: Decimal

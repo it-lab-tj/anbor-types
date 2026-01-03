@@ -6,4 +6,4 @@ class HandshakeRequestResult(msgspec.Struct):
     """Result after first handshake request"""
 
     handshake_id: ID_T
-    secret: str # In base 64 format
+    secret: str  # In base 64 format
