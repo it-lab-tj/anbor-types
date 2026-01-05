@@ -1,0 +1,5 @@
+from anbor_types import Command
+from anbor_types.identity.api_key.dto import ApiKeyCreateDTO
+
+
+class ApiKeyCreateCommand(ApiKeyCreateDTO, Command): ...
