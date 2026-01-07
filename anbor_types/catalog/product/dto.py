@@ -1,6 +1,7 @@
 from decimal import Decimal
 from typing import Annotated, List, Optional
 
+import msgspec
 from pydantic import conlist, Field
 
 from anbor_types import ID_T, BasePydanticModel
@@ -11,6 +12,7 @@ from anbor_types.catalog.catalog_entry.dto import (
 )
 from anbor_types.catalog.product.constraints import IMAGES_MAX_COUNT, PROFILES_MAX_COUNT
 from anbor_types.common import annotated as common_annotated
+from anbor_types.gallery.dto import ImageListDTO
 
 
 # ===== PRODUCT PROFILE =====
@@ -57,3 +59,12 @@ class ProductCreateDTO(CatalogEntryCreateDTO):
         ),
         Field(default_factory=list),
     ]
+
+
+class ProductDetailedListDTO(msgspec.Struct):
+    name: str
+    description: str
+    information: str
+    selling_price: Decimal
+    measurement_unit_name: str
+    images: List[ImageListDTO]
