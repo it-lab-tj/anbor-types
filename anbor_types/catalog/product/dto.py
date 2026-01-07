@@ -62,6 +62,7 @@ class ProductCreateDTO(CatalogEntryCreateDTO):
 
 
 class ProductDetailedListDTO(msgspec.Struct):
+    id: ID_T
     name: str
     description: str
     information: str
