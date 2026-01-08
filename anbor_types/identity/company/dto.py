@@ -6,5 +6,5 @@ class CompanyListDTO(msgspec.Struct):
     id: ID_T
     name: str
     nick: str
-    phone: str
+    phone_number: str
     email: str
