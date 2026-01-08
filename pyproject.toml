@@ -1,6 +1,6 @@
 [project]
 name = "anbor-types"
-version = "0.0.9" # MAJOR.MINOR.PATCH
+version = "0.0.10" # MAJOR.MINOR.PATCH
 description = "Anbor typing lib"
 authors = [
     {name = "Joniibek",email = "jonibek.ortikov03@gmail.com"}
