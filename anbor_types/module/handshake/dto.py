@@ -15,7 +15,6 @@ class HandshakeInitDTO(BasePydanticModel):
 
 class HandshakeConfirmationDTO(BasePydanticModel):
     handshake_id: UUID
-    signature: str  # base64 encoded string
 
 
 class HandshakeConfirmationResponseDTO(msgspec.Struct):
