@@ -21,13 +21,13 @@ class HandshakeConfirmationResponseDTO(msgspec.Struct):
     api_key: str  # In base64 format
 
 
-class HandshakeInitRequestDTO(BasePydanticModel):
+class HandshakeInitRequestDTO(msgspec.Struct):
     rel_callback_url: str
     domain: str
     company: CompanyListDTO
 
 
-class HandshakeInitResponseDTO(BasePydanticModel):
+class HandshakeInitResponseDTO(msgspec.Struct):
     handshake_id: UUID
     secret: str  # In base64 format
 
