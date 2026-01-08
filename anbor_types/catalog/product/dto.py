@@ -67,5 +67,4 @@ class ProductDetailedListDTO(msgspec.Struct):
     description: str
     information: str
     selling_price: Decimal
-    measurement_unit_name: str
     images: List[ImageListDTO]
