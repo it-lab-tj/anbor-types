@@ -47,6 +47,7 @@ class HandshakeListDTO(msgspec.Struct):
     id: UUID
     kind: HandshakeKindEnum
     status: HandshakeStatusEnum
+    secret: bytes  # Encrypted secrets must be on read
     expires_at: int
     created_at: datetime
     updated_at: datetime
