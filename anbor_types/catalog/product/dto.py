@@ -67,4 +67,5 @@ class ProductDetailedListDTO(msgspec.Struct):
     description: str
     information: str
     selling_price: Decimal
+    remains: Decimal
     images: List[ImageListDTO]
