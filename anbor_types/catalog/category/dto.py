@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 import msgspec
 from anbor_types import ID_T, BasePydanticModel
 
@@ -8,19 +8,19 @@ class CharValueDTO(BasePydanticModel):
     value_id: ID_T
 
 
-class ValuesListDTO(msgspec.Struct):
+class ValueListDTO(msgspec.Struct):
     id: ID_T
     name: str
 
 
-class CharacteristicDetailedDTO(msgspec.Struct):
+class CharacteristicListDTO(msgspec.Struct):
     id: ID_T
     name: str
-    values: ValuesListDTO
+    values: List[ValueListDTO]
 
 
 class CategoryDetailedDTO(msgspec.Struct):
     id: ID_T
     name: str
     parent_id: Optional[ID_T]
-    characteristic: CharacteristicDetailedDTO
+    characteristics: List[CharacteristicListDTO]
