@@ -5,6 +5,8 @@ from anbor_types import ID_T, BasePydanticModel
 
 class ApiKeyCreateDTO(BasePydanticModel):
     key: bytes
+    owner_id: ID_T
+    company_id: ID_T
 
 
 class ApiKeyListDTO(msgspec.Struct):
