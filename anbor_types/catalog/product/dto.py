@@ -10,6 +10,7 @@ from anbor_types.catalog.catalog_entry.dto import (
     CatalogEntryCreateDTO,
     CatalogEntryListDTO,
 )
+from anbor_types.catalog.category.dto import CharValuesListDTO
 from anbor_types.catalog.product.constraints import IMAGES_MAX_COUNT, PROFILES_MAX_COUNT
 from anbor_types.common import annotated as common_annotated
 from anbor_types.gallery.dto import ImageListDTO
@@ -27,8 +28,7 @@ class ProductProfileCreateDTO(BasePydanticModel):
 
 class ProductProfileListDTO(msgspec.Struct):
     id: ID_T
-    characteritic_id: ID_T
-    value_id: ID_T
+    characteristic_values: List[CharValuesListDTO]
 
 
 # ===== PRODUCT =====

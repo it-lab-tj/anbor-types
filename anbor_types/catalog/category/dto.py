@@ -8,6 +8,11 @@ class CharValueDTO(BasePydanticModel):
     value_id: ID_T
 
 
+class CharValuesListDTO(msgspec.Struct):
+    characteristic_id: ID_T
+    value_id: ID_T
+
+
 class ValueListDTO(msgspec.Struct):
     id: ID_T
     name: str

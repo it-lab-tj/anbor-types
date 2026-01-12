@@ -18,5 +18,6 @@ class ProductDetailedListQuery(ListQuery):
     )
 
     @field_validator("limit")
-    def validate_limit(self, v) -> int:
+    @classmethod
+    def validate_limit(cls, v) -> int:
         return min(v, 10000) if v >= 1 else 1
