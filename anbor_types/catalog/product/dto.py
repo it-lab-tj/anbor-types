@@ -25,6 +25,12 @@ class ProductProfileCreateDTO(BasePydanticModel):
     )
 
 
+class ProductProfileListDTO(msgspec.Struct):
+    id: ID_T
+    characteritic_id: ID_T
+    value_id: ID_T
+
+
 # ===== PRODUCT =====
 
 
@@ -69,3 +75,4 @@ class ProductDetailedListDTO(msgspec.Struct):
     selling_price: Decimal
     remains: Decimal
     images: List[ImageListDTO]
+    profiles: List[ProductProfileListDTO]

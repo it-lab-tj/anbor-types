@@ -1,4 +1,4 @@
-from pydantic import Field
+from pydantic import Field, field_validator
 from anbor_types import ListQuery
 
 
@@ -17,6 +17,6 @@ class ProductDetailedListQuery(ListQuery):
         gt=-1,
     )
 
-    # @field_validator("limit")
-    # def validate_limit(self, v) -> int:
-    #     return min(v, 10000) if v > 0 else 0
+    @field_validator("limit")
+    def validate_limit(self, v) -> int:
+        return min(v, 10000) if v >= 1 else 1
