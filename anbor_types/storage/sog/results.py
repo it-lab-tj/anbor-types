@@ -1,9 +1,9 @@
 import msgspec
 
 
-class ApplicationSOGRequestResult(msgspec.Struct):
+class SOGApplicationCreationResult(msgspec.Struct):
     sog_id: int
 
 
-class ConfirmSOGRequestResult(msgspec.Struct):
+class SOGConfirmationResult(msgspec.Struct):
     sog_id: int
