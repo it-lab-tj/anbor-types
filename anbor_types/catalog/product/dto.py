@@ -70,10 +70,10 @@ class ProductCreateDTO(CatalogEntryCreateDTO):
 class ProductDetailedListDTO(msgspec.Struct):
     id: ID_T
     name: str
-    description: str
-    information: str
     selling_price: Decimal
     category_id: ID_T
     remains: Decimal
     images: List[ImageListDTO]
     profiles: List[ProductProfileListDTO]
+    description: Optional[str]
+    information: Optional[str]
