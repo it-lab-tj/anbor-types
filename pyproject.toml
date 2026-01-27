@@ -1,9 +1,10 @@
 [project]
 name = "anbor-types"
-version = "0.0.24" # MAJOR.MINOR.PATCH
+version = "0.0.25" # MAJOR.MINOR.PATCH
 description = "Anbor typing lib"
 authors = [
-    {name = "Joniibek",email = "jonibek.ortikov03@gmail.com"}
+    {name = "Joniibek",email = "jonibek.ortikov03@gmail.com"},
+    {name = "Fakhriddin",email = "fahriddin3040@gmail.com"}
 ]
 license = {text = "Apache 2.0"}
 readme = "README.md"
