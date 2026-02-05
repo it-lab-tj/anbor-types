@@ -7,3 +7,4 @@ class SOGApplicationCreationResult(msgspec.Struct):
 
 class SOGConfirmationResult(msgspec.Struct):
     sog_id: int
+    vendor_code: str
