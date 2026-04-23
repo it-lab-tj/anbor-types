@@ -10,3 +10,7 @@ class SOGApplicationCommand(Command):
 
 class SOGConfirmCommand(Command):
     sog_id: int
+
+
+class SOGCancellationCommand(Command):
+    sog_id: int
