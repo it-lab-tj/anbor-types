@@ -20,6 +20,7 @@ class ConnectedModuleListDTO(msgspec.Struct):
 
 class ModuleConnectDTO(BasePydanticModel):
     default_module_id: ID_T
+    storage_id: ID_T
     payload: Optional[Dict] = Field(default_factory=dict)
 
 
