@@ -3,10 +3,10 @@ from decimal import Decimal
 from typing import List
 
 from anbor_types import ID_T, ListQuery
-from anbor_types.wallet.enums import OperationTypeEnum
+from anbor_types.wallet.constants import OperationTypeEnum
 
 
-class OperationsListQuery(ListQuery):
+class OperationListQuery(ListQuery):
     amount_max: Decimal
     amount_min: Decimal
     cash_desk_id: ID_T
