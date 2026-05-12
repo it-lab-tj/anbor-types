@@ -21,3 +21,8 @@ class CurrencyListDTO(msgspec.Struct):
     created_by: AuthorShortInfoDTO
     updated_by: AuthorShortInfoDTO
     status: StatusEnum
+
+
+class CurrencyShortListDTO(msgspec.Struct):
+    id: ID_T
+    code_symbol: str

@@ -8,3 +8,8 @@ class CompanyListDTO(msgspec.Struct):
     nick: str
     phone_number: str
     email: str
+
+
+class CompanyShortListDTO(msgspec.Struct):
+    id: ID_T
+    name: str
