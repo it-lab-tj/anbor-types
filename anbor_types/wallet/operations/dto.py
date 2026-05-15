@@ -16,7 +16,6 @@ from anbor_types.wallet.constants import OperationTypeEnum
 class OperationListDTO(msgspec.Struct):
     id: ID_T
     cash_desk: CashDeskShortListDTO
-    vendor_code: Optional[str] = None
     amount: Decimal
     counterparty: str
     converted_amount: Decimal
@@ -24,20 +23,21 @@ class OperationListDTO(msgspec.Struct):
     type: OperationTypeEnum
     currency: CurrencyShortDTO
     created_by: AuthorInfoShortDTO
+    vendor_code: Optional[str] = None
 
 
 class OperationDetailedDTO(msgspec.Struct):
     id: ID_T
     amount: Decimal
-    vendor_code: Optional[str] = None
     capstone: str
     cash_desk: CashDeskShortListDTO
-    comment: Optional[str] = None
     confirm_date: datetime
-    converted_amount: Optional[Decimal] = None
-    converted_capstone: Optional[str] = None
     counterparty: CounterpartyShortDTO
     created_by: AuthorInfoShortDTO
     type: OperationTypeEnum
-    files: List[ID_T]
     project: ProjectShortListDTO
+    files: List[ID_T]
+    comment: Optional[str] = None
+    converted_capstone: Optional[str] = None
+    vendor_code: Optional[str] = None
+    converted_amount: Optional[Decimal] = None
