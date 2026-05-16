@@ -18,7 +18,6 @@ class OperationListDTO(msgspec.Struct):
     cash_desk: CashDeskShortListDTO
     amount: Decimal
     counterparty: str
-    converted_amount: Decimal
     confirm_date: datetime
     type: OperationTypeEnum
     currency: CurrencyShortDTO
