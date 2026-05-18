@@ -1,6 +1,6 @@
 from enum import IntEnum
 
 
-class OperationTypeEnum(IntEnum):
+class OperationKindEnum(IntEnum):
     EXPENSE = 0
     INCOME = 1

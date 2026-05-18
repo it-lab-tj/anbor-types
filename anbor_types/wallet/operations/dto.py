@@ -10,7 +10,7 @@ from anbor_types.handbook.project.dto import ProjectShortListDTO
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
 from anbor_types.storage.counterparty.dto import CounterpartyShortDTO
 from anbor_types.wallet.currency.dto import CurrencyShortDTO
-from anbor_types.wallet.constants import OperationTypeEnum
+from anbor_types.wallet.constants import OperationKindEnum
 
 
 class OperationListDTO(msgspec.Struct):
@@ -19,7 +19,7 @@ class OperationListDTO(msgspec.Struct):
     amount: Decimal
     counterparty: str
     confirm_date: datetime
-    type: OperationTypeEnum
+    type: OperationKindEnum
     currency: CurrencyShortDTO
     created_by: AuthorInfoShortDTO
     vendor_code: Optional[str] = None
@@ -33,7 +33,7 @@ class OperationDetailedDTO(msgspec.Struct):
     confirm_date: datetime
     counterparty: CounterpartyShortDTO
     created_by: AuthorInfoShortDTO
-    type: OperationTypeEnum
+    type: OperationKindEnum
     project: ProjectShortListDTO
     files: List[ID_T]
     comment: Optional[str] = None

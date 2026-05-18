@@ -3,7 +3,7 @@ from decimal import Decimal
 from typing import List, Optional
 
 from anbor_types import ID_T, ListQuery
-from anbor_types.wallet.constants import OperationTypeEnum
+from anbor_types.wallet.constants import OperationKindEnum
 
 
 class OperationListQuery(ListQuery):
@@ -23,5 +23,5 @@ class OperationListQuery(ListQuery):
     paid: Optional[str] = None
     project_id: Optional[ID_T] = None
     search: Optional[str] = None
-    type: Optional[OperationTypeEnum] = None
+    type: Optional[OperationKindEnum] = None
     vendor_codes: Optional[List[str]] = None
