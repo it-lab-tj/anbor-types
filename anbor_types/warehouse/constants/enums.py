@@ -7,9 +7,8 @@ class BusinessDocumentActionEnum(IntEnum):
     TRANSFER = 2
     RETURN_IN = 3
     RETURN_OUT = 4
-    INVOICE = 5
-    WRITE_OFF = 6
     ADJUSTMENT = 7
+    SERVICE = 8
 
 
 class BusinessDocumentApplicationStatusEnum(IntEnum):
