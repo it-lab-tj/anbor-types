@@ -1,0 +1,1 @@
+ITEM_MAX_COUNT = 100
