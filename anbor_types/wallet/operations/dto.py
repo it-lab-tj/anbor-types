@@ -4,7 +4,7 @@ from typing import List, Optional
 
 import msgspec
 
-from anbor_types import ID_T
+from anbor_types import ID_T, BasePydanticModel
 from anbor_types.wallet.cash_desk.dto import CashDeskShortListDTO
 from anbor_types.handbook.project.dto import ProjectShortListDTO
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
@@ -40,3 +40,17 @@ class OperationDetailedDTO(msgspec.Struct):
     converted_capstone: Optional[str] = None
     vendor_code: Optional[str] = None
     converted_amount: Optional[Decimal] = None
+
+
+class OperationBaseDTO(BasePydanticModel):
+    amount: Decimal
+    cash_desk_id: ID_T
+    comment: str
+    confirm_date: datetime
+    counterparty_id: ID_T
+    currency_id: ID_T
+    files_ids: List[ID_T]
+    operating_expense_id: ID_T
+    project: ID_T
+    rate: int
+    type: OperationKindEnum
