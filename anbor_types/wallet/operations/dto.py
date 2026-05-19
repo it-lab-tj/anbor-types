@@ -42,21 +42,17 @@ class OperationDetailedDTO(msgspec.Struct):
     converted_amount: Optional[Decimal] = None
 
 
-class OperationBaseDTO(BasePydanticModel):
+class OperationCreateDTO(BasePydanticModel):
     amount: Decimal
     cash_desk_id: ID_T
     comment: str
     confirm_date: datetime
     counterparty_id: ID_T
+    content_id: ID_T
+    content_type: str
     currency_id: ID_T
     files_ids: List[ID_T]
     operating_expense_id: ID_T
-    project: ID_T
+    project_id: ID_T
     rate: int
     type: OperationKindEnum
-
-
-class OperationCreateDTO(OperationBaseDTO): ...
-
-
-class OperationUpdateDTO(OperationBaseDTO): ...
