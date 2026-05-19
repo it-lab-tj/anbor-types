@@ -54,3 +54,9 @@ class OperationBaseDTO(BasePydanticModel):
     project: ID_T
     rate: int
     type: OperationKindEnum
+
+
+class OperationCreateDTO(OperationBaseDTO): ...
+
+
+class OperationUpdateDTO(OperationBaseDTO): ...
