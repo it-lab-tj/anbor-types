@@ -10,22 +10,22 @@ from anbor_types.handbook.project.dto import ProjectShortListDTO
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
 from anbor_types.storage.counterparty.dto import CounterpartyShortDTO
 from anbor_types.wallet.currency.dto import CurrencyShortDTO
-from anbor_types.wallet.constants import OperationKindEnum
+from anbor_types.wallet.constants import WalletDocumentKindEnum
 
 
-class OperationListDTO(msgspec.Struct):
+class WalletDocumentListDTO(msgspec.Struct):
     id: ID_T
     cash_desk: CashDeskShortListDTO
     amount: Decimal
     counterparty: str
     confirm_date: datetime
-    type: OperationKindEnum
+    type: WalletDocumentKindEnum
     currency: CurrencyShortDTO
     created_by: AuthorInfoShortDTO
     vendor_code: Optional[str] = None
 
 
-class OperationDetailedDTO(msgspec.Struct):
+class WalletDocumentDetailedDTO(msgspec.Struct):
     id: ID_T
     amount: Decimal
     capstone: str
@@ -33,7 +33,7 @@ class OperationDetailedDTO(msgspec.Struct):
     confirm_date: datetime
     counterparty: CounterpartyShortDTO
     created_by: AuthorInfoShortDTO
-    type: OperationKindEnum
+    type: WalletDocumentKindEnum
     project: ProjectShortListDTO
     files: List[ID_T]
     comment: Optional[str] = None
@@ -42,7 +42,7 @@ class OperationDetailedDTO(msgspec.Struct):
     converted_amount: Optional[Decimal] = None
 
 
-class OperationCreateDTO(BasePydanticModel):
+class WalletDocumentCreateDTO(BasePydanticModel):
     amount: Decimal
     cash_desk_id: ID_T
     comment: str
@@ -55,4 +55,4 @@ class OperationCreateDTO(BasePydanticModel):
     operating_expense_id: ID_T
     project_id: ID_T
     rate: int
-    type: OperationKindEnum
+    type: WalletDocumentKindEnum

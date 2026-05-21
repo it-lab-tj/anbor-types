@@ -42,13 +42,7 @@ ATBalance: TypeAlias = Annotated[
     ),
 ]
 
-type ATRate = Annotated[
-    Decimal,
-    Field(
-        gt=MIN_RATE,
-        le=MAX_RATE
-    )
-]
+type ATRate = Annotated[Decimal, Field(gt=MIN_RATE, le=MAX_RATE)]
 
 # ===== HTTP =====
 type ATDomainName = Annotated[
