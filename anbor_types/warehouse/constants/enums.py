@@ -7,14 +7,14 @@ class BusinessDocumentActionEnum(IntEnum):
     TRANSFER = 2
     RETURN_IN = 3
     RETURN_OUT = 4
-    ADJUSTMENT = 7
-    SERVICE = 8
+    ADJUSTMENT = 5
+    SERVICE = 6
 
 
 class BusinessDocumentApplicationStatusEnum(IntEnum):
-    PENDING = 1
+    PENDING = 0
+    CONFIRMED = 1
     REJECTED = 2
-    CONFIRMED = 3
 
 
 class AdjustmentDocumentKindEnum(IntEnum):
@@ -26,3 +26,9 @@ class AdjustmentDocumentKindEnum(IntEnum):
 class CounterpartyKind(IntEnum):
     STORAGE = 1
     CLIENT = 2
+
+
+class DocumentItemExtKindEnum(IntEnum):
+    CONSUME = 0
+    SOURCE = 1
+    RETURN = 2
