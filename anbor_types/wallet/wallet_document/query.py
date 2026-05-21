@@ -3,10 +3,10 @@ from decimal import Decimal
 from typing import List, Optional
 
 from anbor_types import ID_T, ListQuery
-from anbor_types.wallet.constants import OperationKindEnum
+from anbor_types.wallet.constants import WalletDocumentKindEnum
 
 
-class OperationListQuery(ListQuery):
+class WalletDocumentListQuery(ListQuery):
     amount_max: Optional[Decimal] = None
     amount_min: Optional[Decimal] = None
     cash_desk_id: Optional[ID_T] = None
@@ -23,5 +23,5 @@ class OperationListQuery(ListQuery):
     paid: Optional[str] = None
     project_id: Optional[ID_T] = None
     search: Optional[str] = None
-    type: Optional[OperationKindEnum] = None
+    type: Optional[WalletDocumentKindEnum] = None
     vendor_codes: Optional[List[str]] = None
