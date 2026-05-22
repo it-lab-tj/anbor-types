@@ -56,4 +56,4 @@ class WalletDocumentCreateDTO(BasePydanticModel):
     project_id: ID_T
     rate: int
     type: WalletDocumentKindEnum
-    stock_operation_group_id: Optional[ID_T] = None
+    business_document_id: Optional[ID_T] = None
