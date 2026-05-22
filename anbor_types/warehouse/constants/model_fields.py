@@ -13,6 +13,7 @@ class BusinessDocumentField(ModelFieldsBaseEnum):
     PAID = auto()
     SHIPPED_AT = auto()
     CONFIRMED_AT = auto()
+    ITEMS = auto()
     CREATED_AT = auto()
     UPDATED_AT = auto()
     CREATED_BY = auto()
