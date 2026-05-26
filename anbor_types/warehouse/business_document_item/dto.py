@@ -9,7 +9,6 @@ from anbor_types.common.annotated import ATPrice, ATDiscount
 from anbor_types.warehouse.constants.constraints import (
     document_item as item_constraints,
 )
-from anbor_types.warehouse.constants.constraints import document_item as item_constraints
 
 
 class BusinessDocumentItemCreateDTO(BaseModel):
