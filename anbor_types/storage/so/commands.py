@@ -1,7 +1,7 @@
 from decimal import Decimal
 from typing import List
 from anbor_types import Command
-from anbor_types.catalog.category.dto import CharValueDTO
+from anbor_types.catalog.category.dto import CharValuePairDTO
 
 
 class ApplicationStockOperationsCommand(Command):
@@ -9,4 +9,4 @@ class ApplicationStockOperationsCommand(Command):
     count: Decimal
     price: Decimal
     discount: Decimal
-    characteristics: List[CharValueDTO]
+    characteristics: List[CharValuePairDTO]

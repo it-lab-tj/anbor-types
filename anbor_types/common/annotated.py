@@ -31,7 +31,6 @@ type ATDiscount = Annotated[
         max_digits=common_constraints.DECIMAL_DISCOUNT_DIGITS,
         decimal_places=common_constraints.DECIMAL_DISCOUNT_PLACES,
         le=Decimal("100"),
-        default=Decimal("0"),
     ),
 ]
 ATBalance: TypeAlias = Annotated[

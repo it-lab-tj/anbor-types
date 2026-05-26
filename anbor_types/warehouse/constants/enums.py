@@ -23,9 +23,10 @@ class AdjustmentDocumentKindEnum(IntEnum):
     HYBRID = 2
 
 
-class CounterpartyKind(IntEnum):
+class SubjectKindEnum(IntEnum):
     STORAGE = 1
     CLIENT = 2
+    EXECUTOR = 4
 
 
 class DocumentItemExtKindEnum(IntEnum):
