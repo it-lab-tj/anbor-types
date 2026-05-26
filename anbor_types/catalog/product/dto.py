@@ -15,7 +15,6 @@ from anbor_types.catalog.product.constraints import IMAGES_MAX_COUNT, PROFILES_M
 from anbor_types.common import annotated as common_annotated
 from anbor_types.gallery.dto import ImageListDTO
 
-
 # ===== PRODUCT PROFILE =====
 
 

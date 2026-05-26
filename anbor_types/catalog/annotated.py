@@ -8,7 +8,6 @@ from anbor_types.catalog.product import constraints as product_constraints
 from anbor_types.common import constraints as common_constraints
 from anbor_types.common.annotated import ATSingleLineStr
 
-
 # ===== BASE =====
 type ATCatalogEntryName = Annotated[
     ATSingleLineStr,

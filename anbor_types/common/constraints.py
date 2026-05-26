@@ -2,7 +2,6 @@ from decimal import Decimal
 
 import regex
 
-
 TITLE_REGEX = regex.compile(r"^[\p{L}\p{N} _-]+$")
 
 

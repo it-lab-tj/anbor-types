@@ -3,14 +3,18 @@ from typing import List
 
 from pydantic import Field
 
-from anbor_types.warehouse.business_document_item.dto import BusinessDocumentItemBaseCreateDTO
+from anbor_types.warehouse.business_document_item.dto import (
+    BusinessDocumentItemBaseCreateDTO,
+)
 from anbor_types.warehouse.constants.constraints import document as doc_constraints
 
 from anbor_types import BasePydanticModel, ID_T
 from anbor_types.common.annotated import ATRate, ATComment
 
 
-class PurchaseDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](BasePydanticModel):
+class PurchaseDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
+    BasePydanticModel
+):
     debit_id: ID_T
     credit_id: ID_T
     project_id: ID_T
