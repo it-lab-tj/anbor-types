@@ -3,7 +3,7 @@ from typing import Annotated, Optional
 from pydantic import constr, conlist
 
 from anbor_types import ID_T
-from anbor_types.catalog.category.dto import CharValuePairDTO
+from anbor_types.catalog.category.dto import CharValueDTO
 from anbor_types.catalog.product import constraints as product_constraints
 from anbor_types.common import constraints as common_constraints
 from anbor_types.common.annotated import ATSingleLineStr
@@ -34,9 +34,9 @@ type ATProductProfileIdentifier = Annotated[
     ),
 ]
 type ATProductProfileCharValues = Annotated[
-    list[CharValuePairDTO],
+    list[CharValueDTO],
     conlist(
-        item_type=CharValuePairDTO,
+        item_type=CharValueDTO,
         max_length=product_constraints.PROFILES_MAX_COUNT,
     ),
 ]
