@@ -54,6 +54,14 @@ class WalletDocumentCreateDTO(BasePydanticModel):
     files_ids: List[ID_T]
     operating_expense_id: ID_T
     project_id: ID_T
-    rate: int
+    rate: Decimal
     type: WalletDocumentKindEnum
     business_document_id: Optional[ID_T] = None
+
+
+class WalletDocumentUpdateDTO(BasePydanticModel):
+    amount: Decimal
+    confirm_date: datetime
+    files_ids: List[ID_T]
+    comment: str
+    project_id: ID_T
