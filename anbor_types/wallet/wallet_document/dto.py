@@ -65,12 +65,3 @@ class WalletDocumentUpdateDTO(BasePydanticModel):
     files_ids: List[ID_T]
     comment: str
     project_id: ID_T
-    _id: ID_T
-
-    @property
-    def id(self) -> ID_T:
-        return self._id
-
-    @id.setter
-    def id(self, value: ID_T) -> None:
-        self._id = value
