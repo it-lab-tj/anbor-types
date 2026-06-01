@@ -22,6 +22,7 @@ class PurchaseDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     rate: ATRate
     comment: ATComment
     shipped_at: datetime
+    confirmed: bool = Field(default=False)
     items: List[TItem] = Field(
         min_length=1,
         max_length=doc_constraints.ITEM_MAX_COUNT,
