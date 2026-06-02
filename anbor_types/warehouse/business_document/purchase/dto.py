@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
 from pydantic import Field
 
@@ -20,7 +20,7 @@ class PurchaseDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     project_id: ID_T
     currency_id: ID_T
     rate: ATRate
-    comment: ATComment
+    comment: Optional[ATComment] = Field(default=None)
     shipped_at: datetime
     confirmed: bool = Field(default=False)
     items: List[TItem] = Field(
