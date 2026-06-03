@@ -27,7 +27,7 @@ class SubjectKindEnum(IntEnum):
     STORAGE = 1
     CLIENT = 2
     INTERNAL = 3
-    EXECUTOR = 4
+    PERFORMER = 4
 
 
 class DocumentItemExtKindEnum(IntEnum):
