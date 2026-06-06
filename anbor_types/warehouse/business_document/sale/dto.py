@@ -1,10 +1,11 @@
 from datetime import datetime
-from typing import List
+from typing import Optional, Iterable
 
 from pydantic import Field
 
 from anbor_types.warehouse.business_document_item.dto import (
     BusinessDocumentItemBaseCreateDTO,
+    BusinessDocumentItemBaseUpdateDTO,
 )
 from anbor_types.warehouse.constants.constraints import document as doc_constraints
 
@@ -23,7 +24,23 @@ class SaleDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     comment: ATComment
     shipped_at: datetime
     confirmed: bool = Field(default=False)
-    items: List[TItem] = Field(
+    items: Iterable[TItem] = Field(
+        min_length=1,
+        max_length=doc_constraints.ITEM_MAX_COUNT,
+    )
+
+class SaleDocumentUpdateDTO[TItem: BusinessDocumentItemBaseUpdateDTO](
+    BasePydanticModel
+):
+    debit_id: Optional[ID_T]
+    credit_id: Optional[ID_T]
+    project_id: Optional[ID_T]
+    currency_id: Optional[ID_T]
+    rate: Optional[ATRate]
+    comment: Optional[ATComment]
+    shipped_at: Optional[datetime]
+    confirmed: bool = Field(default=False)
+    items: Iterable[TItem] = Field(
         min_length=1,
         max_length=doc_constraints.ITEM_MAX_COUNT,
     )

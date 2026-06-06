@@ -21,3 +21,15 @@ class BusinessDocumentItemBaseCreateDTO(BaseModel):
 
 class BusinessDocumentItemCreateDTO(BusinessDocumentItemBaseCreateDTO):
     variant_id: Optional[ID_T] = Field(default=None)
+
+
+class BusinessDocumentItemBaseUpdateDTO(BaseModel):
+    entry_id: ID_T
+    price: Optional[ATPrice] = None
+    discount: Optional[ATDiscount] = None
+    count: Decimal = Field(le=item_constraints.COUNT_MAX)
+    performer_id: Optional[ID_T] = Field(default=None)
+    expires_at: Optional[ID_T] = Field(default=None)
+
+class BusinessDocumentItemUpdateDTO(BusinessDocumentItemBaseUpdateDTO):
+    variant_id: Optional[ID_T] = Field(default=None)
