@@ -70,3 +70,10 @@ class SubjectUpdateDTO(BasePydanticModel):
     region: Optional[ID_T] = None
     information: Optional[str] = None
     files: Optional[List[ID_T]] = None
+
+
+class SubjectForBusinessDocumentShortDataDTO(msgspec.Struct):
+    id: ID_T
+    name: str
+    balance: Decimal
+    kind: SubjectKindEnum
