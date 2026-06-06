@@ -18,6 +18,7 @@ class BusinessDocumentItemCreateCommand(BusinessDocumentItemBaseCreateDTO):
         max_length=item_constraints.CHAR_VALUES_MAX_COUNT,
     )
 
+
 class BusinessDocumentItemUpdateCommand(BusinessDocumentItemBaseUpdateDTO):
     char_values: List[CharValueDTO] = Field(
         default_factory=list,

@@ -23,6 +23,12 @@ class CurrencyListDTO(msgspec.Struct):
     status: StatusEnum
 
 
+class CurrenctShortListDTO(msgspec.Struct):
+    id: ID_T
+    name: str
+    code_symbol: str
+
+
 class CurrencyShortDTO(msgspec.Struct):
     id: ID_T
     code_symbol: str
