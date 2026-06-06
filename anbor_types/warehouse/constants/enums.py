@@ -34,3 +34,10 @@ class DocumentItemExtKindEnum(IntEnum):
     CONSUME = 0
     SOURCE = 1
     RETURN = 2
+
+
+class InventoryAllocationStrategyEnum(IntEnum):
+    FIFO = 1
+    LIFO = 2
+    FEFO = 3
+    AVERAGE = 4

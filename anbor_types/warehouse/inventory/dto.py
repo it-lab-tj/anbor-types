@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from decimal import Decimal
 from typing import Optional
 
@@ -15,4 +15,4 @@ class InventoryCreateDTO(msgspec.Struct):
     price: Decimal
     variant_id: Optional[ID_T] = None
     shipped_at: Optional[datetime] = None
-    expires_at: Optional[datetime] = None
+    expires_at: Optional[date] = None
