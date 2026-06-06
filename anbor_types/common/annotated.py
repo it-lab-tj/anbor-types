@@ -30,7 +30,7 @@ type ATDiscount = Annotated[
     Field(
         max_digits=common_constraints.DECIMAL_DISCOUNT_DIGITS,
         decimal_places=common_constraints.DECIMAL_DISCOUNT_PLACES,
-        ge=Decimal("0"),
+        ge=Decimal("-0.99"),
         le=Decimal("100"),
     ),
 ]

@@ -11,21 +11,23 @@ from anbor_types.catalog.catalog_entry.dto import (
     CatalogEntryListDTO,
 )
 from anbor_types.catalog.category.dto import CharValuesListDTO
+from anbor_types.catalog.constraints import CATALOG_ENTRY_VARIANT_CHAR_VALUES_MAX_COUNT
 from anbor_types.catalog.product.constraints import IMAGES_MAX_COUNT, PROFILES_MAX_COUNT
-from anbor_types.common import annotated as common_annotated
+from anbor_types.common.annotated import ATPrice
 from anbor_types.gallery.dto import ImageListDTO
 
 # ===== PRODUCT PROFILE =====
 
 
-class ProductProfileCreateDTO(BasePydanticModel):
+class CatalogEntryProfileCreateDTO(BasePydanticModel):
     identifier: annotated.ATProductProfileIdentifier
     char_values: Optional[annotated.ATProductProfileCharValues] = Field(
-        default_factory=list
+        default_factory=list,
+        max_length=CATALOG_ENTRY_VARIANT_CHAR_VALUES_MAX_COUNT,
     )
 
 
-class ProductProfileListDTO(msgspec.Struct):
+class CatalogEntryProfileListDTO(msgspec.Struct):
     id: ID_T
     characteristic_values: List[CharValuesListDTO]
 
@@ -49,17 +51,17 @@ class ProductCreateDTO(CatalogEntryCreateDTO):
     shelf_number: Optional[annotated.ATProductShelfNumber] = None
 
     consider_characteristics: bool
-    buying_price: common_annotated.ATPrice
-    surcharge: common_annotated.ATPrice
+    buying_price: ATPrice
+    surcharge: ATPrice
     images: Annotated[
-        list[ID_T],
+        List[ID_T],
         Field(default_factory=list, max_length=IMAGES_MAX_COUNT),
     ]
 
     profiles: Annotated[
-        Optional[List[ProductProfileCreateDTO]],
+        Optional[List[CatalogEntryProfileCreateDTO]],
         conlist(
-            item_type=ProductProfileCreateDTO,
+            item_type=CatalogEntryProfileCreateDTO,
             max_length=PROFILES_MAX_COUNT,
         ),
         Field(default_factory=list),
@@ -73,6 +75,6 @@ class ProductDetailedListDTO(msgspec.Struct):
     category_id: ID_T
     remains: Decimal
     images: List[ImageListDTO]
-    profiles: List[ProductProfileListDTO]
+    profiles: List[CatalogEntryProfileListDTO]
     description: Optional[str]
     information: Optional[str]
