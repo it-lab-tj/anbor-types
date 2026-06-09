@@ -58,8 +58,8 @@ class SubjectDetailedDTO(msgspec.Struct):
 
 
 class SubjectUpdateDTO(BasePydanticModel):
+    name: str
     kind: SubjectKindEnum
-    name: Optional[str] = None
     full_name: Optional[str] = None
     phone: Optional[str] = None
     email: Optional[str] = None

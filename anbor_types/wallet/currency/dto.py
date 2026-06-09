@@ -3,7 +3,6 @@ from datetime import datetime
 import msgspec
 
 from anbor_types import ID_T
-from anbor_types.common.enums import StatusEnum
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
 
 
@@ -20,7 +19,6 @@ class CurrencyListDTO(msgspec.Struct):
     updated_at: datetime
     created_by: AuthorInfoShortDTO
     updated_by: AuthorInfoShortDTO
-    status: StatusEnum
 
 
 class CurrenctShortListDTO(msgspec.Struct):
