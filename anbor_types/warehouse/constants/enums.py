@@ -31,9 +31,7 @@ class SubjectKindEnum(IntEnum):
 
 
 class DocumentItemExtKindEnum(IntEnum):
-    CONSUME = 0
     SOURCE = 1
-    RETURN = 2
 
 
 class InventoryAllocationStrategyEnum(IntEnum):
