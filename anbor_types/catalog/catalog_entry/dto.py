@@ -29,3 +29,19 @@ class CatalogEntryCreateDTO(BasePydanticModel):
     category_id: ID_T
     measurement_unit_id: ID_T
     currency_id: ID_T
+
+
+class CatalogEntryUpdateDTO(BasePydanticModel):
+    name: ATCatalogEntryName
+
+    minimum_price: ATPrice
+    selling_price: ATPrice
+    max_discount: ATDiscount
+
+    description: Optional[ATCatalogEntryDescription] = None
+    information: Optional[ATInformationStr] = None
+
+    # Non-validate
+    category_id: ID_T
+    measurement_unit_id: ID_T
+    currency_id: ID_T

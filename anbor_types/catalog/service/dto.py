@@ -9,6 +9,7 @@ from anbor_types.catalog.annotated import ATProductVendorCode
 from anbor_types.catalog.catalog_entry.dto import (
     CatalogEntryCreateDTO,
     CatalogEntryListDTO,
+    CatalogEntryUpdateDTO,
 )
 
 
@@ -34,4 +35,8 @@ class ServiceDetailedDTO(msgspec.Struct):
 
 
 class ServiceCreateDTO(CatalogEntryCreateDTO):
+    vendor_code: ATProductVendorCode
+
+
+class ServiceUpdateDTO(CatalogEntryUpdateDTO):
     vendor_code: ATProductVendorCode
