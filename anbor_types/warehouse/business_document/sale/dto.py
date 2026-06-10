@@ -14,7 +14,7 @@ from anbor_types.warehouse.business_document.subject.dto import (
 )
 from anbor_types.warehouse.business_document_item.dto import (
     BusinessDocumentItemBaseCreateDTO,
-    BusinessDocumentItemBaseUpdateDTO,
+    BusinessDocumentItemUpdateDTO,
 )
 from anbor_types.warehouse.constants.constraints import document as doc_constraints
 
@@ -30,7 +30,7 @@ class SaleDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     project_id: ID_T
     currency_id: ID_T
     rate: ATRate
-    comment: ATComment
+    comment: Optional[ATComment] = Field(default=None)
     shipped_at: datetime
     confirmed: bool = Field(default=False)
     items: List[TItem] = Field(
@@ -39,19 +39,16 @@ class SaleDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     )
 
 
-class SaleDocumentUpdateDTO[TItem: BusinessDocumentItemBaseUpdateDTO](
-    BasePydanticModel
-):
-    debit_id: Optional[ID_T] = None
-    credit_id: Optional[ID_T] = None
-    project_id: Optional[ID_T] = None
-    currency_id: Optional[ID_T] = None
-    rate: Optional[ATRate] = None
+class SaleDocumentUpdateDTO(BasePydanticModel):
+    debit_id: ID_T
+    project_id: ID_T
+    currency_id: ID_T
+    rate: ATRate
     comment: Optional[ATComment] = None
-    shipped_at: Optional[datetime] = None
+    shipped_at: datetime
     confirmed: bool = Field(default=False)
-    items: List[TItem] = Field(
-        min_length=0, max_length=doc_constraints.ITEM_MAX_COUNT, default=None
+    items: List[BusinessDocumentItemUpdateDTO] = Field(
+        min_length=1, max_length=doc_constraints.ITEM_MAX_COUNT
     )
 
 

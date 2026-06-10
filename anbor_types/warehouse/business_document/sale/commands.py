@@ -5,7 +5,6 @@ from anbor_types.warehouse.business_document.sale.dto import (
 )
 from anbor_types.warehouse.business_document_item.commands import (
     BusinessDocumentItemCreateCommand,
-    BusinessDocumentItemUpdateCommand,
 )
 
 
@@ -14,7 +13,5 @@ class SaleDocumentCreateCommand(
 ): ...
 
 
-class SaleDocumentUpdateCommand(
-    SaleDocumentUpdateDTO[BusinessDocumentItemUpdateCommand], Command
-):
+class SaleDocumentUpdateCommand(SaleDocumentUpdateDTO, Command):
     id: ID_T
