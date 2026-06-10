@@ -1,5 +1,5 @@
-from anbor_types import ID_T, BasePydanticModel
+from anbor_types.catalog.catalog_entry.results import CatalogEntryCreateResult
 
 
-class ServiceCreateResult(BasePydanticModel):
-    id: ID_T
+class ServiceCreateResult(CatalogEntryCreateResult):
+    """Result after service creation."""

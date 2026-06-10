@@ -1,7 +1,10 @@
-from anbor_types import ID_T, BasePydanticModel
+from typing import Optional
+
+from anbor_types.catalog.catalog_entry.results import CatalogEntryCreateResult
 
 
-class ProductCreateResult(BasePydanticModel):
-    """Result after product creation"""
+class ProductCreateResult(CatalogEntryCreateResult):
+    """Result after product creation."""
 
-    id: ID_T
+    shelf_number: Optional[str] = None
+    image: dict
