@@ -9,3 +9,4 @@ class CategoryKind(IntEnum):
 class CatalogEntryKindEnum(IntEnum):
     PRODUCT = 1
     SERVICE = 2
+    OFFER = 3

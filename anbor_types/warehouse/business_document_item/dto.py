@@ -30,7 +30,7 @@ class BusinessDocumentItemBaseUpdateDTO(BaseModel):
     discount: ATDiscount
     count: Decimal = Field(le=item_constraints.COUNT_MAX)
     performer_id: Optional[ID_T] = Field(default=None)
-    expires_at: Optional[ID_T] = Field(default=None)
+    expires_at: Optional[date] = Field(default=None)
 
 
 class BusinessDocumentItemUpdateDTO(BusinessDocumentItemBaseUpdateDTO):
