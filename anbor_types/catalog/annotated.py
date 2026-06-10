@@ -5,6 +5,7 @@ from pydantic import constr, conlist
 from anbor_types import ID_T
 from anbor_types.catalog.category.dto import CharValueDTO
 from anbor_types.catalog.product import constraints as product_constraints
+from anbor_types.catalog import constraints as catalog_enty_constraints
 from anbor_types.common import constraints as common_constraints
 from anbor_types.common.annotated import ATSingleLineStr
 
@@ -40,12 +41,12 @@ type ATProductProfileCharValues = Annotated[
         max_length=product_constraints.PROFILES_MAX_COUNT,
     ),
 ]
-type ATProductVendorCode = Annotated[
+type ATCatalogEntryVendorCode = Annotated[
     str,
     constr(
-        max_length=product_constraints.VENDOR_CODE_MAX_LENGTH,
-        min_length=product_constraints.VENDOR_CODE_MIN_LENGTH,
-        pattern=product_constraints.VENDOR_CODE_REGEX,
+        max_length=catalog_enty_constraints.VENDOR_CODE_MAX_LENGTH,
+        min_length=catalog_enty_constraints.VENDOR_CODE_MIN_LENGTH,
+        pattern=catalog_enty_constraints.VENDOR_CODE_REGEX,
         strip_whitespace=True,
     ),
 ]

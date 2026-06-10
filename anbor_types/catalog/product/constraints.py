@@ -17,12 +17,5 @@ SHELF_NUMBER_MIN_LENGTH = 1
 SHELF_NUMBER_REGEX = regex.compile(r"^\d+$")
 
 
-# VENDOR CODE
-VENDOR_CODE_MAX_LENGTH = 24
-VENDOR_CODE_MIN_LENGTH = 5
-
-VENDOR_CODE_REGEX = regex.compile(r"^[\p{IsCyrillic}\p{IsLatin}0-9 _\-\(\)/]+$")
-
-
 # IMAGES
 IMAGES_MAX_COUNT = 5

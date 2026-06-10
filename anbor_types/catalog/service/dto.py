@@ -5,10 +5,10 @@ from typing import Optional
 import msgspec
 
 from anbor_types import ID_T
-from anbor_types.catalog.annotated import ATProductVendorCode
 from anbor_types.catalog.catalog_entry.dto import (
     CatalogEntryCreateDTO,
     CatalogEntryListDTO,
+    CatalogEntryUpdateDTO,
 )
 
 
@@ -33,5 +33,7 @@ class ServiceDetailedDTO(msgspec.Struct):
     updated_at: datetime
 
 
-class ServiceCreateDTO(CatalogEntryCreateDTO):
-    vendor_code: ATProductVendorCode
+class ServiceCreateDTO(CatalogEntryCreateDTO): ...
+
+
+class ServiceUpdateDTO(CatalogEntryUpdateDTO): ...

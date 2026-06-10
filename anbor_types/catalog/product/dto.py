@@ -47,7 +47,6 @@ class ProductListDTO(CatalogEntryListDTO):
 
 
 class ProductCreateDTO(CatalogEntryCreateDTO):
-    vendor_code: annotated.ATProductVendorCode
     shelf_number: Optional[annotated.ATProductShelfNumber] = None
 
     consider_characteristics: bool
