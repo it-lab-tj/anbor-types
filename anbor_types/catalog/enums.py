@@ -16,4 +16,3 @@ class BusinessOrientationEnum(IntEnum):
     ALL = 1
     PRODUCT = 2
     SERVICE = 3
-

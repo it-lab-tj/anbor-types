@@ -1,5 +1,5 @@
 from anbor_types import ListQuery
 
 
-class DailyAnalyticsListQuery(ListQuery):
+class DailyAnalyticListQuery(ListQuery):
     pass

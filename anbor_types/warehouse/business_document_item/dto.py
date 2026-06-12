@@ -28,3 +28,8 @@ class BusinessDocumentItemUpdateDTO(BaseModel):
     price: ATPrice
     discount: ATDiscount
     count: Decimal = Field(le=item_constraints.COUNT_MAX)
+
+
+class ReturnDocumentItemDTO(BaseModel):
+    ref_item_id: ID_T
+    count: Decimal = Field(le=item_constraints.COUNT_MAX, gt=Decimal("0"))

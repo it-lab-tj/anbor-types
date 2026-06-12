@@ -5,7 +5,7 @@ from typing import Optional
 import msgspec
 
 
-class DailyAnalyticsDTO(msgspec.Struct):
+class DailyAnalyticDTO(msgspec.Struct):
     id: int
     date: Optional[date]
     revenues: Decimal

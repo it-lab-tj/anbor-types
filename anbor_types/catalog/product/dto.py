@@ -18,7 +18,6 @@ from anbor_types.common.dto import NameDTO
 from anbor_types.gallery.dto import ImageListDTO, ImageOriginalUrlDTO
 from anbor_types.wallet.currency.dto import CurrencyCodeSymbolDTO
 
-
 # ===== PRODUCT PROFILE =====
 
 

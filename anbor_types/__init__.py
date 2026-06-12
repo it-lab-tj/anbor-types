@@ -48,9 +48,7 @@ class ListQuery(Query):
     )
     offset: int = Field(default=const.DEFAULT_OFFSET, gt=const.MIN_OFFSET - 1)
 
-    model_config = ConfigDict(
-        extra="ignore"
-    )
+    model_config = ConfigDict(extra="ignore")
 
 
 class ListQueryResponse(msgspec.Struct, Generic[T]):
