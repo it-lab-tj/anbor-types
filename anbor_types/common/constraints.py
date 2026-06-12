@@ -1,3 +1,4 @@
+from datetime import datetime
 from decimal import Decimal
 
 import regex
@@ -50,3 +51,7 @@ MIN_RATE = Decimal("0.0001")
 
 DECIMAL_DISCOUNT_DIGITS = 5
 DECIMAL_DISCOUNT_PLACES = 2
+
+
+# ===== DATE & DATETIME =====
+DATETIME_MAX = datetime.fromisoformat("2080-01-01T23:59:59")

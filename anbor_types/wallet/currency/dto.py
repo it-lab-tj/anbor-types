@@ -30,3 +30,7 @@ class CurrenctShortListDTO(msgspec.Struct):
 class CurrencyShortDTO(msgspec.Struct):
     id: ID_T
     code_symbol: str
+
+
+class CurrencyCodeSymbolDTO(msgspec.Struct):
+    code_symbol: str

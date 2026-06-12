@@ -37,7 +37,7 @@ class Query(BaseModel):
     The same as 'Command' class. But just standard for query-only use(get requests).
     """
 
-    model_config = ConfigDict(arbitrary_types_allowed=True, extra="forbid", frozen=True)
+    model_config = ConfigDict(arbitrary_types_allowed=True, extra="forbid")
 
 
 class ListQuery(Query):
@@ -47,6 +47,10 @@ class ListQuery(Query):
         lt=const.MAX_LIMIT + 1,
     )
     offset: int = Field(default=const.DEFAULT_OFFSET, gt=const.MIN_OFFSET - 1)
+
+    model_config = ConfigDict(
+        extra="ignore"
+    )
 
 
 class ListQueryResponse(msgspec.Struct, Generic[T]):

@@ -7,3 +7,7 @@ class ImageListDTO(msgspec.Struct):
     id: ID_T
     name: str
     original_url: str
+
+
+class ImageOriginalUrlDTO(msgspec.Struct):
+    original_url: str

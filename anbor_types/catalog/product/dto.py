@@ -14,7 +14,10 @@ from anbor_types.catalog.category.dto import CharValuesListDTO
 from anbor_types.catalog.constraints import CATALOG_ENTRY_VARIANT_CHAR_VALUES_MAX_COUNT
 from anbor_types.catalog.product.constraints import IMAGES_MAX_COUNT, PROFILES_MAX_COUNT
 from anbor_types.common.annotated import ATPrice
-from anbor_types.gallery.dto import ImageListDTO
+from anbor_types.common.dto import NameDTO
+from anbor_types.gallery.dto import ImageListDTO, ImageOriginalUrlDTO
+from anbor_types.wallet.currency.dto import CurrencyCodeSymbolDTO
+
 
 # ===== PRODUCT PROFILE =====
 
@@ -41,9 +44,10 @@ class ProductListDTO(CatalogEntryListDTO):
     minimum_price: Decimal
     vendor_code: str
 
-    image: dict
-    measurement_unit: dict
-    category: dict
+    image: ImageOriginalUrlDTO
+    measurement_unit: NameDTO
+    category: NameDTO
+    currency: CurrencyCodeSymbolDTO
 
 
 class ProductCreateDTO(CatalogEntryCreateDTO):
