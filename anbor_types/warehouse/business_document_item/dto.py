@@ -16,11 +16,11 @@ class BusinessDocumentItemBaseCreateDTO(BaseModel):
     price: ATPrice
     discount: ATDiscount
     count: Decimal = Field(le=item_constraints.COUNT_MAX)
-    expires_at: Optional[date] = Field(default=None)
 
 
 class BusinessDocumentItemCreateDTO(BusinessDocumentItemBaseCreateDTO):
     variant_id: Optional[ID_T] = Field(default=None)
+    expires_at: Optional[date] = Field(default=None)
 
 
 class BusinessDocumentItemUpdateDTO(BaseModel):
