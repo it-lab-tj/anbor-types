@@ -30,6 +30,6 @@ class BusinessDocumentItemUpdateDTO(BaseModel):
     count: Decimal = Field(le=item_constraints.COUNT_MAX)
 
 
-class ReturnDocumentItemDTO(BaseModel):
+class ReturnDocumentItemCreateDTO(BaseModel):
     ref_item_id: ID_T
     count: Decimal = Field(le=item_constraints.COUNT_MAX, gt=Decimal("0"))
