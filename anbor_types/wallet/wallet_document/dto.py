@@ -18,7 +18,7 @@ class WalletDocumentListDTO(msgspec.Struct):
     cash_desk: CashDeskShortListDTO
     amount: Decimal
     counterparty: str
-    confirm_date: datetime
+    confirm_at: datetime
     type: WalletDocumentKindEnum
     currency: CurrencyShortDTO
     created_by: AuthorInfoShortDTO
@@ -30,7 +30,7 @@ class WalletDocumentDetailedDTO(msgspec.Struct):
     amount: Decimal
     capstone: str
     cash_desk: CashDeskShortListDTO
-    confirm_date: datetime
+    confirm_at: datetime
     counterparty: CounterpartyShortDTO
     created_by: AuthorInfoShortDTO
     type: WalletDocumentKindEnum
@@ -46,7 +46,7 @@ class WalletDocumentCreateDTO(BasePydanticModel):
     amount: Decimal
     cash_desk_id: ID_T
     comment: str
-    confirm_date: datetime
+    confirm_at: datetime
     counterparty_id: ID_T
     content_id: ID_T
     content_type: str
@@ -61,7 +61,7 @@ class WalletDocumentCreateDTO(BasePydanticModel):
 
 class WalletDocumentUpdateDTO(BasePydanticModel):
     amount: Decimal
-    confirm_date: datetime
+    confirm_at: datetime
     files_ids: List[ID_T]
     comment: str
     project_id: ID_T

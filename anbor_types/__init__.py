@@ -37,7 +37,7 @@ class Query(BaseModel):
     The same as 'Command' class. But just standard for query-only use(get requests).
     """
 
-    model_config = ConfigDict(arbitrary_types_allowed=True, extra="forbid")
+    model_config = ConfigDict(arbitrary_types_allowed=True, extra="ignore")
 
 
 class ListQuery(Query):
@@ -64,4 +64,4 @@ class Command(BaseModel):
     Inherit and use with mediator.
     """
 
-    model_config = ConfigDict(arbitrary_types_allowed=True, extra="forbid", frozen=True)
+    model_config = ConfigDict(arbitrary_types_allowed=True, extra="ignore", frozen=True)
