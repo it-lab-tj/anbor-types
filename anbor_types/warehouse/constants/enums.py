@@ -39,6 +39,12 @@ class BusinessDocumentItemExtKindEnum(IntEnum):
     ADJUSTMENT_OUT = 5
 
 
+class BusinessDocumentItemKindEnum(IntEnum):
+    INCOME = 1
+    OUTCOME = 2
+    TRANSFER = 3
+
+
 class InventoryAllocationStrategyEnum(IntEnum):
     FIFO = 1
     LIFO = 2

@@ -16,32 +16,43 @@ from anbor_types.warehouse.constants.constraints import document as doc_constrai
 from anbor_types.warehouse.constants.constraints import (
     document_item as item_constraints,
 )
-from anbor_types.warehouse.constants.enums import AdjustmentDocumentKindEnum
+from anbor_types.warehouse.constants.enums import (
+    AdjustmentDocumentKindEnum,
+    BusinessDocumentItemKindEnum,
+)
 
 
-class AdjustmentDocumentItemCreateDTO(BasePydanticModel):
+class AdjustmentDocumentItemBaseCreateDTO(BasePydanticModel):
     entry_id: ID_T
     price: ATPrice
     discount: ATDiscount
+    kind: BusinessDocumentItemKindEnum = Field(
+        description="Направление движения товара: 1=INCOME (поступление), 2=OUTCOME (списание)."
+    )
     count: Decimal = Field(le=item_constraints.COUNT_MAX, gt=Decimal("0"))
-    variant_id: Optional[ID_T] = Field(default=None)
     expires_at: Optional[date] = Field(default=None)
-    # Per-item direction; required only for HYBRID documents
-    # (INVOICE or WRITE_OFF, never HYBRID itself).
-    item_kind: Optional[AdjustmentDocumentKindEnum] = Field(default=None)
 
 
-class AdjustmentDocumentCreateDTO(BasePydanticModel):
+class AdjustmentDocumentCreateDTO[TItem: AdjustmentDocumentItemBaseCreateDTO](
+    BasePydanticModel
+):
     storage_id: ID_T
     project_id: ID_T
     currency_id: ID_T
     rate: ATRate
-    kind: AdjustmentDocumentKindEnum
     shipped_at: datetime
+    kind: AdjustmentDocumentKindEnum = Field(
+        description=(
+            "Вид документа: 0=WRITE_OFF (все строки OUTCOME), "
+            "1=INVOICE (все строки INCOME), "
+            "2=HYBRID (строки содержат оба типа). "
+            "Должен соответствовать видам строк."
+        )
+    )
     confirmed: bool = Field(default=False)
     comment: Optional[ATComment] = Field(default=None)
     file_ids: Optional[ATFileIds] = Field(default=None)
-    items: List[AdjustmentDocumentItemCreateDTO] = Field(
+    items: List[TItem] = Field(
         min_length=1,
         max_length=doc_constraints.ITEM_MAX_COUNT,
     )

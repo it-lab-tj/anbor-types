@@ -9,7 +9,7 @@ from anbor_types.warehouse.business_document_item.dto import (
 from anbor_types.warehouse.constants.constraints import document as doc_constraints
 
 from anbor_types import BasePydanticModel, ID_T
-from anbor_types.common.annotated import ATRate, ATComment
+from anbor_types.common.annotated import ATRate, ATComment, ATFileIds
 
 
 class PurchaseDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
@@ -20,9 +20,10 @@ class PurchaseDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     project_id: ID_T
     currency_id: ID_T
     rate: ATRate
-    comment: Optional[ATComment] = Field(default=None)
     shipped_at: datetime
     confirmed: bool = Field(default=False)
+    comment: Optional[ATComment] = Field(default=None)
+    file_ids: Optional[ATFileIds] = Field(default=None)
     items: List[TItem] = Field(
         min_length=1,
         max_length=doc_constraints.ITEM_MAX_COUNT,

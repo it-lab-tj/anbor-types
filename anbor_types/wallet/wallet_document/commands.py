@@ -11,5 +11,6 @@ class WalletDocumentCreateCommand(WalletDocumentCreateDTO, Command): ...
 class WalletDocumentUpdateCommand(WalletDocumentUpdateDTO, Command):
     id: ID_T
 
+
 class WalletDocumentDeleteCommand(Command):
     id: ID_T
