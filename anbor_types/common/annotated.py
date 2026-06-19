@@ -1,6 +1,7 @@
 from decimal import Decimal
-from typing import Annotated, TypeAlias
+from typing import Annotated, TypeAlias, List
 
+from anbor_types import ID_T
 from pydantic import Field, constr, StringConstraints
 from pydantic.functional_validators import BeforeValidator
 from anbor_types.common import constraints as common_constraints
@@ -54,4 +55,8 @@ type ATDomainName = Annotated[
         strip_whitespace=True,
     ),
     lambda x: x[:-1] if x[-1] == "/" else x,
+]
+
+type ATFileIds = Annotated[
+    List[ID_T], Field(max_length=common_constraints.FILE_IDS_MAX_COUNT)
 ]

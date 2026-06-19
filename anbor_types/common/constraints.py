@@ -55,3 +55,5 @@ DECIMAL_DISCOUNT_PLACES = 2
 
 # ===== DATE & DATETIME =====
 DATETIME_MAX = datetime.fromisoformat("2080-01-01T23:59:59")
+
+FILE_IDS_MAX_COUNT = 15
