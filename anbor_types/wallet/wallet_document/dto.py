@@ -5,6 +5,7 @@ from typing import List, Optional
 import msgspec
 
 from anbor_types import ID_T, BasePydanticModel
+from anbor_types.common.enums import ContentTypeEnum
 from anbor_types.wallet.cash_desk.dto import CashDeskShortListDTO
 from anbor_types.handbook.project.dto import ProjectShortListDTO
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
@@ -17,8 +18,7 @@ class WalletDocumentListDTO(msgspec.Struct):
     id: ID_T
     cash_desk: CashDeskShortListDTO
     amount: Decimal
-    counterparty: str
-    confirm_at: datetime
+    confirmed_at: datetime
     type: WalletDocumentKindEnum
     currency: CurrencyShortDTO
     created_by: AuthorInfoShortDTO
@@ -30,7 +30,7 @@ class WalletDocumentDetailedDTO(msgspec.Struct):
     amount: Decimal
     capstone: str
     cash_desk: CashDeskShortListDTO
-    confirm_at: datetime
+    confirmed_at: datetime
     counterparty: CounterpartyShortDTO
     created_by: AuthorInfoShortDTO
     type: WalletDocumentKindEnum
@@ -46,10 +46,9 @@ class WalletDocumentCreateDTO(BasePydanticModel):
     amount: Decimal
     cash_desk_id: ID_T
     comment: str
-    confirm_at: datetime
-    counterparty_id: ID_T
+    confirmed_at: datetime
     content_id: ID_T
-    content_type: str
+    content_type: ContentTypeEnum
     currency_id: ID_T
     files_ids: List[ID_T]
     operating_expense_id: ID_T
@@ -61,7 +60,7 @@ class WalletDocumentCreateDTO(BasePydanticModel):
 
 class WalletDocumentUpdateDTO(BasePydanticModel):
     amount: Decimal
-    confirm_at: datetime
+    confirmed_at: datetime
     files_ids: List[ID_T]
     comment: str
     project_id: ID_T
