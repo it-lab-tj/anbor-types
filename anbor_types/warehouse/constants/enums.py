@@ -35,6 +35,8 @@ class BusinessDocumentItemExtKindEnum(IntEnum):
     SOURCE = 1
     RETURN_IN = 2
     RETURN_OUT = 3
+    ADJUSTMENT_IN = 4
+    ADJUSTMENT_OUT = 5
 
 
 class InventoryAllocationStrategyEnum(IntEnum):

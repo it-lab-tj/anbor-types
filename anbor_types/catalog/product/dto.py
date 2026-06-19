@@ -9,6 +9,7 @@ from anbor_types.catalog import annotated
 from anbor_types.catalog.catalog_entry.dto import (
     CatalogEntryCreateDTO,
     CatalogEntryListDTO,
+    CatalogEntryUpdateDTO,
 )
 from anbor_types.catalog.category.dto import CharValuesListDTO
 from anbor_types.catalog.constraints import CATALOG_ENTRY_VARIANT_CHAR_VALUES_MAX_COUNT
@@ -27,6 +28,10 @@ class CatalogEntryProfileCreateDTO(BasePydanticModel):
         default_factory=list,
         max_length=CATALOG_ENTRY_VARIANT_CHAR_VALUES_MAX_COUNT,
     )
+
+
+class ProductProfileUpsertDTO(CatalogEntryProfileCreateDTO):
+    id: Optional[ID_T] = None
 
 
 class CatalogEntryProfileListDTO(msgspec.Struct):
@@ -64,6 +69,26 @@ class ProductCreateDTO(CatalogEntryCreateDTO):
         Optional[List[CatalogEntryProfileCreateDTO]],
         conlist(
             item_type=CatalogEntryProfileCreateDTO,
+            max_length=PROFILES_MAX_COUNT,
+        ),
+        Field(default_factory=list),
+    ]
+
+
+class ProductUpdateDTO(CatalogEntryUpdateDTO):
+    buying_price: ATPrice
+    surcharge: ATPrice
+    shelf_number: Optional[annotated.ATProductShelfNumber] = None
+    consider_characteristics: bool
+    images: Annotated[
+        List[ID_T],
+        Field(default_factory=list, max_length=IMAGES_MAX_COUNT),
+    ]
+
+    profiles: Annotated[
+        List[ProductProfileUpsertDTO],
+        conlist(
+            item_type=ProductProfileUpsertDTO,
             max_length=PROFILES_MAX_COUNT,
         ),
         Field(default_factory=list),
