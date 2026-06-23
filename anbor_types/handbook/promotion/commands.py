@@ -10,10 +10,6 @@ from anbor_types.handbook.promotion.dto import (
 class PromotionCreateCommand(PromotionCreateDTO, Command): ...
 
 
-class PromotionItemsCreateCommand(Command):
-    promotion_items: List[PromotionItemCreateDTO]
-
-
 class PromotionItemsSetCommand(Command):
     promotion_id: ID_T
     promotion_items: List[PromotionItemCreateDTO]
