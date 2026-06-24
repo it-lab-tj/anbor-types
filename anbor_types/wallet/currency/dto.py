@@ -21,7 +21,7 @@ class CurrencyListDTO(msgspec.Struct):
     updated_by: AuthorInfoShortDTO
 
 
-class CurrenctShortListDTO(msgspec.Struct):
+class CurrencyShortListDTO(msgspec.Struct):
     id: ID_T
     name: str
     code_symbol: str

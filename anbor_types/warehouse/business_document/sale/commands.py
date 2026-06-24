@@ -1,4 +1,4 @@
-from anbor_types import ID_T, Command
+from anbor_types import ID_T, BasePydanticModel, Command
 from anbor_types.warehouse.business_document.sale.dto import (
     SaleDocumentCreateDTO,
     SaleDocumentUpdateDTO,
@@ -14,4 +14,8 @@ class SaleDocumentCreateCommand(
 
 
 class SaleDocumentUpdateCommand(SaleDocumentUpdateDTO, Command):
+    id: ID_T
+
+
+class SaleDocumentDeleteCommand(BasePydanticModel, Command):
     id: ID_T

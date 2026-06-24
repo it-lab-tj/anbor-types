@@ -1,14 +1,17 @@
-from datetime import datetime
+from datetime import date, datetime
 from decimal import Decimal
 from typing import List, Optional
 from anbor_types.common.enums import StatusEnum
+from anbor_types.warehouse.constants.enums import (
+    BusinessDocumentApplicationStatusEnum,
+)
 
 import msgspec
 from pydantic import Field
 
 from anbor_types.handbook.project.dto import ProjectShortListDTO
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
-from anbor_types.wallet.currency.dto import CurrenctShortListDTO
+from anbor_types.wallet.currency.dto import CurrencyShortListDTO
 from anbor_types.warehouse.business_document.subject.dto import (
     SubjectForBusinessDocumentShortDataDTO,
 )
@@ -57,7 +60,7 @@ class SaleDocumentListDTO(msgspec.Struct):
     debit: SubjectForBusinessDocumentShortDataDTO
     credit: SubjectForBusinessDocumentShortDataDTO
     project: ProjectShortListDTO
-    currency: CurrenctShortListDTO
+    currency: CurrencyShortListDTO
     rate: Decimal
     vendor_code: str
     count_items: int
@@ -66,3 +69,66 @@ class SaleDocumentListDTO(msgspec.Struct):
     created_at: datetime
     created_by: AuthorInfoShortDTO
     paid: Decimal
+
+
+class SaleDocumentDTO(msgspec.Struct):
+    """Single-document summary (GET by id)."""
+
+    id: ID_T
+    debit: SubjectForBusinessDocumentShortDataDTO
+    credit: SubjectForBusinessDocumentShortDataDTO
+    project: ProjectShortListDTO
+    currency: CurrencyShortListDTO
+    rate: Decimal
+    vendor_code: str
+    count_items: int
+    amount: Decimal
+    status: StatusEnum
+    application_status: BusinessDocumentApplicationStatusEnum
+    shipped_at: datetime
+    created_at: datetime
+    created_by: AuthorInfoShortDTO
+    paid: Decimal
+    comment: Optional[str] = None
+    confirmed_at: Optional[datetime] = None
+
+
+class BusinessDocumentItemSourceDTO(msgspec.Struct):
+    """One SOURCE extension: the inventory an outgoing item was drawn from."""
+
+    inventory_id: ID_T
+    count: Decimal
+    rank: int
+
+
+class SaleDocumentItemDetailedDTO(msgspec.Struct):
+    id: ID_T
+    entry_id: ID_T
+    price: Decimal
+    discount: Decimal
+    count: Decimal
+    sources: List[BusinessDocumentItemSourceDTO]
+    variant_id: Optional[ID_T] = None
+    expires_at: Optional[date] = None
+
+
+class SaleDocumentDetailedDTO(msgspec.Struct):
+    """Full document with items and their source inventories (GET_DETAILED by id)."""
+
+    id: ID_T
+    debit: SubjectForBusinessDocumentShortDataDTO
+    credit: SubjectForBusinessDocumentShortDataDTO
+    project: ProjectShortListDTO
+    currency: CurrencyShortListDTO
+    rate: Decimal
+    vendor_code: str
+    amount: Decimal
+    status: StatusEnum
+    application_status: BusinessDocumentApplicationStatusEnum
+    shipped_at: datetime
+    created_at: datetime
+    created_by: AuthorInfoShortDTO
+    paid: Decimal
+    items: List[SaleDocumentItemDetailedDTO]
+    comment: Optional[str] = None
+    confirmed_at: Optional[datetime] = None

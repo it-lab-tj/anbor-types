@@ -7,3 +7,11 @@ class ServiceCreateCommand(ServiceCreateDTO, Command): ...
 
 class ServiceUpdateCommand(ServiceUpdateDTO, Command):
     id: ID_T
+
+
+class ServiceDeleteCommand(Command):
+    id: ID_T
+
+
+class ServiceToggleCommand(Command):
+    id: ID_T
