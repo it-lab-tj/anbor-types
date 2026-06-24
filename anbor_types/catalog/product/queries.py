@@ -1,8 +1,12 @@
 from typing import Tuple
 
 from pydantic import Field, field_validator
-from anbor_types import ListQuery
+from anbor_types import ID_T, ListQuery, Query
 from src.app.shared_kernel.utils.filters.types import FilterFieldSpec
+
+
+class ProductDetailedQuery(Query):
+    id: ID_T
 
 
 class ProductListQuery(ListQuery):
