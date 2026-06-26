@@ -1,3 +1,4 @@
+from datetime import datetime
 from decimal import Decimal
 
 from anbor_types import ID_T, BasePydanticModel
@@ -9,3 +10,4 @@ class WalletOperationCreateDTO(BasePydanticModel):
     content_id: ID_T
     content_type: ContentTypeEnum
     cash_desk_id: ID_T
+    confirmed_at: datetime

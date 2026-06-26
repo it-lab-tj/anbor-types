@@ -48,7 +48,6 @@ class SaleDocumentUpdateDTO(BasePydanticModel):
     currency_id: ID_T
     rate: ATRate
     comment: Optional[ATComment] = None
-    shipped_at: datetime
     confirmed: bool = Field(default=False)
     items: List[BusinessDocumentItemUpdateDTO] = Field(
         min_length=1, max_length=doc_constraints.ITEM_MAX_COUNT

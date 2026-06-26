@@ -6,6 +6,14 @@ from anbor_types import ID_T, ListQuery
 from anbor_types.wallet.constants import WalletDocumentKindEnum
 
 
+class WalletTransferListQuery(ListQuery):
+    # Filters transfers where the desk is either the source or the destination.
+    cash_desk_id: Optional[ID_T] = None
+    created_at_after: Optional[datetime] = None
+    created_at_before: Optional[datetime] = None
+    ordering: Optional[str] = None
+
+
 class WalletDocumentListQuery(ListQuery):
     amount_max: Optional[Decimal] = None
     amount_min: Optional[Decimal] = None
