@@ -15,6 +15,7 @@ from anbor_types.catalog.category.dto import CharValueDetailedDTO
 from anbor_types.catalog.product.constraints import IMAGES_MAX_COUNT
 from anbor_types.common.annotated import ATDiscount, ATPrice, ATInformationStr
 from anbor_types.common.dto import NameIdDTO, NameDTO, FileShortDTO
+from anbor_types.common.enums import StatusEnum
 from anbor_types.gallery.dto import ImageShortDTO
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
 from anbor_types.wallet.currency.dto import CurrencyShortDTO
@@ -36,11 +37,12 @@ class CatalogEntryListDTO(msgspec.Struct):
     description: Optional[str]
     information: Optional[str]
     image_url: Optional[str]  # Must be full url
+    status: StatusEnum
     created_at: datetime
 
     currency: CurrencyShortDTO
-    measurement_unit: NameDTO
-    category: NameDTO
+    measurement_unit: NameIdDTO
+    category: NameIdDTO
 
 
 class CatalogEntryDetailedDTO(msgspec.Struct):

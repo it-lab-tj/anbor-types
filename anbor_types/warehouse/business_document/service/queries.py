@@ -1,11 +1,8 @@
-from typing import Optional
-
 from anbor_types import ID_T, ListQuery, Query
-from anbor_types.common.enums import StatusEnum
+from src.app.shared_kernel.utils.filters.mixins import QueryFilterMixin
 
 
-class ServiceDocumentListQuery(ListQuery):
-    status: Optional[StatusEnum] = None
+class ServiceDocumentListQuery(ListQuery, QueryFilterMixin): ...
 
 
 class ServiceDocumentGetQuery(Query):

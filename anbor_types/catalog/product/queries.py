@@ -1,16 +1,13 @@
-from typing import Tuple
-
 from pydantic import Field, field_validator
 from anbor_types import ID_T, ListQuery, Query
-from src.app.shared_kernel.utils.filters.types import FilterFieldSpec
+from src.app.shared_kernel.utils.filters.mixins import QueryFilterMixin
 
 
 class ProductDetailedQuery(Query):
     id: ID_T
 
 
-class ProductListQuery(ListQuery):
-    filters: Tuple[FilterFieldSpec, ...] = Field(default_factory=tuple, init=False)
+class ProductListQuery(ListQuery, QueryFilterMixin): ...
 
 
 class ProductDetailedListQuery(ListQuery):
