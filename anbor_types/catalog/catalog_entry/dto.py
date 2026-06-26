@@ -11,10 +11,10 @@ from anbor_types.catalog.annotated import (
     ATCatalogEntryName,
     ATCatalogEntryVendorCode,
 )
-from anbor_types.catalog.category.dto import CharValueDetailedDTO
+from anbor_types.catalog.category.dto import CharValueDetailedDTO, CategoryShortDTO
 from anbor_types.catalog.product.constraints import IMAGES_MAX_COUNT
 from anbor_types.common.annotated import ATDiscount, ATPrice, ATInformationStr
-from anbor_types.common.dto import NameIdDTO, NameDTO, FileShortDTO
+from anbor_types.common.dto import NameIdDTO, FileShortDTO
 from anbor_types.common.enums import StatusEnum
 from anbor_types.gallery.dto import ImageShortDTO
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
@@ -58,8 +58,8 @@ class CatalogEntryDetailedDTO(msgspec.Struct):
     updated_at: datetime
 
     currency: CurrencyShortDTO
-    measurement_unit: NameDTO
-    category: NameIdDTO
+    measurement_unit: NameIdDTO
+    category: CategoryShortDTO
     created_by: AuthorInfoShortDTO
     files: List[FileShortDTO]
     images: List[ImageShortDTO]

@@ -35,3 +35,9 @@ class CategoryDetailedDTO(msgspec.Struct):
     name: str
     parent_id: Optional[ID_T]
     characteristics: List[CharacteristicListDTO]
+
+
+class CategoryShortDTO(msgspec.Struct):
+    id: ID_T
+    name: str
+    slug: str
