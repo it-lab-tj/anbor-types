@@ -41,3 +41,23 @@ class CategoryShortDTO(msgspec.Struct):
     id: ID_T
     name: str
     slug: str
+
+
+class CategoryCharacteristicValueDTO(msgspec.Struct):
+    id: ID_T
+    name: str
+
+
+class CategoryCharacteristicDTO(msgspec.Struct):
+    id: ID_T
+    name: str
+    type: str
+    values: List[CategoryCharacteristicValueDTO]
+    is_required: bool
+
+
+class CategoryCharacteristicsDTO(msgspec.Struct):
+    id: ID_T
+    name: str
+    parent: Optional[ID_T]
+    characteristics: List[CategoryCharacteristicDTO]

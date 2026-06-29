@@ -77,3 +77,8 @@ class SubjectForBusinessDocumentShortDataDTO(msgspec.Struct):
     name: str
     balance: Decimal
     kind: SubjectKindEnum
+
+
+class SubjectBalanceDTO(msgspec.Struct):
+    id: ID_T
+    balance: Decimal
