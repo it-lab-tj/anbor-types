@@ -44,7 +44,7 @@ class BusinessDocumentListItemDTO(msgspec.Struct):
     credit: Optional[BusinessDocumentSubjectDTO] = None
     currency: Optional[CurrencyShortDTO] = None
     project: Optional[ProjectShortListDTO] = None
-    confirm_date: Optional[datetime] = None
+    shipped_at: Optional[datetime] = None
     rate: Optional[Decimal] = None
     converted_amount: Optional[Decimal] = None
-    total: Optional[Decimal] = None
+    items_count: Optional[int] = None
