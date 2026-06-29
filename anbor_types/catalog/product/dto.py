@@ -10,18 +10,22 @@ from anbor_types.catalog.catalog_entry.dto import (
     CatalogEntryCreateDTO,
     CatalogEntryListDTO,
     CatalogEntryUpdateDTO,
+    CatalogEntryDetailedDTO,
+    CatalogEntryProfileListDTO,
 )
-from anbor_types.catalog.category.dto import CharValuesListDTO
 from anbor_types.catalog.constraints import CATALOG_ENTRY_VARIANT_CHAR_VALUES_MAX_COUNT
 from anbor_types.catalog.product.constraints import IMAGES_MAX_COUNT, PROFILES_MAX_COUNT
 from anbor_types.common.annotated import ATPrice
 from anbor_types.common.dto import NameDTO
-from anbor_types.gallery.dto import ImageListDTO, ImageOriginalUrlDTO
-from anbor_types.wallet.currency.dto import CurrencyCodeSymbolDTO
+from anbor_types.gallery.dto import ImageListDTO
+
+
+class ProductSubjectRemainsListDTO(msgspec.Struct):
+    subject: NameDTO
+    remains: Decimal
+
 
 # ===== PRODUCT PROFILE =====
-
-
 class CatalogEntryProfileCreateDTO(BasePydanticModel):
     identifier: annotated.ATProductProfileIdentifier
     char_values: Optional[annotated.ATProductProfileCharValues] = Field(
@@ -34,24 +38,14 @@ class ProductProfileUpsertDTO(CatalogEntryProfileCreateDTO):
     id: Optional[ID_T] = None
 
 
-class CatalogEntryProfileListDTO(msgspec.Struct):
-    id: ID_T
-    characteristic_values: List[CharValuesListDTO]
-
-
 # ===== PRODUCT =====
 
 
 class ProductListDTO(CatalogEntryListDTO):
     buying_price: Decimal
-    selling_price: Decimal
-    minimum_price: Decimal
+    shelf_number: str
     vendor_code: str
-
-    image: ImageOriginalUrlDTO
-    measurement_unit: NameDTO
-    category: NameDTO
-    currency: CurrencyCodeSymbolDTO
+    remains: Decimal
 
 
 class ProductCreateDTO(CatalogEntryCreateDTO):
@@ -60,10 +54,6 @@ class ProductCreateDTO(CatalogEntryCreateDTO):
     consider_characteristics: bool
     buying_price: ATPrice
     surcharge: ATPrice
-    images: Annotated[
-        List[ID_T],
-        Field(default_factory=list, max_length=IMAGES_MAX_COUNT),
-    ]
 
     profiles: Annotated[
         Optional[List[CatalogEntryProfileCreateDTO]],
@@ -102,6 +92,18 @@ class ProductDetailedListDTO(msgspec.Struct):
     category_id: ID_T
     remains: Decimal
     images: List[ImageListDTO]
-    profiles: List[CatalogEntryProfileListDTO]
     description: Optional[str]
     information: Optional[str]
+    profiles: List[CatalogEntryProfileListDTO]
+
+
+class ProductDetailedDTO(CatalogEntryDetailedDTO):
+    buying_price: Decimal
+    vendor_code: str
+    remains: Decimal
+    surcharge: Decimal
+    consider_characteristics: bool
+    shelf_number: Optional[str]
+
+    subjects_remains: List[ProductSubjectRemainsListDTO]
+    profiles: List[CatalogEntryProfileListDTO]

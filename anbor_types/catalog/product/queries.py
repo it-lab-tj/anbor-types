@@ -1,12 +1,12 @@
 from pydantic import Field, field_validator
-from anbor_types import ListQuery
-
-# from src.app.shared_kernel.utils.filters.types import FilterFieldSpec
+from anbor_types import ID_T, ListQuery, Query
 
 
-class ProductListQuery(ListQuery):
-    # filters: Tuple[FilterFieldSpec, ...] = Field(default_factory=tuple, init=False)
-    pass
+class ProductDetailedQuery(Query):
+    id: ID_T
+
+
+class ProductListQuery(ListQuery): ...
 
 
 class ProductDetailedListQuery(ListQuery):

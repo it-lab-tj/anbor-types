@@ -9,3 +9,7 @@ class SubjectListQuery(ListQuery):
 
 class SubjectDetailedQuery(Query):
     id: ID_T
+
+
+class SubjectBalanceQuery(Query):
+    id: ID_T

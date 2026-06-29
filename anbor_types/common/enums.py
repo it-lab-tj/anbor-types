@@ -8,3 +8,5 @@ class StatusEnum(IntEnum):
 
 class ContentTypeEnum(StrEnum):
     COUNTERPARTY = "storage_counterparty"
+    CASH_DESK = "handbook_cashdesk"
+    CASH_DESK_REBALANCE_HISTORY = "handbook_cashdeskrebalancehistory"

@@ -13,3 +13,10 @@ class NameDTO(msgspec.Struct):
     """Universal dto for storing only `name`"""
 
     name: str
+
+
+class NameIdDTO(msgspec.Struct):
+    """Universal dto for storing only `id` and `name`"""
+
+    id: ID_T
+    name: str
