@@ -3,13 +3,12 @@ from enum import IntEnum
 
 class CategoryKindEnum(IntEnum):
     PRODUCT = 1
-    OFFER = 2
+    SERVICE = 2
 
 
 class CatalogEntryKindEnum(IntEnum):
     PRODUCT = 1
     SERVICE = 2
-    OFFER = 3
 
 
 class BusinessOrientationEnum(IntEnum):

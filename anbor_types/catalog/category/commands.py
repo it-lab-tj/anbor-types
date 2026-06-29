@@ -12,6 +12,11 @@ class CategoryCreateCommand(Command):
     kind: CategoryKindEnum
 
 
+class CategoryUpdateCommand(Command):
+    id: ID_T
+    name: ATSingleLineStr
+
+
 class CharacteristicSetItem(BasePydanticModel):
     """One characteristic in a category's full-state characteristics payload.
 
