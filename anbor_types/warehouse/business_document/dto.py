@@ -7,7 +7,10 @@ import msgspec
 from anbor_types import ID_T
 from anbor_types.handbook.project.dto import ProjectShortListDTO
 from anbor_types.wallet.currency.dto import CurrencyShortDTO
-from anbor_types.warehouse.constants.enums import BusinessDocumentActionEnum
+from anbor_types.warehouse.constants.enums import (
+    BusinessDocumentActionEnum,
+    BusinessDocumentApplicationStatusEnum,
+)
 
 
 class BusinessDocumentSubjectDTO(msgspec.Struct):
@@ -40,11 +43,13 @@ class BusinessDocumentListItemDTO(msgspec.Struct):
     vendor_code: str
     amount: Decimal
     created_by: BusinessDocumentAuthorDTO
+    application_status: BusinessDocumentApplicationStatusEnum
+    created_at: datetime
     debit: Optional[BusinessDocumentSubjectDTO] = None
     credit: Optional[BusinessDocumentSubjectDTO] = None
     currency: Optional[CurrencyShortDTO] = None
     project: Optional[ProjectShortListDTO] = None
     shipped_at: Optional[datetime] = None
     rate: Optional[Decimal] = None
-    converted_amount: Optional[Decimal] = None
     items_count: Optional[int] = None
+    paid: Decimal = Decimal("0")

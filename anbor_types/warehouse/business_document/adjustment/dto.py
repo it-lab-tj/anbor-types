@@ -47,7 +47,7 @@ class AdjustmentDocumentItemBaseCreateDTO(BasePydanticModel):
 class AdjustmentDocumentCreateDTO[TItem: AdjustmentDocumentItemBaseCreateDTO](
     BasePydanticModel
 ):
-    storage_id: ID_T
+    storage_id: ID_T = Field(alias="debit_id")
     project_id: ID_T
     currency_id: ID_T
     rate: ATRate
@@ -84,8 +84,6 @@ class AdjustmentDocumentItemUpdateDTO(BasePydanticModel):
 
 
 class AdjustmentDocumentUpdateDTO(BasePydanticModel):
-    # ``storage_id`` and ``shipped_at`` are intentionally absent: a document's
-    # storage and date are immutable after creation.
     project_id: ID_T
     currency_id: ID_T
     rate: ATRate
