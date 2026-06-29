@@ -1,7 +1,7 @@
 from enum import IntEnum
 
 
-class CategoryKind(IntEnum):
+class CategoryKindEnum(IntEnum):
     PRODUCT = 1
     OFFER = 2
 

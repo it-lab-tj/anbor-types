@@ -51,7 +51,7 @@ class CategoryCharacteristicValueDTO(msgspec.Struct):
 class CategoryCharacteristicDTO(msgspec.Struct):
     id: ID_T
     name: str
-    type: str
+    kind: str
     values: List[CategoryCharacteristicValueDTO]
     is_required: bool
 
