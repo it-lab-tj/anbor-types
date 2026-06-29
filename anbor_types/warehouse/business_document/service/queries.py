@@ -1,8 +1,7 @@
 from anbor_types import ID_T, ListQuery, Query
-from src.app.shared_kernel.utils.filters.mixins import QueryFilterMixin
 
 
-class ServiceDocumentListQuery(ListQuery, QueryFilterMixin): ...
+class ServiceDocumentListQuery(ListQuery): ...
 
 
 class ServiceDocumentGetQuery(Query):
