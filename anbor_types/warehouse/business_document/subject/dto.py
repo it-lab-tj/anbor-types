@@ -36,6 +36,7 @@ class SubjectListDTO(msgspec.Struct):
     email: Optional[str] = None
     region: Optional[RegionShortDTO] = None
 
+class SubjectCreateResultDTO(SubjectListDTO): ...
 
 class SubjectDetailedDTO(msgspec.Struct):
     id: ID_T
