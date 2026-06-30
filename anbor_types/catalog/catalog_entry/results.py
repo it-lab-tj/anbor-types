@@ -1,15 +1,5 @@
-from datetime import datetime
-from decimal import Decimal
-
-from anbor_types import ID_T, BasePydanticModel
+from anbor_types.catalog.catalog_entry.dto import CatalogEntryListDTO
 
 
-class CatalogEntryCreateResult(BasePydanticModel):
+class CatalogEntryCreateResult(CatalogEntryListDTO):
     """Shared payload returned by catalog entry create endpoints (product, service)."""
-
-    id: ID_T
-    name: str
-    selling_price: Decimal
-    updated_at: datetime
-    category: dict
-    measurement_unit: dict

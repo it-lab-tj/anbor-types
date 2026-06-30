@@ -11,7 +11,10 @@ from anbor_types.warehouse.business_document.sale.dto import (
     SaleDocumentCreateDTO,
     SaleDocumentUpdateDTO,
 )
-from anbor_types.warehouse.business_document_item.dto import BusinessDocumentItemBaseCreateDTO
+from anbor_types.warehouse.business_document_item.dto import (
+    BusinessDocumentItemBaseCreateDTO,
+)
+
 
 class SaleDocumentItemCreateCommand(BusinessDocumentItemBaseCreateDTO):
     char_values: List[CharValueDTO] = Field(

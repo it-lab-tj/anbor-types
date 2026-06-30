@@ -1,7 +1,10 @@
 from anbor_types import ListQuery, Query
 
+
 class WarehouseInventoryOverviewQuery(Query): ...
 
+
 class WarehouseInventoryCategoryFlowQuery(Query): ...
+
 
 class WarehouseInventoryTopSellingQuery(ListQuery): ...
