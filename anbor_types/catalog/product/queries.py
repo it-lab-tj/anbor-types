@@ -6,7 +6,12 @@ class ProductDetailedQuery(Query):
     id: ID_T
 
 
-class ProductListQuery(ListQuery): ...
+class ProductListQuery(ListQuery):
+    limit: int = Field(
+        default=10,
+        gt=0,
+        lt=1001,
+    )
 
 
 class ProductDetailedListQuery(ListQuery):
