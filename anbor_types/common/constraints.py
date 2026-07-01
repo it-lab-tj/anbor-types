@@ -8,7 +8,7 @@ TITLE_REGEX = regex.compile(r"^[\p{L}\p{N} _-]+$")
 
 # NAME
 NAME_MAX_LENGTH = 300
-NAME_MIN_LENGTH = 5
+NAME_MIN_LENGTH = 3
 
 NAME_REGEX = TITLE_REGEX
 
