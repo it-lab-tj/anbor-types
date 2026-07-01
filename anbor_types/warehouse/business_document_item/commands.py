@@ -4,7 +4,6 @@ from pydantic import Field
 
 from anbor_types.catalog.category.dto import CharValueDTO
 from anbor_types.warehouse.business_document_item.dto import (
-    BusinessDocumentItemBaseCreateDTO,
     BusinessDocumentItemCreateDTO,
     BusinessDocumentItemUpdateDTO,
 )

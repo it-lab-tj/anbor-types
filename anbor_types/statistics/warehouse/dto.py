@@ -5,7 +5,7 @@ from decimal import Decimal
 from typing import List
 
 
-class WarehouseInventoryOverviewDTO(msgspec.Struct):
+class InventoryAnalyticsOverviewDTO(msgspec.Struct):
     products_count: Decimal
     created_product_count: Decimal
     warehouse_stock_cost: Decimal
@@ -18,12 +18,15 @@ class StockByCategoryDTO(msgspec.Struct):
     total_cost: Decimal
 
 
-class WarehouseInventoryCategoryFlowDTO(msgspec.Struct):
+class InventoryAnalyticsCategoryFlowDTO(msgspec.Struct):
     stock_by_category: List[StockByCategoryDTO]
-    income_total: Decimal
-    expense_total: Decimal
 
 
-class WarehouseInventoryTopSellingDTO(msgspec.Struct):
+class InventoryAnalyticsLiquidDTO(msgspec.Struct):
     product_name: str
-    last_saled: date
+    last_sold_at: date
+
+
+class InventoryAnalyticsIlliquidDTO(msgspec.Struct):
+    product_name: str
+    last_sold_at: date

@@ -12,11 +12,11 @@ from anbor_types.warehouse.business_document.sale.dto import (
     SaleDocumentUpdateDTO,
 )
 from anbor_types.warehouse.business_document_item.dto import (
-    BusinessDocumentItemBaseCreateDTO,
+    BusinessDocumentItemCreateDTO,
 )
 
 
-class SaleDocumentItemCreateCommand(BusinessDocumentItemBaseCreateDTO):
+class SaleDocumentItemCreateCommand(BusinessDocumentItemCreateDTO):
     char_values: List[CharValueDTO] = Field(
         default_factory=list,
         max_length=item_constraints.CHAR_VALUES_MAX_COUNT,
