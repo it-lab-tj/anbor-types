@@ -21,7 +21,7 @@ class WalletDocumentListDTO(msgspec.Struct):
     cash_desk: CashDeskShortListDTO
     amount: Decimal
     confirmed_at: datetime
-    type: WalletDocumentKindEnum
+    kind: WalletDocumentKindEnum
     created_by: AuthorInfoShortDTO
     # Transfers carry no currency. For a transfer, `cash_desk` is the source
     # desk; the destination desk is the document's content (content_type=
@@ -60,7 +60,7 @@ class WalletDocumentCreateDTO(BasePydanticModel):
     operating_expense_id: ID_T
     project_id: ID_T
     rate: Decimal
-    type: WalletDocumentKindEnum
+    kind: WalletDocumentKindEnum
     business_document_id: Optional[ID_T] = None
 
 
