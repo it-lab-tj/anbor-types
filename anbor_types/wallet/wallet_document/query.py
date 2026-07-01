@@ -31,5 +31,5 @@ class WalletDocumentListQuery(ListQuery):
     paid: Optional[str] = None
     project_id: Optional[ID_T] = None
     search: Optional[str] = None
-    type: Optional[WalletDocumentKindEnum] = None
+    kind: Optional[WalletDocumentKindEnum] = None
     vendor_codes: Optional[List[str]] = None
