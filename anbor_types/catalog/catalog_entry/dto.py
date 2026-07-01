@@ -84,6 +84,10 @@ class CatalogEntryCreateDTO(BasePydanticModel):
         List[ID_T],
         Field(default_factory=list, max_length=IMAGES_MAX_COUNT),
     ]
+    files: Annotated[
+        List[ID_T],
+        Field(default_factory=list),
+    ]
 
 
 class CatalogEntryUpdateDTO(BasePydanticModel):

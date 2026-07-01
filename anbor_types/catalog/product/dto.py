@@ -83,6 +83,10 @@ class ProductUpdateDTO(CatalogEntryUpdateDTO):
         ),
         Field(default_factory=list),
     ]
+    files: Annotated[
+        List[ID_T],
+        Field(default_factory=list),
+    ]
 
 
 class ProductDetailedListDTO(msgspec.Struct):
