@@ -34,6 +34,7 @@ class CatalogEntryListDTO(msgspec.Struct):
     minimum_price: Decimal
     selling_price: Decimal
     max_discount: Decimal
+    slug: str
     description: Optional[str]
     information: Optional[str]
     image_url: Optional[str]  # Must be full url
