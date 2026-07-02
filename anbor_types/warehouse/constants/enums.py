@@ -26,8 +26,7 @@ class AdjustmentDocumentKindEnum(IntEnum):
 class SubjectKindEnum(IntEnum):
     STORAGE = 1
     CLIENT = 2
-    INTERNAL = 3
-    PERFORMER = 4
+    PERFORMER = 3
 
 
 class BusinessDocumentItemExtKindEnum(IntEnum):
