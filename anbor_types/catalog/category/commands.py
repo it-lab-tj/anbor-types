@@ -35,3 +35,6 @@ class CharacteristicSetItem(BasePydanticModel):
 class CategorySetCharacteristicsCommand(Command):
     category_id: ID_T
     characteristics: List[CharacteristicSetItem]
+
+class CategoryDuplicateCommand(Command):
+    id: ID_T
