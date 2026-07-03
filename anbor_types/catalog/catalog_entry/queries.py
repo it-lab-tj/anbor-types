@@ -2,17 +2,20 @@ from datetime import datetime
 from decimal import Decimal
 from typing import Annotated, Optional
 
-from pydantic import StringConstraints
 
 from anbor_types import ID_T, ListQuery
+from anbor_types.api.types import OrderingAllowedFieldsT
 from anbor_types.common.constraints import DATETIME_MAX
 from anbor_types.common.enums import StatusEnum
 from anbor_types.utils.filter.meta import FilterMeta, FilterSpec
+from anbor_types.utils.mixins import OrderingQueryMixin
 from src.app.shared_kernel.constants.entity_common_constraints import ID_MAX, PRICE_MAX
 from anbor_types.api.annotated import AFSearch
 
 
-class CatalogEntryBaseListQuery(ListQuery, metaclass=FilterMeta):
+class CatalogEntryBaseListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMeta):
+    _allowed_fields: OrderingAllowedFieldsT = {"name", "created_at"}
+
     search: Optional[AFSearch] = None
 
     measurement_unit_id: Annotated[
@@ -25,9 +28,7 @@ class CatalogEntryBaseListQuery(ListQuery, metaclass=FilterMeta):
 
     currency_id: Annotated[
         ID_T,
-        FilterSpec.numeric(
-            int, lte=ID_MAX, description="Test description with `Markdown`"
-        ),
+        FilterSpec.numeric(int, lte=ID_MAX),
     ]
 
     status: Annotated[
@@ -38,7 +39,7 @@ class CatalogEntryBaseListQuery(ListQuery, metaclass=FilterMeta):
         ),
     ]
 
-    selling_price: Annotated[
+    selling_price__rn: Annotated[
         Decimal,
         FilterSpec.numeric_range(
             Decimal,
@@ -47,7 +48,7 @@ class CatalogEntryBaseListQuery(ListQuery, metaclass=FilterMeta):
         ),
     ]
 
-    minimum_price: Annotated[
+    minimum_price__rn: Annotated[
         Decimal,
         FilterSpec.numeric_range(
             Decimal,
@@ -56,16 +57,9 @@ class CatalogEntryBaseListQuery(ListQuery, metaclass=FilterMeta):
         ),
     ]
 
-    created_at: Annotated[
+    created_at__rn: Annotated[
         datetime,
         FilterSpec.datetime_range(
             lte=DATETIME_MAX,
-        ),
-    ]
-
-    type ATOrdering = Annotated[
-        str,
-        StringConstraints(
-            max_length=100,
         ),
     ]

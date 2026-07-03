@@ -1,3 +1,9 @@
+from decimal import Decimal
+from typing import Annotated
+
+from anbor_types.warehouse.constants.constraints import PRICE_MAX
+
+from anbor_types.utils.filter.types import FilterSpec
 from pydantic import Field, field_validator
 
 from anbor_types import ID_T, ListQuery, Query
@@ -8,7 +14,15 @@ class ProductDetailedQuery(Query):
     id: ID_T
 
 
-class ProductListQuery(CatalogEntryBaseListQuery): ...
+class ProductListQuery(CatalogEntryBaseListQuery):
+    buying_price__rn: Annotated[
+        Decimal,
+        FilterSpec.numeric_range(
+            Decimal,
+            lte=PRICE_MAX,
+            gt=Decimal("0"),
+        ),
+    ]
 
 
 class ProductDetailedListQuery(ListQuery):

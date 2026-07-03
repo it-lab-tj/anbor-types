@@ -33,3 +33,11 @@ class BusinessDocumentItemUpdateDTO(BaseModel):
 class ReturnDocumentItemCreateDTO(BaseModel):
     ref_item_id: ID_T
     count: Decimal = Field(le=item_constraints.COUNT_MAX, gt=Decimal("0"))
+
+
+class ReturnDocumentItemUpdateDTO(BaseModel):
+    """Count is the only mutable field of a return item; the item set itself is
+    fixed at creation (no adding/removing via update)."""
+
+    id: ID_T
+    count: Decimal = Field(le=item_constraints.COUNT_MAX, gt=Decimal("0"))
