@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import StrEnum
-from typing import List, Self
+from typing import List, Self, Optional
 
 import regex
 from pydantic import GetCoreSchemaHandler
@@ -29,7 +29,10 @@ class OrderingContainer:
     items: List[OrderingItem]
 
     @classmethod
-    def from_str(cls, v: str) -> Self:
+    def from_str(cls, v: str) -> Optional[Self]:
+        if not v:
+            return None
+
         return cls(
             items=list(
                 OrderingItem(

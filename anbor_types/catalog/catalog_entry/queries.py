@@ -14,7 +14,7 @@ from anbor_types.api.annotated import AFSearch
 
 
 class CatalogEntryBaseListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMeta):
-    _allowed_fields: OrderingAllowedFieldsT = {"name", "created_at"}
+    _ordering_allowed_fields: OrderingAllowedFieldsT = {"name", "created_at"}
 
     search: Optional[AFSearch] = None
 
