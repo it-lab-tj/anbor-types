@@ -9,7 +9,7 @@ from anbor_types.common.constraints import DATETIME_MAX
 from anbor_types.common.enums import StatusEnum
 from anbor_types.utils.filter.meta import FilterMeta, FilterSpec
 from anbor_types.utils.mixins import OrderingQueryMixin
-from src.app.shared_kernel.constants.entity_common_constraints import ID_MAX, PRICE_MAX
+from anbor_types.api.constants import ID_MAX, PRICE_MAX
 from anbor_types.api.annotated import AFSearch
 
 

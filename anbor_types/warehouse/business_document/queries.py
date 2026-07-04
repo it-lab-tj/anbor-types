@@ -5,6 +5,7 @@ from typing import Annotated, Optional, Tuple
 from pydantic import StringConstraints
 
 from anbor_types import ID_T, ListQuery
+from anbor_types.api.constants import ID_MAX, PRICE_MAX
 from anbor_types.api.types import OrderingAllowedFieldsT
 from anbor_types.common.constraints import DATETIME_MAX
 from anbor_types.utils.filter.meta import FilterMeta, FilterSpec
@@ -13,7 +14,6 @@ from anbor_types.warehouse.constants.enums import (
     BusinessDocumentActionEnum,
     BusinessDocumentApplicationStatusEnum,
 )
-from src.app.shared_kernel.constants.entity_common_constraints import ID_MAX, PRICE_MAX
 
 
 class BusinessDocumentListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMeta):

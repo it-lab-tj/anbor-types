@@ -8,7 +8,7 @@ from anbor_types.api.types import OrderingAllowedFieldsT
 from anbor_types.common.constraints import DATETIME_MAX
 from anbor_types.utils.mixins import OrderingQueryMixin
 from anbor_types.wallet.constants import WalletDocumentKindEnum
-from src.app.shared_kernel.constants.entity_common_constraints import PRICE_MAX, ID_MAX
+from anbor_types.api.constants import PRICE_MAX, ID_MAX
 from anbor_types.utils.filter.types import FilterSpec
 from anbor_types.utils.filter.meta import FilterMeta
 
