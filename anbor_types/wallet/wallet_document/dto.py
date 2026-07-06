@@ -45,11 +45,14 @@ class WalletDocumentDetailedDTO(msgspec.Struct):
     created_at: datetime
     confirmed_at: datetime
     created_by: AuthorInfoShortDTO
+    operating_expense: OperatingExpenseShortListDTO
     vendor_code: Optional[str] = None
     receiver: Optional[CounterpartyShortDTO] = None
     storage: Optional[SubjectShortDTO] = None
     currency: Optional[CurrencyShortListDTO] = None
     project: Optional[ProjectShortListDTO] = None
+    comment: Optional[str] = None
+    files: Optional[List[FileShortDTO]] = None
 
 
 class WalletDocumentCreateDTO(BasePydanticModel):
