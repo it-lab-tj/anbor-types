@@ -1,17 +1,25 @@
 from datetime import datetime
 from decimal import Decimal
-from typing import Annotated, List, Optional, Tuple
+from typing import Annotated, Optional, Tuple
 
-from anbor_types import ID_T, ListQuery
+from anbor_types import ID_T, ListQuery, Query
 from anbor_types.api.annotated import ATSearch
+from anbor_types.api.types import OrderingAllowedFieldsT
 from anbor_types.common.constraints import DATETIME_MAX
+from anbor_types.utils.mixins import OrderingQueryMixin
 from anbor_types.wallet.constants import WalletDocumentKindEnum
-from src.app.shared_kernel.constants.entity_common_constraints import PRICE_MAX, ID_MAX
+from anbor_types.api.constants import PRICE_MAX, ID_MAX
 from anbor_types.utils.filter.types import FilterSpec
 from anbor_types.utils.filter.meta import FilterMeta
 
 
-class WalletTransferListQuery(ListQuery, metaclass=FilterMeta):
+class WalletDocumentDetailedQuery(Query):
+    id: ID_T
+
+
+class WalletTransferListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMeta):
+    _ordering_allowed_fields: OrderingAllowedFieldsT = {"created_at", "amount"}
+
     # Filters transfers where the desk is either the source or the destination.
     cash_desk_id: Annotated[
         ID_T,
@@ -21,19 +29,38 @@ class WalletTransferListQuery(ListQuery, metaclass=FilterMeta):
         ),
     ]
 
-    created_at: Annotated[
+    operating_expense_id: Annotated[
+        ID_T,
+        FilterSpec.numeric(
+            int,
+            lte=ID_MAX,
+        ),
+    ]
+
+    amount__rn: Annotated[
+        Tuple[Decimal, Decimal],
+        FilterSpec.numeric_range(
+            Decimal,
+            lte=PRICE_MAX,
+            gt=Decimal("0"),
+        ),
+    ]
+
+    created_by_id: Annotated[
+        ID_T, FilterSpec.numeric(int, lte=ID_MAX, description="По создателю документа")
+    ]
+
+    created_at__rn: Annotated[
         datetime,
         FilterSpec.datetime_range(
             lte=DATETIME_MAX,
         ),
     ]
 
-    # Sort spec, not a filter — left plain so it stays an opaque query param.
-    ordering: Optional[str] = None
 
-
-class WalletDocumentListQuery(ListQuery, metaclass=FilterMeta):
+class WalletDocumentListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMeta):
     search: Optional[ATSearch] = None
+    _ordering_allowed_fields: OrderingAllowedFieldsT = {"created_at", "amount"}
 
     cash_desk_id: Annotated[
         ID_T,
@@ -83,14 +110,6 @@ class WalletDocumentListQuery(ListQuery, metaclass=FilterMeta):
         ),
     ]
 
-    project_id: Annotated[
-        ID_T,
-        FilterSpec.numeric(
-            int,
-            lte=ID_MAX,
-        ),
-    ]
-
     kind: Annotated[
         WalletDocumentKindEnum,
         FilterSpec.enum(WalletDocumentKindEnum),
@@ -105,14 +124,9 @@ class WalletDocumentListQuery(ListQuery, metaclass=FilterMeta):
         ),
     ]
 
-    created_at: Annotated[
+    created_at__rn: Annotated[
         datetime,
         FilterSpec.datetime_range(
             lte=DATETIME_MAX,
         ),
     ]
-
-    ordering: Optional[str] = None
-
-    # IN-over-list has no FilterSpec factory yet; kept plain until one exists.
-    vendor_codes: Optional[List[str]] = None

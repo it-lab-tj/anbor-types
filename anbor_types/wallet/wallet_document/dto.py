@@ -11,7 +11,8 @@ from anbor_types.wallet.cash_desk.dto import CashDeskShortListDTO
 from anbor_types.handbook.project.dto import ProjectShortListDTO
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
 from anbor_types.storage.counterparty.dto import CounterpartyShortDTO
-from anbor_types.wallet.currency.dto import CurrencyShortDTO
+from anbor_types.wallet.currency.dto import CurrencyShortDTO, CurrencyShortListDTO
+from anbor_types.warehouse.business_document.subject.dto import SubjectShortDTO
 from anbor_types.wallet.constants import WalletDocumentKindEnum
 from anbor_types.wallet.operating_expense.dto import OperatingExpenseShortListDTO
 
@@ -23,29 +24,35 @@ class WalletDocumentListDTO(msgspec.Struct):
     confirmed_at: datetime
     kind: WalletDocumentKindEnum
     created_by: AuthorInfoShortDTO
-    # Transfers carry no currency. For a transfer, `cash_desk` is the source
-    # desk; the destination desk is the document's content (content_type=
-    # CASH_DESK, content_id=<desk id>).
+    subject: SubjectShortDTO
     currency: Optional[CurrencyShortDTO] = None
     vendor_code: Optional[str] = None
 
 
 class WalletDocumentDetailedDTO(msgspec.Struct):
+    """Detailed wallet document (income/expense payment).
+
+    `vendor_code` / `storage` come from the referenced business document and
+    are None when the document has no business-document reference. `receiver`
+    is the payment counterparty (transfers, whose content is a cash desk, get
+    None for now).
+    """
+
     id: ID_T
     amount: Decimal
-    capstone: str
     cash_desk: CashDeskShortListDTO
+    kind: WalletDocumentKindEnum
+    created_at: datetime
     confirmed_at: datetime
     created_by: AuthorInfoShortDTO
-    type: WalletDocumentKindEnum
-    project: ProjectShortListDTO
-    files: List[ID_T]
-    # Optional because transfers have no counterparty.
-    counterparty: Optional[CounterpartyShortDTO] = None
-    comment: Optional[str] = None
-    converted_capstone: Optional[str] = None
+    operating_expense: OperatingExpenseShortListDTO
     vendor_code: Optional[str] = None
-    converted_amount: Optional[Decimal] = None
+    receiver: Optional[CounterpartyShortDTO] = None
+    storage: Optional[SubjectShortDTO] = None
+    currency: Optional[CurrencyShortListDTO] = None
+    project: Optional[ProjectShortListDTO] = None
+    comment: Optional[str] = None
+    files: Optional[List[FileShortDTO]] = None
 
 
 class WalletDocumentCreateDTO(BasePydanticModel):
