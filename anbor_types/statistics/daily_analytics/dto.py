@@ -4,6 +4,8 @@ from typing import Optional
 
 import msgspec
 
+from anbor_types import BasePydanticModel
+
 
 class DailyAnalyticDTO(msgspec.Struct):
     id: int
@@ -12,3 +14,8 @@ class DailyAnalyticDTO(msgspec.Struct):
     expenses: Decimal
     realisations: Decimal
     cash_desk_balance: Decimal
+
+
+class DailyAnalyticUpdateDTO(BasePydanticModel):
+    expense: Optional[Decimal] = None
+    revenue: Optional[Decimal] = None
