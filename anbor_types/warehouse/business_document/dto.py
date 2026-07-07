@@ -1,10 +1,12 @@
 from datetime import datetime
 from decimal import Decimal
-from typing import Optional
+from typing import List, Optional
 
 import msgspec
 
 from anbor_types import ID_T
+from anbor_types.catalog.catalog_entry.dto import CatalogEntryProfileListDTO
+from anbor_types.catalog.enums import CatalogEntryKindEnum
 from anbor_types.handbook.project.dto import ProjectShortListDTO
 from anbor_types.wallet.currency.dto import CurrencyShortDTO
 from anbor_types.warehouse.constants.enums import (
@@ -53,3 +55,18 @@ class BusinessDocumentListItemDTO(msgspec.Struct):
     rate: Optional[Decimal] = None
     items_count: Optional[int] = None
     paid: Decimal = Decimal("0")
+
+
+class DocumentEntryListDTO(msgspec.Struct):
+    """Catalog entry row for the document item picker.
+
+    ``remains``/``subject_remains`` are product-only: ``None`` for services.
+    """
+
+    id: ID_T  # catalog entry id
+    name: str
+    kind: CatalogEntryKindEnum
+    image_url: Optional[str]
+    profiles: List[CatalogEntryProfileListDTO]
+    remains: Optional[Decimal] = None
+    subject_remains: Optional[Decimal] = None

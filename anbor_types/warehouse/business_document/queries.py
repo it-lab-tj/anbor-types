@@ -123,3 +123,16 @@ class BusinessDocumentListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterM
 
     # When value is `True`, all documents which matching to expression `doc.amount == doc.paid`, otherwise all not payed
     is_paid: Optional[bool] = None
+
+
+class DocumentEntryListQuery(ListQuery, metaclass=FilterMeta):
+    """Catalog entry picker for document items (products + services)."""
+
+    # Comes from the URL path, not from query params.
+    subject_id: ID_T
+
+    search: Annotated[
+        str,
+        StringConstraints(max_length=100, strip_whitespace=True),
+        FilterSpec.string(max_length=100),
+    ]

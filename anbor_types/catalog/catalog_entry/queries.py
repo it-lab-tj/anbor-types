@@ -10,13 +10,15 @@ from anbor_types.common.enums import StatusEnum
 from anbor_types.utils.filter.meta import FilterMeta, FilterSpec
 from anbor_types.utils.mixins import OrderingQueryMixin
 from anbor_types.api.constants import ID_MAX, PRICE_MAX
-from anbor_types.api.annotated import AFSearch
+from anbor_types.api.annotated import ATSearch
 
 
 class CatalogEntryBaseListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMeta):
     _ordering_allowed_fields: OrderingAllowedFieldsT = {"name", "created_at"}
 
-    search: Optional[AFSearch] = None
+    # Not `Optional[AFSearch]`: wrapping `Annotated` into `Optional` hides
+    # `FilterSpec` from FilterMeta and the parser, so the filter never fires.
+    search: Annotated[Optional[ATSearch], FilterSpec.string()] = None
 
     category_id: Annotated[
         ID_T,
