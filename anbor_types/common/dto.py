@@ -20,3 +20,10 @@ class NameIdDTO(msgspec.Struct):
 
     id: ID_T
     name: str
+
+
+class TitleIdDTO(msgspec.Struct):
+    """Universal dto for storing only `id` and `title`"""
+
+    id: ID_T
+    title: str
