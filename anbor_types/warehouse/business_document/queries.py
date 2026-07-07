@@ -6,6 +6,7 @@ from pydantic import StringConstraints
 
 from anbor_types import ID_T, ListQuery
 from anbor_types.api.constants import ID_MAX, PRICE_MAX
+from anbor_types.catalog.enums import CatalogEntryKindEnum
 from anbor_types.api.types import OrderingAllowedFieldsT
 from anbor_types.common.constraints import DATETIME_MAX
 from anbor_types.utils.filter.meta import FilterMeta, FilterSpec
@@ -135,4 +136,12 @@ class DocumentEntryListQuery(ListQuery, metaclass=FilterMeta):
         str,
         StringConstraints(max_length=100, strip_whitespace=True),
         FilterSpec.string(max_length=100),
+    ]
+
+    kind: Annotated[
+        CatalogEntryKindEnum,
+        FilterSpec.enum(
+            CatalogEntryKindEnum,
+            description="**1** - Товар\n" "**2** - Услуга\n",
+        ),
     ]
