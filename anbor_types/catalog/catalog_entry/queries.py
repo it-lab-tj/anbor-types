@@ -18,6 +18,11 @@ class CatalogEntryBaseListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterM
 
     search: Optional[AFSearch] = None
 
+    category_id: Annotated[
+        ID_T,
+        FilterSpec.numeric(int, lte=ID_MAX),
+    ]
+
     measurement_unit_id: Annotated[
         ID_T,
         FilterSpec.numeric(
