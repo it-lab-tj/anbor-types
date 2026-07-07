@@ -3,6 +3,8 @@ from decimal import Decimal
 from typing import Optional, List
 
 import msgspec
+from pydantic import Field
+
 from anbor_types import ID_T, BasePydanticModel
 from anbor_types.common.dto import FileShortDTO
 from anbor_types.handbook.region.dto import RegionShortDTO
@@ -21,7 +23,7 @@ class SubjectCreateDTO(BasePydanticModel):
     index: Optional[int] = None
     region: Optional[ID_T] = None
     information: Optional[str] = None
-    files: Optional[List[ID_T]] = None
+    files: Optional[List[ID_T]] = Field(default=None, alias="file_ids")
 
 
 class SubjectListDTO(msgspec.Struct):
@@ -71,7 +73,7 @@ class SubjectUpdateDTO(BasePydanticModel):
     index: Optional[int] = None
     region: Optional[ID_T] = None
     information: Optional[str] = None
-    files: Optional[List[ID_T]] = None
+    files: Optional[List[ID_T]] = Field(default=None, alias="file_ids")
 
 
 class SubjectForBusinessDocumentShortDataDTO(msgspec.Struct):

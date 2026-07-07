@@ -85,7 +85,7 @@ class ProductUpdateDTO(CatalogEntryUpdateDTO):
     ]
     files: Annotated[
         List[ID_T],
-        Field(default_factory=list),
+        Field(default_factory=list, alias="file_ids"),
     ]
 
 
