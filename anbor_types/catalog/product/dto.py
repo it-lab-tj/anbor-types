@@ -13,6 +13,7 @@ from anbor_types.catalog.catalog_entry.dto import (
     CatalogEntryDetailedDTO,
     CatalogEntryProfileListDTO,
 )
+from anbor_types.catalog.category.dto import CharValueDTO
 from anbor_types.catalog.constraints import CATALOG_ENTRY_VARIANT_CHAR_VALUES_MAX_COUNT
 from anbor_types.catalog.product.constraints import IMAGES_MAX_COUNT, PROFILES_MAX_COUNT
 from anbor_types.common.annotated import ATPrice
@@ -99,6 +100,21 @@ class ProductDetailedListDTO(msgspec.Struct):
     description: Optional[str]
     information: Optional[str]
     profiles: List[CatalogEntryProfileListDTO]
+
+
+class ProductRemainsRequestDTO(BasePydanticModel):
+    storage_id: Optional[ID_T] = None
+    char_values: List[CharValueDTO] = Field(
+        default_factory=list,
+        max_length=CATALOG_ENTRY_VARIANT_CHAR_VALUES_MAX_COUNT,
+    )
+
+
+class ProductRemainsDTO(msgspec.Struct):
+    total: Decimal
+    # Populated only when the corresponding filter was sent.
+    storage_remains: Optional[Decimal] = None
+    variant_remains: Optional[Decimal] = None
 
 
 class ProductDetailedDTO(CatalogEntryDetailedDTO):
