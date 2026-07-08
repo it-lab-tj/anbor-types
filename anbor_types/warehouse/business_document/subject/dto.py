@@ -23,7 +23,7 @@ class SubjectCreateDTO(BasePydanticModel):
     index: Optional[int] = None
     region: Optional[ID_T] = None
     information: Optional[str] = None
-    files: Optional[List[ID_T]] = Field(default=None, alias="file_ids")
+    files: Optional[List[ID_T]] = Field(default=None)
 
 
 class SubjectListDTO(msgspec.Struct):
@@ -73,7 +73,7 @@ class SubjectUpdateDTO(BasePydanticModel):
     index: Optional[int] = None
     region: Optional[ID_T] = None
     information: Optional[str] = None
-    files: Optional[List[ID_T]] = Field(default=None, alias="file_ids")
+    files: Optional[List[ID_T]] = Field(default=None)
 
 
 class SubjectForBusinessDocumentShortDataDTO(msgspec.Struct):
@@ -91,3 +91,18 @@ class SubjectShortDTO(msgspec.Struct):
 class SubjectBalanceDTO(msgspec.Struct):
     id: ID_T
     balance: Decimal
+
+
+class SubjectStockProductsDTO(msgspec.Struct):
+    class Characteristics(msgspec.Struct):
+        characteristic_id: ID_T
+        characteristic: str
+        value_id: ID_T
+        value: str
+
+    product_id: ID_T
+    name: str
+    remains: Decimal
+    image_url: str
+    measurement_unit: str
+    slug: str

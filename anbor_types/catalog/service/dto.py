@@ -24,7 +24,7 @@ class ServiceCreateDTO(CatalogEntryCreateDTO): ...
 class ServiceUpdateDTO(CatalogEntryUpdateDTO):
     files: Annotated[
         List[ID_T],
-        Field(default_factory=list, alias="file_ids"),
+        Field(default_factory=list),
     ]
     images: Annotated[
         List[ID_T],

@@ -34,3 +34,7 @@ class SubjectDetailedQuery(Query):
 
 class SubjectBalanceQuery(Query):
     id: ID_T
+
+
+class SubjectStockProductsQuery(Query):
+    id: ID_T

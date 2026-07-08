@@ -87,7 +87,7 @@ class CatalogEntryCreateDTO(BasePydanticModel):
     ]
     files: Annotated[
         List[ID_T],
-        Field(default_factory=list, alias="file_ids"),
+        Field(default_factory=list),
     ]
 
 
