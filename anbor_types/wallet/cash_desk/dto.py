@@ -5,12 +5,34 @@ from typing import Optional
 import msgspec
 
 from anbor_types import ID_T
+from anbor_types.common.enums import StatusEnum
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
 
 
 class CashDeskShortListDTO(msgspec.Struct):
     id: ID_T
     title: str
+
+
+class CashDeskListDTO(msgspec.Struct):
+    id: ID_T
+    title: str
+    balance: Decimal
+    status: StatusEnum
+    created_at: datetime
+    updated_at: datetime
+    created_by: Optional[AuthorInfoShortDTO] = None
+
+
+class CashDeskDetailedDTO(msgspec.Struct):
+    id: ID_T
+    title: str
+    balance: Decimal
+    status: StatusEnum
+    created_at: datetime
+    updated_at: datetime
+    created_by: Optional[AuthorInfoShortDTO] = None
+    updated_by: Optional[AuthorInfoShortDTO] = None
 
 
 class CashDeskRebalanceResultDTO(msgspec.Struct):

@@ -5,6 +5,29 @@ from typing import List
 from pydantic import Field
 
 from anbor_types import ID_T, BasePydanticModel, Command
+from anbor_types.wallet.cash_desk.constraints import CASH_DESK_TITLE_MAX_LENGTH
+
+
+class CashDeskCreateDTO(BasePydanticModel):
+    title: str = Field(min_length=1, max_length=CASH_DESK_TITLE_MAX_LENGTH)
+
+
+class CashDeskCreateCommand(CashDeskCreateDTO, Command): ...
+
+
+class CashDeskUpdateDTO(CashDeskCreateDTO): ...
+
+
+class CashDeskUpdateCommand(CashDeskUpdateDTO, Command):
+    id: ID_T
+
+
+class CashDeskDeleteCommand(Command):
+    id: ID_T
+
+
+class CashDeskToggleCommand(Command):
+    id: ID_T
 
 
 class CashDeskRebalanceDTO(BasePydanticModel):
