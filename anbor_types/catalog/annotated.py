@@ -62,3 +62,14 @@ type ATProductShelfNumber = Annotated[
 type ATProductImages = Annotated[
     list[ID_T], conlist(item_type=ID_T, max_length=product_constraints.IMAGES_MAX_COUNT)
 ]
+
+# ====== FILE =======
+
+type ATFileName = Annotated[
+    ATSingleLineStr,
+    constr(
+        max_length=common_constraints.NAME_MAX_LENGTH,
+        min_length=common_constraints.NAME_MIN_LENGTH,
+        pattern=common_constraints.NAME_REGEX,
+    ),
+]

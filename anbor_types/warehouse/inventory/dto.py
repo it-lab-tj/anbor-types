@@ -4,7 +4,7 @@ from typing import Optional
 
 import msgspec
 
-from src.app.shared_kernel.types.base_types import ID_T
+from anbor_types import ID_T
 
 
 class InventoryCreateDTO(msgspec.Struct):
