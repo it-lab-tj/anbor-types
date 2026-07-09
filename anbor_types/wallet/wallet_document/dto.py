@@ -77,6 +77,7 @@ class WalletDocumentUpdateDTO(BasePydanticModel):
     files_ids: List[ID_T]
     comment: str
     project_id: ID_T
+    operating_expense_id: ID_T
 
 
 class WalletDocumentTransferCreateDTO(BasePydanticModel):
