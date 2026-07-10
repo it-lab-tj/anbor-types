@@ -25,6 +25,7 @@ class BusinessDocumentItemCreateDTO(BusinessDocumentItemBaseCreateDTO):
 
 class BusinessDocumentItemUpdateDTO(BaseModel):
     id: Optional[ID_T] = None
+    entry_id: Optional[ID_T] = None
     price: ATPrice
     discount: ATDiscount
     count: Decimal = Field(le=item_constraints.COUNT_MAX)
