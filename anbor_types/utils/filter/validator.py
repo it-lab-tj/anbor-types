@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Any, List, Optional
+from typing import Any, List, Optional, Tuple, Iterable
 
 from src.app.shared_kernel.errors.app_exception import (
     AppException,
@@ -27,10 +27,17 @@ class FilterValidator:
         if spec.field is None:
             raise RuntimeError("FilterSpec.field must be set before validation")
 
+        elif spec.lookup == FilterLookupEnum.EQ:
+            cls._validate_scalar(spec, value)
+
         if spec.lookup == FilterLookupEnum.RANGE:
             cls._validate_range(spec, value)
+
+        elif spec.lookup == FilterLookupEnum.IN:
+            cls._validate_collection(spec, value)
+
         else:
-            cls._validate_scalar(spec, value)
+            raise RuntimeError("Undefined filter lookup type")
 
     @classmethod
     def _validate_scalar(cls, spec: FilterSpec, value: Optional[Any]) -> None:
@@ -70,6 +77,44 @@ class FilterValidator:
             if endpoint is not None:
                 details.extend(cls._validate_bounds(spec, endpoint))
                 details.extend(cls._validate_choices(spec, endpoint))
+
+        if details:
+            raise AppException.from_details(details)
+
+    @classmethod
+    def _validate_collection(
+        cls, spec: FilterSpec, value: Optional[Tuple[Any, ...]]
+    ) -> None:
+        if value is not None and not isinstance(value, (tuple, list)):
+            raise AppException.from_details([cls._invalid_value_detail(spec)])
+
+        if value is None or all(v is None for v in value):
+            if spec.required:
+                raise AppException.from_details([cls._required_detail(spec)])
+            return
+
+        if any(v is None for v in value):
+            raise AppException.from_details([cls._invalid_value_detail(spec)])
+
+        if any(not isinstance(v, spec.base_type) for v in value):
+            raise AppException.from_details([cls._invalid_value_detail(spec)])
+
+        details: List[AppExceptionDetail] = []
+
+        duplicates = set()
+        seen = set()
+
+        for endpoint in value:
+            details.extend(cls._validate_bounds(spec, endpoint))
+            details.extend(cls._validate_choices(spec, endpoint))
+
+            if endpoint in seen:
+                duplicates.add(endpoint)
+            else:
+                seen.add(endpoint)
+
+        if duplicates:
+            details.append(cls._duplicate_detail(spec, duplicates))
 
         if details:
             raise AppException.from_details(details)
@@ -189,5 +234,19 @@ class FilterValidator:
                 AppExceptionDetailPayloadKeys.VALUES: [
                     c.value if isinstance(c, Enum) else c for c in spec.choices
                 ],
+            },
+        )
+
+    @staticmethod
+    def _duplicate_detail(
+        spec: FilterSpec, duplicates: Iterable[Any]
+    ) -> AppExceptionDetail:
+        return AppExceptionDetail(
+            status=AppExceptionStatusCodes.DUPLICATED,
+            message=AppExceptionMessage.DUPLICATED_FILTER_VALUE,
+            field=spec.field,
+            payload={
+                AppExceptionDetailPayloadKeys.LOCATION: AppExceptionLocationEnum.QUERY_PARAMS,
+                AppExceptionDetailPayloadKeys.VALUES: duplicates,
             },
         )

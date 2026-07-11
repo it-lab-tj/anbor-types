@@ -28,6 +28,15 @@ def _split_range(value: Any) -> Any:
     return tuple(part.strip() or None for part in parts)
 
 
+def _split_collection(value: Any) -> Any:
+    """`"value, ..."` -> `value, ...`; anything else passes through
+    untouched for the tuple schema to accept or reject."""
+    if not isinstance(value, str):
+        return value
+
+    return value.split(RANGE_SEPARATOR)
+
+
 def _json_number(value: Any) -> Any:
     """Decimal is not JSON-serializable; render it as int/float for the schema."""
     if isinstance(value, Decimal):
@@ -52,6 +61,8 @@ class FilterPipelineInjector:
     ) -> core_schema.CoreSchema:
         if self.spec.lookup == FilterLookupEnum.RANGE:
             value_schema = self._range_value_schema(handler)
+        elif self.spec.lookup == FilterLookupEnum.IN:
+            value_schema = self._collection_value_schema(handler)
         else:
             value_schema = handler(self.spec.base_type)
 
@@ -73,6 +84,13 @@ class FilterPipelineInjector:
         endpoint = core_schema.nullable_schema(handler(self.spec.base_type))
         pair = core_schema.tuple_positional_schema([endpoint, endpoint])
         return core_schema.no_info_before_validator_function(_split_range, pair)
+
+    def _collection_value_schema(
+        self, handler: GetCoreSchemaHandler
+    ) -> core_schema.CoreSchema:
+        endpoint = core_schema.nullable_schema(handler(self.spec.base_type))
+        pair = core_schema.tuple_variable_schema(endpoint)
+        return core_schema.no_info_before_validator_function(_split_collection, pair)
 
     def __get_pydantic_json_schema__(
         self, core_schema_: core_schema.CoreSchema, handler: GetJsonSchemaHandler

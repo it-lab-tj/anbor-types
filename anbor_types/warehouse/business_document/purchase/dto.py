@@ -18,6 +18,7 @@ from anbor_types.warehouse.business_document_item.dto import (
 )
 from anbor_types.warehouse.constants.constraints import document as doc_constraints
 from anbor_types.warehouse.constants.enums import (
+    BusinessDocumentActionEnum,
     BusinessDocumentApplicationStatusEnum,
 )
 
@@ -80,7 +81,7 @@ class PurchaseDocumentDTO(msgspec.Struct):
 
 
 class PurchaseDocumentItemDetailedDTO(msgspec.Struct):
-    """A purchase item and the inventory batch it created."""
+    """A purchase document item."""
 
     id: ID_T
     entry_id: ID_T
@@ -89,14 +90,13 @@ class PurchaseDocumentItemDetailedDTO(msgspec.Struct):
     count: Decimal
     variant_id: Optional[ID_T] = None
     expires_at: Optional[date] = None
-    inventory_id: Optional[ID_T] = None
-    remains: Optional[Decimal] = None
 
 
 class PurchaseDocumentDetailedDTO(msgspec.Struct):
-    """Full document with items and their created inventory (GET_DETAILED by id)."""
+    """Full document with its items (GET_DETAILED by id)."""
 
     id: ID_T
+    action: BusinessDocumentActionEnum
     debit: SubjectForBusinessDocumentShortDataDTO
     credit: SubjectForBusinessDocumentShortDataDTO
     project: ProjectShortListDTO

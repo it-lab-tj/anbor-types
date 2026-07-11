@@ -10,9 +10,6 @@ from anbor_types.common.annotated import ATComment
 from anbor_types.common.enums import StatusEnum
 from anbor_types.handbook.project.dto import ProjectShortListDTO
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
-from anbor_types.warehouse.business_document.sale.dto import (
-    BusinessDocumentItemSourceDTO,
-)
 from anbor_types.warehouse.business_document.subject.dto import (
     SubjectForBusinessDocumentShortDataDTO,
 )
@@ -22,6 +19,7 @@ from anbor_types.warehouse.business_document_item.dto import (
 )
 from anbor_types.warehouse.constants.constraints import document as doc_constraints
 from anbor_types.warehouse.constants.enums import (
+    BusinessDocumentActionEnum,
     BusinessDocumentApplicationStatusEnum,
 )
 
@@ -73,26 +71,22 @@ class TransferDocumentDTO(msgspec.Struct):
 
 
 class TransferDocumentItemDetailedDTO(msgspec.Struct):
-    """A transfer item: the SOURCE batches it drew from (source storage) and the
-    destination batch it created (destination storage)."""
+    """A transfer document item."""
 
     id: ID_T
     entry_id: ID_T
     price: Decimal
     discount: Decimal
     count: Decimal
-    sources: List[BusinessDocumentItemSourceDTO]
     variant_id: Optional[ID_T] = None
     expires_at: Optional[date] = None
-    inventory_id: Optional[ID_T] = None
-    remains: Optional[Decimal] = None
 
 
 class TransferDocumentDetailedDTO(msgspec.Struct):
-    """Full document with items, their source batches and created inventory
-    (GET_DETAILED by id)."""
+    """Full document with its items (GET_DETAILED by id)."""
 
     id: ID_T
+    action: BusinessDocumentActionEnum
     debit: SubjectForBusinessDocumentShortDataDTO
     credit: SubjectForBusinessDocumentShortDataDTO
     project: ProjectShortListDTO

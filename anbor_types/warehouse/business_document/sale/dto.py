@@ -3,6 +3,7 @@ from decimal import Decimal
 from typing import List, Optional
 from anbor_types.common.enums import StatusEnum
 from anbor_types.warehouse.constants.enums import (
+    BusinessDocumentActionEnum,
     BusinessDocumentApplicationStatusEnum,
 )
 
@@ -106,15 +107,15 @@ class SaleDocumentItemDetailedDTO(msgspec.Struct):
     price: Decimal
     discount: Decimal
     count: Decimal
-    sources: List[BusinessDocumentItemSourceDTO]
     variant_id: Optional[ID_T] = None
     expires_at: Optional[date] = None
 
 
 class SaleDocumentDetailedDTO(msgspec.Struct):
-    """Full document with items and their source inventories (GET_DETAILED by id)."""
+    """Full document with its items (GET_DETAILED by id)."""
 
     id: ID_T
+    action: BusinessDocumentActionEnum
     debit: SubjectForBusinessDocumentShortDataDTO
     credit: SubjectForBusinessDocumentShortDataDTO
     project: ProjectShortListDTO

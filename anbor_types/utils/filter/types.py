@@ -16,6 +16,10 @@ _SCALAR_ALLOWED_LOOKUPS = (
     FilterLookupEnum.LTE,
 )
 
+_COLLECTION_ALLOWED_LOOKUPS = (FilterLookupEnum.IN,)
+
+type ChoicesInT[T] = Tuple[T, ...] | Type[Enum]
+
 
 def _to_decimal(value: Optional[Numeric]) -> Optional[Decimal]:
     return Decimal(value) if value is not None else None
@@ -63,9 +67,12 @@ class FilterSpec[TValue]:
     min_length: Optional[int] = None
     max_length: Optional[int] = None
     # Membership: value (or each range endpoint) must be one of these.
-    choices: Optional[Tuple[Any, ...]] = None
+    choices: Optional[Tuple[TValue, ...]] = None
     # OpenAPI metadata; ignored by validation.
     description: Optional[str] = None
+
+    # For collections to consider unique constraints
+    unique: bool = True
 
     @staticmethod
     def _ensure_scalar_lookup(lookup: FilterLookupEnum) -> None:
@@ -74,6 +81,18 @@ class FilterSpec[TValue]:
                 f"Lookup {lookup} is not a scalar lookup; "
                 f"allowed: {_SCALAR_ALLOWED_LOOKUPS}"
             )
+
+    @staticmethod
+    def _parse_choices(
+        choices: Optional[Tuple[Any, ...] | Type[Enum]],
+    ) -> Optional[Tuple[Any, ...]]:
+        if choices is None:
+            return None
+
+        elif isinstance(choices, type) and issubclass(choices, Enum):
+            return tuple_from_enum(choices)
+        else:
+            return tuple(_to_decimal(c) for c in choices)
 
     # --- scalar factories -------------------------------------------------
 
@@ -88,17 +107,10 @@ class FilterSpec[TValue]:
         gte: Optional[Numeric] = None,
         lt: Optional[Numeric] = None,
         lte: Optional[Numeric] = None,
-        choices: Optional[Tuple[Numeric, ...] | Type[Enum]] = None,
+        choices: Optional[ChoicesInT[Numeric]] = None,
         description: Optional[str] = None,
     ) -> "FilterSpec[Numeric]":
         cls._ensure_scalar_lookup(lookup)
-
-        if choices is None:
-            pass
-        elif isinstance(choices, type) and issubclass(choices, Enum):
-            choices = tuple_from_enum(choices)
-        else:
-            choices = tuple(_to_decimal(c) for c in choices)
 
         return cls(
             base_type=base_type,
@@ -109,7 +121,7 @@ class FilterSpec[TValue]:
             gte=_to_decimal(gte),
             lt=_to_decimal(lt),
             lte=_to_decimal(lte),
-            choices=choices,
+            choices=cls._parse_choices(choices),
             description=description,
         )
 
@@ -170,7 +182,7 @@ class FilterSpec[TValue]:
         required: bool = False,
         min_length: Optional[int] = None,
         max_length: Optional[int] = None,
-        choices: Optional[Tuple[str, ...]] = None,
+        choices: Optional[ChoicesInT[str]] = None,
         description: Optional[str] = None,
     ) -> "FilterSpec[str]":
         return cls(
@@ -180,7 +192,7 @@ class FilterSpec[TValue]:
             required=required,
             min_length=min_length,
             max_length=max_length,
-            choices=choices,
+            choices=cls._parse_choices(choices),
             description=description,
         )
 
@@ -190,7 +202,7 @@ class FilterSpec[TValue]:
         enum_type: Type[TEnum],
         field: Optional[str] = None,
         required: bool = False,
-        choices: Optional[Tuple[TEnum, ...]] = None,
+        choices: Optional[ChoicesInT[TEnum]] = None,
         description: Optional[str] = None,
     ) -> "FilterSpec[TEnum]":
         """
@@ -203,7 +215,9 @@ class FilterSpec[TValue]:
             lookup=FilterLookupEnum.EQ,
             field=field,
             required=required,
-            choices=tuple_from_enum(enum_type),
+            choices=(
+                cls._parse_choices(choices) if choices else tuple_from_enum(enum_type)
+            ),
             description=description,
         )
 
@@ -283,6 +297,44 @@ class FilterSpec[TValue]:
             lt=lt,
             lte=lte,
             description=description,
+        )
+
+    @classmethod
+    def boolean(
+        cls,
+        required: bool = False,
+        description: Optional[str] = None,
+    ) -> "FilterSpec[bool]":
+        return cls(
+            base_type=bool,
+            required=required,
+            lookup=FilterLookupEnum.EQ,
+            choices=("true", "false"),
+            description=description,
+        )
+
+    @classmethod
+    def collection(
+        cls,
+        base_type: Type[TValue],
+        lookup: FilterLookupEnum,
+        required: bool = False,
+        description: Optional[str] = None,
+        choices: Optional[ChoicesInT] = None,
+        unique: bool = True,
+    ) -> "FilterSpec[Tuple[TValue, ...]]":
+        if lookup not in _COLLECTION_ALLOWED_LOOKUPS:
+            raise RuntimeError("Invalid lookup for collection filter")
+
+        return cls(
+            base_type=base_type,
+            lookup=lookup,
+            required=required,
+            description=description,
+            choices=(
+                cls._parse_choices(choices) if choices else tuple_from_enum(base_type)
+            ),
+            unique=unique,
         )
 
 

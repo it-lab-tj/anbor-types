@@ -20,6 +20,7 @@ from anbor_types.warehouse.business_document_item.dto import (
 )
 from anbor_types.warehouse.constants.constraints import document as doc_constraints
 from anbor_types.warehouse.constants.enums import (
+    BusinessDocumentActionEnum,
     BusinessDocumentApplicationStatusEnum,
 )
 
@@ -114,6 +115,7 @@ class ServiceDocumentDetailedDTO(msgspec.Struct):
     """Full document with its items (GET_DETAILED by id)."""
 
     id: ID_T
+    action: BusinessDocumentActionEnum
     debit: SubjectForBusinessDocumentShortDataDTO
     credit: SubjectForBusinessDocumentShortDataDTO
     project: ProjectShortListDTO

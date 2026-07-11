@@ -1,14 +1,15 @@
 from datetime import datetime
 from decimal import Decimal
-from typing import Annotated, Optional, Tuple
+from typing import Annotated, Tuple
 
 from pydantic import StringConstraints
 
-from anbor_types import ID_T, ListQuery
+from anbor_types import ID_T, ListQuery, Query
 from anbor_types.api.constants import ID_MAX, PRICE_MAX
 from anbor_types.catalog.enums import CatalogEntryKindEnum
 from anbor_types.api.types import OrderingAllowedFieldsT
 from anbor_types.common.constraints import DATETIME_MAX
+from anbor_types.utils.filter import FilterLookupEnum
 from anbor_types.utils.filter.meta import FilterMeta, FilterSpec
 from anbor_types.utils.mixins import OrderingQueryMixin
 from anbor_types.warehouse.constants.enums import (
@@ -48,6 +49,19 @@ class BusinessDocumentListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterM
     action: Annotated[
         BusinessDocumentActionEnum,
         FilterSpec.enum(BusinessDocumentActionEnum),
+    ]
+
+    action__in: Annotated[
+        BusinessDocumentActionEnum,
+        FilterSpec.collection(
+            BusinessDocumentActionEnum,
+            lookup=FilterLookupEnum.IN,
+            required=False,
+            choices=(
+                BusinessDocumentActionEnum.SALE,
+                BusinessDocumentActionEnum.SERVICE,
+            ),
+        ),
     ]
 
     application_status: Annotated[
@@ -123,7 +137,20 @@ class BusinessDocumentListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterM
     ]
 
     # When value is `True`, all documents which matching to expression `doc.amount == doc.paid`, otherwise all not payed
-    is_paid: Optional[bool] = None
+    is_paid: Annotated[
+        bool,
+        FilterSpec.boolean(
+            required=False,
+            description="When a document `paid > 0` - it's true. Otherwise, `paid == 0",
+        ),
+    ]
+
+
+class BusinessDocumentGetDetailedQuery(Query):
+    """Kind-agnostic detail fetch: resolves the document's kind from its id and
+    returns that kind's detailed DTO."""
+
+    id: ID_T
 
 
 class DocumentEntryListQuery(ListQuery, metaclass=FilterMeta):

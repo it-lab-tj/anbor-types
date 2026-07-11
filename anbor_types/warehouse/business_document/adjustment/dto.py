@@ -16,9 +16,6 @@ from anbor_types.common.annotated import (
 from anbor_types.common.enums import StatusEnum
 from anbor_types.handbook.project.dto import ProjectShortListDTO
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
-from anbor_types.warehouse.business_document.sale.dto import (
-    BusinessDocumentItemSourceDTO,
-)
 from anbor_types.warehouse.business_document.subject.dto import (
     SubjectForBusinessDocumentShortDataDTO,
 )
@@ -28,6 +25,7 @@ from anbor_types.warehouse.constants.constraints import (
 )
 from anbor_types.warehouse.constants.enums import (
     AdjustmentDocumentKindEnum,
+    BusinessDocumentActionEnum,
     BusinessDocumentApplicationStatusEnum,
     BusinessDocumentItemKindEnum,
 )
@@ -117,9 +115,8 @@ class AdjustmentDocumentDTO(msgspec.Struct):
 
 
 class AdjustmentDocumentItemDetailedDTO(msgspec.Struct):
-    """An adjustment item. INCOME items created a destination batch
-    (``inventory_id``/``remains``); OUTCOME items drew SOURCE batches
-    (``sources``). The irrelevant side is empty/None for the given ``kind``."""
+    """An adjustment item. ``kind`` gives its direction: 1=INCOME (поступление),
+    2=OUTCOME (списание)."""
 
     id: ID_T
     entry_id: ID_T
@@ -127,18 +124,15 @@ class AdjustmentDocumentItemDetailedDTO(msgspec.Struct):
     discount: Decimal
     count: Decimal
     kind: BusinessDocumentItemKindEnum
-    sources: List[BusinessDocumentItemSourceDTO]
     variant_id: Optional[ID_T] = None
     expires_at: Optional[date] = None
-    inventory_id: Optional[ID_T] = None
-    remains: Optional[Decimal] = None
 
 
 class AdjustmentDocumentDetailedDTO(msgspec.Struct):
-    """Full document with items, their SOURCE batches (OUTCOME) and created
-    inventory (INCOME) — GET_DETAILED by id."""
+    """Full document with its items (GET_DETAILED by id)."""
 
     id: ID_T
+    action: BusinessDocumentActionEnum
     storage: SubjectForBusinessDocumentShortDataDTO
     project: ProjectShortListDTO
     vendor_code: str
