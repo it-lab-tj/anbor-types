@@ -136,7 +136,6 @@ class ServiceOperationCreateDTO(BasePydanticModel):
     count: Decimal
     amount: Decimal
     service_id: ID_T
-    company_id: ID_T
     performer_id: ID_T
     document_item_id: ID_T
     created_at: datetime
