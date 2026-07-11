@@ -30,14 +30,14 @@ class FilterValidator:
         elif spec.lookup == FilterLookupEnum.EQ:
             cls._validate_scalar(spec, value)
 
-        if spec.lookup == FilterLookupEnum.RANGE:
+        elif spec.lookup == FilterLookupEnum.RANGE:
             cls._validate_range(spec, value)
 
         elif spec.lookup == FilterLookupEnum.IN:
             cls._validate_collection(spec, value)
 
         else:
-            raise RuntimeError("Undefined filter lookup type")
+            raise RuntimeError(f"Undefined filter lookup type `{spec.lookup}`")
 
     @classmethod
     def _validate_scalar(cls, spec: FilterSpec, value: Optional[Any]) -> None:
