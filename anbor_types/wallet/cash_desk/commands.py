@@ -38,7 +38,7 @@ class CashDeskRebalanceDTO(BasePydanticModel):
     writes a single WalletOperation for the delta. No WalletDocument is created.
     """
 
-    target_balance: Decimal = Field(gt=Decimal("0"))
+    target_balance: Decimal = Field(ge=Decimal("0"))
     operating_expense_id: ID_T
     comment: str
     confirmed_at: datetime

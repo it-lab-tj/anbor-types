@@ -24,7 +24,7 @@ class WalletDocumentListDTO(msgspec.Struct):
     confirmed_at: datetime
     kind: WalletDocumentKindEnum
     created_by: AuthorInfoShortDTO
-    subject: SubjectShortDTO
+    subject: Optional[SubjectShortDTO] = None
     currency: Optional[CurrencyShortDTO] = None
     vendor_code: Optional[str] = None
 

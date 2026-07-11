@@ -8,6 +8,7 @@ from pydantic import Field
 from anbor_types import ID_T, BasePydanticModel
 from anbor_types.common.dto import FileShortDTO
 from anbor_types.handbook.region.dto import RegionShortDTO
+from anbor_types.identity.user.dto import AuthorInfoShortDTO
 from anbor_types.warehouse.constants.enums import SubjectKindEnum
 
 
@@ -93,6 +94,21 @@ class SubjectBalanceDTO(msgspec.Struct):
     balance: Decimal
 
 
+class SubjectRebalanceDTO(BasePydanticModel):
+    """Set a subject balance to an absolute target.
+
+    The client sends the new desired balance (`target_balance`); the backend
+    computes the signed delta, records an immutable rebalance-history row, and
+    writes a single WalletOperation for the delta. No WalletDocument is created.
+    """
+
+    target_balance: Decimal = Field(ge=Decimal("0"))
+    operating_expense_id: ID_T
+    comment: str
+    confirmed_at: datetime
+    files_ids: List[ID_T] = Field(default_factory=list)
+
+
 class SubjectStockProductsDTO(msgspec.Struct):
     class Characteristics(msgspec.Struct):
         characteristic_id: ID_T
@@ -106,3 +122,22 @@ class SubjectStockProductsDTO(msgspec.Struct):
     image_url: str
     measurement_unit: str
     slug: str
+
+
+class SubjectRebalanceResultDTO(msgspec.Struct):
+    subject_id: ID_T
+    previous_balance: Decimal
+    new_balance: Decimal
+
+
+class SubjectRebalanceHistoryListDTO(msgspec.Struct):
+    """Row of the immutable rebalance history. Field names follow the model;
+    `diff` is `new_balance - previous_balance` (None on the very first
+    rebalance, where no previous balance was recorded)."""
+
+    id: ID_T
+    new_balance: Decimal
+    created_at: datetime
+    previous_balance: Optional[Decimal] = None
+    diff: Optional[Decimal] = None
+    created_by: Optional[AuthorInfoShortDTO] = None

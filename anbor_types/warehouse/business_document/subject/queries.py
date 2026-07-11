@@ -38,3 +38,8 @@ class SubjectBalanceQuery(Query):
 
 class SubjectStockProductsQuery(Query):
     id: ID_T
+
+
+class SubjectRebalanceHistoryListQuery(ListQuery):
+    # Comes from the URL path, not from query params.
+    id: ID_T
