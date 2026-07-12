@@ -16,6 +16,7 @@ from anbor_types.common.annotated import (
 from anbor_types.common.enums import StatusEnum
 from anbor_types.handbook.project.dto import ProjectShortListDTO
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
+from anbor_types.wallet.currency.dto import CurrencyShortListDTO
 from anbor_types.warehouse.business_document.subject.dto import (
     SubjectForBusinessDocumentShortDataDTO,
 )
@@ -135,6 +136,7 @@ class AdjustmentDocumentDetailedDTO(msgspec.Struct):
     action: BusinessDocumentActionEnum
     storage: SubjectForBusinessDocumentShortDataDTO
     project: ProjectShortListDTO
+    currency: CurrencyShortListDTO
     vendor_code: str
     kind: AdjustmentDocumentKindEnum
     amount: Decimal
