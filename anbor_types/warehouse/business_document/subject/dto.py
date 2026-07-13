@@ -105,7 +105,6 @@ class SubjectRebalanceDTO(BasePydanticModel):
     target_balance: Decimal = Field(ge=Decimal("0"))
     operating_expense_id: ID_T
     comment: str
-    confirmed_at: datetime
     files_ids: List[ID_T] = Field(default_factory=list)
 
 
