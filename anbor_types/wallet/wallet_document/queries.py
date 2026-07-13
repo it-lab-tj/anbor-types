@@ -115,6 +115,14 @@ class WalletDocumentListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMet
         FilterSpec.enum(WalletDocumentKindEnum),
     ]
 
+    business_document_id: Annotated[
+        ID_T,
+        FilterSpec.numeric(
+            int,
+            lte=ID_MAX,
+        ),
+    ]
+
     amount__rn: Annotated[
         Tuple[Decimal, Decimal],
         FilterSpec.numeric_range(
