@@ -39,3 +39,6 @@ class CategorySetCharacteristicsCommand(Command):
 
 class CategoryDuplicateCommand(Command):
     id: ID_T
+
+class CategoryDeleteCommand(Command):
+    id: ID_T
