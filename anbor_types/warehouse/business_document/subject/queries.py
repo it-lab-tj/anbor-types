@@ -2,12 +2,12 @@ from decimal import Decimal
 from typing import Annotated, Tuple
 
 from anbor_types import ID_T, ListQuery, Query
-from anbor_types.api.constants import PRICE_MAX
 from anbor_types.api.queries import ShortListQuery
 from anbor_types.common.enums import StatusEnum
 from anbor_types.utils.filter.meta import FilterMeta
 from anbor_types.utils.mixins import OrderingQueryMixin
 
+from anbor_types.wallet.constraints import SUBJECT_BALANCE_MAX, SUBJECT_BALANCE_MIN
 from anbor_types.warehouse.constants.enums import SubjectKindEnum
 from anbor_types.utils.filter.types import FilterSpec
 
@@ -29,8 +29,8 @@ class SubjectListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMeta):
         Tuple[Decimal, Decimal],
         FilterSpec.numeric_range(
             Decimal,
-            lte=PRICE_MAX,
-            gte=Decimal("0"),
+            lte=SUBJECT_BALANCE_MAX,
+            gte=SUBJECT_BALANCE_MIN,
         ),
     ]
 
