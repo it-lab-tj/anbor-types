@@ -1,5 +1,4 @@
 from decimal import Decimal
 
-
 SUBJECT_BALANCE_MAX = Decimal("99_999_999_999_999.9999")
 SUBJECT_BALANCE_MIN = Decimal("-99_999_999_999_999.9999")
