@@ -132,3 +132,9 @@ class SaleDocumentDetailedDTO(msgspec.Struct):
     items: List[SaleDocumentItemDetailedDTO]
     comment: Optional[str] = None
     confirmed_at: Optional[datetime] = None
+
+
+class SaleProfitDTO(msgspec.Struct):
+    """Scalar profit result of `POST /warehouse/sale/profit`."""
+
+    profit: Decimal
