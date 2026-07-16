@@ -106,3 +106,11 @@ class CatalogEntryUpdateDTO(BasePydanticModel):
     category_id: ID_T
     measurement_unit_id: ID_T
     currency_id: ID_T
+
+
+class CatalogEntryImportAcceptedDTO(msgspec.Struct):
+    """Result of a catalog-entry import (synchronous run)."""
+
+    file_ref: str
+    status: str = "completed"
+    created_count: int = 0

@@ -17,3 +17,4 @@ TITLE_REGEX = regex.compile(r"^[\p{L}\p{N} _-]+$")
 
 ID_MAX = 2**31 - 1  # 32 bits
 PRICE_MAX = Decimal("9_999_999_999")
+PRICE_GT = Decimal("0")

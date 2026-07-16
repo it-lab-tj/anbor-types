@@ -54,7 +54,9 @@ class ProductCreateDTO(CatalogEntryCreateDTO):
 
     consider_characteristics: bool
     buying_price: ATPrice
-    surcharge: ATPrice
+    # Defaulted (pydantic does not validate defaults) so imports that don't carry
+    # a markup can omit it; explicit values still go through ATPrice.
+    surcharge: ATPrice = Decimal("0")
 
     profiles: Annotated[
         Optional[List[CatalogEntryProfileCreateDTO]],
