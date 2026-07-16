@@ -1,9 +1,9 @@
 from datetime import datetime
 from decimal import Decimal
-from typing import List, Optional
+from typing import Annotated, List, Optional
 
 import msgspec
-
+from pydantic import Field
 from anbor_types import ID_T, BasePydanticModel
 from anbor_types.common.dto import FileShortDTO
 from anbor_types.common.enums import ContentTypeEnum
@@ -56,7 +56,8 @@ class WalletDocumentDetailedDTO(msgspec.Struct):
 
 
 class WalletDocumentCreateDTO(BasePydanticModel):
-    amount: Decimal
+    amount: Annotated[Decimal, Field(gt=Decimal("0"), le=Decimal("9999999999.9999"))]
+
     cash_desk_id: ID_T
     comment: str
     confirmed_at: datetime
@@ -72,7 +73,7 @@ class WalletDocumentCreateDTO(BasePydanticModel):
 
 
 class WalletDocumentUpdateDTO(BasePydanticModel):
-    amount: Decimal
+    amount: Annotated[Decimal, Field(gt=Decimal("0"), le=Decimal("9999999999.9999"))]
     confirmed_at: datetime
     files_ids: List[ID_T]
     comment: str
