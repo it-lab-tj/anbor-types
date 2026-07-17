@@ -7,6 +7,9 @@ from pydantic import Field
 
 from anbor_types import ID_T, BasePydanticModel
 from anbor_types.common.annotated import ATComment, ATRate
+from anbor_types.catalog.catalog_entry.dto import (
+    CatalogEntryOnBusinessDocumentItemDTO,
+)
 from anbor_types.common.enums import StatusEnum
 from anbor_types.handbook.project.dto import ProjectShortListDTO
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
@@ -105,7 +108,7 @@ class ServiceDocumentItemDetailedDTO(msgspec.Struct):
     """One service line item. Services carry no stock, hence no sources."""
 
     id: ID_T
-    entry_id: ID_T
+    entry: CatalogEntryOnBusinessDocumentItemDTO
     price: Decimal
     discount: Decimal
     count: Decimal

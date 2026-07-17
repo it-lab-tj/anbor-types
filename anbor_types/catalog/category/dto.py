@@ -26,6 +26,7 @@ class CharacteristicValuePairDTO(msgspec.Struct):
     value_id: ID_T
     value_name: str
 
+
 class ValueListDTO(msgspec.Struct):
     id: ID_T
     name: str

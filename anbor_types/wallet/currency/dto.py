@@ -34,3 +34,9 @@ class CurrencyShortDTO(msgspec.Struct):
 
 class CurrencyCodeSymbolDTO(msgspec.Struct):
     code_symbol: str
+
+
+class CurrencyDetailedInternalDTO(msgspec.Struct):
+    id: ID_T
+    code_symbol: str
+    bid: int

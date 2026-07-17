@@ -66,6 +66,17 @@ class CatalogEntryDetailedDTO(msgspec.Struct):
     images: List[ImageShortDTO]
 
 
+class CatalogEntryOnBusinessDocumentItemDTO(msgspec.Struct):
+    id: ID_T
+    name: str
+    selling_price: Decimal
+    minimum_price: Decimal
+    max_discount: Decimal
+    image_url: Optional[str]
+    currency: CurrencyShortDTO
+    measurement_unit: NameIdDTO
+
+
 class CatalogEntryCreateDTO(BasePydanticModel):
     name: ATCatalogEntryName
 
