@@ -1,6 +1,7 @@
 from datetime import date, datetime
 from decimal import Decimal
 from typing import List, Optional
+from anbor_types.catalog.catalog_entry.dto import CatalogEntryListDTO
 from anbor_types.common.enums import StatusEnum
 from anbor_types.warehouse.constants.enums import (
     BusinessDocumentActionEnum,
@@ -103,7 +104,7 @@ class BusinessDocumentItemSourceDTO(msgspec.Struct):
 
 class SaleDocumentItemDetailedDTO(msgspec.Struct):
     id: ID_T
-    entry_id: ID_T
+    entry: CatalogEntryListDTO
     price: Decimal
     discount: Decimal
     count: Decimal

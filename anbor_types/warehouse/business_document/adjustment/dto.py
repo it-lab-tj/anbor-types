@@ -6,6 +6,7 @@ import msgspec
 from pydantic import Field
 
 from anbor_types import BasePydanticModel, ID_T
+from anbor_types.catalog.catalog_entry.dto import CatalogEntryListDTO
 from anbor_types.common.annotated import (
     ATComment,
     ATDiscount,
@@ -120,7 +121,7 @@ class AdjustmentDocumentItemDetailedDTO(msgspec.Struct):
     2=OUTCOME (списание)."""
 
     id: ID_T
-    entry_id: ID_T
+    entry: CatalogEntryListDTO
     price: Decimal
     discount: Decimal
     count: Decimal

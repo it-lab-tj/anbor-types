@@ -6,6 +6,7 @@ import msgspec
 from pydantic import Field
 
 from anbor_types import BasePydanticModel, ID_T
+from anbor_types.catalog.catalog_entry.dto import CatalogEntryListDTO
 from anbor_types.common.annotated import ATComment
 from anbor_types.common.enums import StatusEnum
 from anbor_types.handbook.project.dto import ProjectShortListDTO
@@ -74,7 +75,7 @@ class TransferDocumentItemDetailedDTO(msgspec.Struct):
     """A transfer document item."""
 
     id: ID_T
-    entry_id: ID_T
+    entry: CatalogEntryListDTO
     price: Decimal
     discount: Decimal
     count: Decimal
