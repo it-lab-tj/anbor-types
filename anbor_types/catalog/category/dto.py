@@ -20,6 +20,12 @@ class CharValueDetailedDTO(msgspec.Struct):
     values: List[NameIdDTO]
 
 
+class CharacteristicValuePairDTO(msgspec.Struct):
+    characteristic_id: ID_T
+    characteristic_name: str
+    value_id: ID_T
+    value_name: str
+
 class ValueListDTO(msgspec.Struct):
     id: ID_T
     name: str
