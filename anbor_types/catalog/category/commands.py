@@ -47,3 +47,16 @@ class CategoryDeleteCommand(Command):
 
 class CategoryToggleCommand(BasePydanticModel, Command):
     id: ID_T
+
+
+class CharacteristicDeleteCommand(Command):
+    id: ID_T
+
+
+class CharAddValueCommand(Command):
+    value: str
+
+
+class CharacateristicAddValueCommand(Command):
+    characteristic_id: ID_T
+    value: str
