@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 import msgspec
 
@@ -17,8 +18,8 @@ class CurrencyListDTO(msgspec.Struct):
     fractional_unit: str
     created_at: datetime
     updated_at: datetime
-    created_by: AuthorInfoShortDTO
-    updated_by: AuthorInfoShortDTO
+    created_by: Optional[AuthorInfoShortDTO] = None
+    updated_by: Optional[AuthorInfoShortDTO] = None
 
 
 class CurrencyShortListDTO(msgspec.Struct):
