@@ -6,6 +6,7 @@ import msgspec
 from pydantic import Field
 
 from anbor_types import ID_T, BasePydanticModel
+from anbor_types.api.constants import PRICE_MAX
 from anbor_types.common.dto import FileShortDTO
 from anbor_types.handbook.region.dto import RegionShortDTO
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
@@ -102,7 +103,7 @@ class SubjectRebalanceDTO(BasePydanticModel):
     writes a single WalletOperation for the delta. No WalletDocument is created.
     """
 
-    target_balance: Decimal = Field(ge=Decimal("0"))
+    target_balance: Decimal = Field(lt=Decimal(PRICE_MAX))
     operating_expense_id: ID_T
     comment: str
     files_ids: List[ID_T] = Field(default_factory=list)
