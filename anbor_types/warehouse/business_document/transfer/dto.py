@@ -6,7 +6,7 @@ import msgspec
 from pydantic import Field
 
 from anbor_types import BasePydanticModel, ID_T
-from anbor_types.common.annotated import ATComment
+from anbor_types.common.annotated import ATComment, ATDatetime
 from anbor_types.catalog.catalog_entry.dto import (
     CatalogEntryOnBusinessDocumentItemDTO,
 )
@@ -34,7 +34,7 @@ class TransferDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     credit_id: ID_T
     project_id: Optional[ID_T] = Field(default=None)
     comment: Optional[ATComment] = Field(default=None)
-    shipped_at: datetime
+    shipped_at: ATDatetime
     confirmed: bool = Field(default=False)
     items: List[TItem] = Field(
         min_length=1,
@@ -47,7 +47,7 @@ class TransferDocumentUpdateDTO(BasePydanticModel):
     credit_id: ID_T
     project_id: Optional[ID_T] = Field(default=None)
     comment: Optional[ATComment] = None
-    shipped_at: datetime
+    shipped_at: ATDatetime
     confirmed: bool = Field(default=False)
     items: List[BusinessDocumentItemUpdateDTO] = Field(
         min_length=1, max_length=doc_constraints.ITEM_MAX_COUNT

@@ -3,7 +3,7 @@ from typing import List
 
 import msgspec
 
-from anbor_types import ID_T
+from anbor_types import ID_T, BasePydanticModel
 from anbor_types.handbook.annotated import (
     ATPromotionEnd,
     ATPromotionName,
@@ -13,7 +13,6 @@ from anbor_types.handbook.enums import (
     PromotionItemAwardsEnum,
     PromotionItemConditionsEnum,
 )
-from src.app.shared_kernel.pydantic.types import BasePydanticModel
 
 
 class PromotionItemCreateDTO(BasePydanticModel):

@@ -8,6 +8,7 @@ from pydantic import Field
 from anbor_types import BasePydanticModel, ID_T
 from anbor_types.common.annotated import (
     ATComment,
+    ATDatetime,
     ATDiscount,
     ATFileIds,
     ATPrice,
@@ -43,7 +44,7 @@ class AdjustmentDocumentItemBaseCreateDTO(BasePydanticModel):
         description="Направление движения товара: 1=INCOME (поступление), 2=OUTCOME (списание)."
     )
     count: Decimal = Field(le=item_constraints.COUNT_MAX, gt=Decimal("0"))
-    expires_at: Optional[date] = Field(default=None)
+    expires_at: Optional[ATDatetime] = Field(default=None)
 
 
 class AdjustmentDocumentCreateDTO[TItem: AdjustmentDocumentItemBaseCreateDTO](
@@ -53,7 +54,7 @@ class AdjustmentDocumentCreateDTO[TItem: AdjustmentDocumentItemBaseCreateDTO](
     project_id: ID_T
     currency_id: ID_T
     rate: ATRate
-    shipped_at: datetime
+    shipped_at: ATDatetime
     kind: AdjustmentDocumentKindEnum = Field(
         description=(
             "Вид документа: 0=WRITE_OFF (все строки OUTCOME), "
@@ -82,7 +83,7 @@ class AdjustmentDocumentItemUpdateDTO(BasePydanticModel):
     kind: BusinessDocumentItemKindEnum
     count: Decimal = Field(le=item_constraints.COUNT_MAX, gt=Decimal("0"))
     variant_id: Optional[ID_T] = Field(default=None)
-    expires_at: Optional[date] = Field(default=None)
+    expires_at: Optional[ATDatetime] = Field(default=None)
 
 
 class AdjustmentDocumentUpdateDTO(BasePydanticModel):

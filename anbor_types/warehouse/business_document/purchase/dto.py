@@ -26,7 +26,7 @@ from anbor_types.warehouse.constants.enums import (
 )
 
 from anbor_types import BasePydanticModel, ID_T
-from anbor_types.common.annotated import ATRate, ATComment, ATFileIds
+from anbor_types.common.annotated import ATDatetime, ATRate, ATComment, ATFileIds
 
 
 class PurchaseDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
@@ -37,7 +37,7 @@ class PurchaseDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     project_id: ID_T
     currency_id: ID_T
     rate: ATRate
-    shipped_at: datetime
+    shipped_at: ATDatetime
     confirmed: bool = Field(default=False)
     comment: Optional[ATComment] = Field(default=None)
     file_ids: Optional[ATFileIds] = Field(default=None)
@@ -54,7 +54,7 @@ class PurchaseDocumentUpdateDTO(BasePydanticModel):
     currency_id: ID_T
     rate: ATRate
     comment: Optional[ATComment] = None
-    shipped_at: datetime
+    shipped_at: ATDatetime
     confirmed: bool = Field(default=False)
     items: List[BusinessDocumentItemUpdateDTO] = Field(
         min_length=1, max_length=doc_constraints.ITEM_MAX_COUNT

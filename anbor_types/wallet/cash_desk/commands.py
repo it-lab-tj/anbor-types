@@ -1,10 +1,10 @@
-from datetime import datetime
 from decimal import Decimal
 from typing import List
 
 from pydantic import Field
 
 from anbor_types import ID_T, BasePydanticModel, Command
+from anbor_types.common.annotated import ATDatetime
 from anbor_types.wallet.cash_desk.constraints import CASH_DESK_TITLE_MAX_LENGTH
 
 
@@ -41,7 +41,7 @@ class CashDeskRebalanceDTO(BasePydanticModel):
     target_balance: Decimal = Field(ge=Decimal("0"))
     operating_expense_id: ID_T
     comment: str
-    confirmed_at: datetime
+    confirmed_at: ATDatetime
     files_ids: List[ID_T] = Field(default_factory=list)
 
 

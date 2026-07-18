@@ -1,12 +1,13 @@
+from datetime import datetime
 from decimal import Decimal
 from typing import Annotated, TypeAlias, List
 
 from anbor_types import ID_T
-from pydantic import Field, constr, StringConstraints
+from pydantic import AfterValidator, Field, constr, StringConstraints
 from pydantic.functional_validators import BeforeValidator
 from anbor_types.common import constraints as common_constraints
 from anbor_types.common.constraints import COMMENT_MAX_LENGTH, MIN_RATE, MAX_RATE
-from anbor_types.utils.functions import parse_single_line_str
+from anbor_types.utils.functions import check_timezone, parse_single_line_str
 
 # ===== Str =====
 type ATSingleLineStr = Annotated[str, BeforeValidator(parse_single_line_str)]
@@ -42,6 +43,8 @@ ATBalance: TypeAlias = Annotated[
         decimal_places=common_constraints.DECIMAL_BALANCE_PLACES,
     ),
 ]
+
+type ATDatetime = Annotated[datetime, AfterValidator(check_timezone)]
 
 type ATRate = Annotated[Decimal, Field(gt=MIN_RATE, le=MAX_RATE)]
 

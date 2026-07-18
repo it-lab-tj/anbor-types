@@ -4,9 +4,9 @@ from decimal import Decimal
 from enum import Enum
 from typing import Any, Optional, Tuple, Type
 
-from src.app.shared_kernel.types.base_types import Numeric
+from anbor_types import Numeric
 from anbor_types.utils.filter.enums import FilterLookupEnum
-from src.app.shared_kernel.utils.functions.type_funcs import tuple_from_enum
+from anbor_types.utils.functions import tuple_from_enum
 
 _SCALAR_ALLOWED_LOOKUPS = (
     FilterLookupEnum.EQ,

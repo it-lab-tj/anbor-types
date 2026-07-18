@@ -6,7 +6,7 @@ import msgspec
 from pydantic import Field
 
 from anbor_types import ID_T, BasePydanticModel
-from anbor_types.common.annotated import ATComment, ATRate
+from anbor_types.common.annotated import ATComment, ATDatetime, ATRate
 from anbor_types.catalog.catalog_entry.dto import (
     CatalogEntryOnBusinessDocumentItemDTO,
 )
@@ -38,7 +38,7 @@ class ServiceDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     currency_id: ID_T
     rate: ATRate
     comment: Optional[ATComment] = Field(default=None)
-    shipped_at: datetime
+    shipped_at: ATDatetime
     confirmed: bool = Field(default=False)
     items: List[TItem] = Field(
         min_length=1,
@@ -53,7 +53,7 @@ class ServiceDocumentUpdateDTO(BasePydanticModel):
     currency_id: ID_T
     rate: ATRate
     comment: Optional[ATComment] = None
-    shipped_at: datetime
+    shipped_at: ATDatetime
     confirmed: bool = Field(default=False)
     items: List[BusinessDocumentItemUpdateDTO] = Field(
         min_length=1, max_length=doc_constraints.ITEM_MAX_COUNT
@@ -143,6 +143,6 @@ class ServiceOperationCreateDTO(BasePydanticModel):
     service_id: ID_T
     performer_id: ID_T
     document_item_id: ID_T
-    created_at: datetime
+    created_at: ATDatetime
     counterparty_id: ID_T
-    completed_at: datetime
+    completed_at: ATDatetime

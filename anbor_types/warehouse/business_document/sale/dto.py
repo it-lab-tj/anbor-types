@@ -25,7 +25,7 @@ from anbor_types.warehouse.business_document_item.dto import (
 from anbor_types.warehouse.constants.constraints import document as doc_constraints
 
 from anbor_types import BasePydanticModel, ID_T
-from anbor_types.common.annotated import ATRate, ATComment
+from anbor_types.common.annotated import ATDatetime, ATRate, ATComment
 
 
 class SaleDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
@@ -37,7 +37,7 @@ class SaleDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     currency_id: ID_T
     rate: ATRate
     comment: Optional[ATComment] = Field(default=None)
-    shipped_at: datetime
+    shipped_at: ATDatetime
     confirmed: bool = Field(default=False)
     items: List[TItem] = Field(
         min_length=1,

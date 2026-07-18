@@ -1,4 +1,3 @@
-from datetime import date
 from decimal import Decimal
 from typing import List, Optional
 
@@ -6,7 +5,7 @@ from pydantic import Field, model_validator
 
 from anbor_types import ID_T, BasePydanticModel, ListQuery, Query
 from anbor_types.catalog.category.dto import CharValueDTO
-from anbor_types.common.annotated import ATRate
+from anbor_types.common.annotated import ATDatetime, ATRate
 from anbor_types.common.enums import StatusEnum
 from anbor_types.warehouse.constants.constraints import (
     document as doc_constraints,
@@ -37,7 +36,7 @@ class SaleProfitDocumentItemDTO(BasePydanticModel):
     price: Decimal
     discount: Decimal = Decimal("0")
     count: Decimal = Field(gt=Decimal("0"))
-    expires_at: Optional[date] = None
+    expires_at: Optional[ATDatetime] = None
     char_values: List[CharValueDTO] = Field(
         default_factory=list,
         alias="characteristics",

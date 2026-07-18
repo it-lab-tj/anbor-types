@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 import msgspec
 from pydantic import BaseModel, ConfigDict, Field, GetJsonSchemaHandler
 from pydantic.json_schema import JsonSchemaValue
@@ -20,6 +22,7 @@ from typing import (
 
 T = TypeVar("T")
 ID_T: TypeAlias = int
+type Numeric = Union[int, float, Decimal]
 Pipeline: TypeAlias = Callable[
     [Callable[..., Awaitable[Any]]], Callable[..., Awaitable[Any]]
 ]
