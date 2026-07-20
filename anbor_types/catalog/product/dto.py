@@ -13,7 +13,10 @@ from anbor_types.catalog.catalog_entry.dto import (
     CatalogEntryDetailedDTO,
     CatalogEntryProfileListDTO,
 )
-from anbor_types.catalog.category.dto import CharValueDTO
+from anbor_types.catalog.category.dto import (
+    CharValueDTO,
+    CharacteristicValuePairDTO,
+)
 from anbor_types.catalog.constraints import CATALOG_ENTRY_VARIANT_CHAR_VALUES_MAX_COUNT
 from anbor_types.catalog.product.constraints import IMAGES_MAX_COUNT, PROFILES_MAX_COUNT
 from anbor_types.common.annotated import ATPrice
@@ -37,6 +40,11 @@ class CatalogEntryProfileCreateDTO(BasePydanticModel):
 
 class ProductProfileUpsertDTO(CatalogEntryProfileCreateDTO):
     id: Optional[ID_T] = None
+
+
+class ProductProfileCharacteristicsDTO(msgspec.Struct):
+    identifier: str
+    characteristics: List[CharacteristicValuePairDTO]
 
 
 # ===== PRODUCT =====

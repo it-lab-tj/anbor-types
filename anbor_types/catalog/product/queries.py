@@ -16,6 +16,10 @@ class ProductDetailedQuery(Query):
     id: ID_T
 
 
+class ProductProfilesQuery(Query):
+    product_id: ID_T
+
+
 class ProductRemainsQuery(Query):
     id: ID_T
     storage_id: Optional[ID_T] = None
