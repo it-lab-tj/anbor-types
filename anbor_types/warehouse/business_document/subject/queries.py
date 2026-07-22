@@ -1,6 +1,8 @@
 from decimal import Decimal
 from typing import Annotated, Tuple
 
+from pydantic import StringConstraints
+
 from anbor_types import ID_T, ListQuery, Query
 from anbor_types.api.queries import ShortListQuery
 from anbor_types.common.enums import StatusEnum
@@ -32,6 +34,12 @@ class SubjectListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMeta):
             lte=SUBJECT_BALANCE_MAX,
             gte=SUBJECT_BALANCE_MIN,
         ),
+    ]
+
+    search: Annotated[
+        str,
+        StringConstraints(max_length=100, strip_whitespace=True),
+        FilterSpec.string(max_length=100),
     ]
 
 
