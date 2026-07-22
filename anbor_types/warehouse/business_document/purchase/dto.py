@@ -8,6 +8,7 @@ from pydantic import Field
 from anbor_types.catalog.catalog_entry.dto import (
     CatalogEntryOnBusinessDocumentItemDTO,
 )
+from anbor_types.common.dto import FileShortDTO
 from anbor_types.common.enums import StatusEnum
 from anbor_types.handbook.project.dto import ProjectShortListDTO
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
@@ -112,6 +113,7 @@ class PurchaseDocumentDetailedDTO(msgspec.Struct):
     shipped_at: datetime
     created_at: datetime
     created_by: AuthorInfoShortDTO
+    files: List[FileShortDTO]
     paid: Decimal
     items: List[PurchaseDocumentItemDetailedDTO]
     comment: Optional[str] = None

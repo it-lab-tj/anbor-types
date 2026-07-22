@@ -6,10 +6,11 @@ import msgspec
 from pydantic import Field
 
 from anbor_types import BasePydanticModel, ID_T
-from anbor_types.common.annotated import ATComment, ATDatetime
+from anbor_types.common.annotated import ATComment, ATDatetime, ATFileIds
 from anbor_types.catalog.catalog_entry.dto import (
     CatalogEntryOnBusinessDocumentItemDTO,
 )
+from anbor_types.common.dto import FileShortDTO
 from anbor_types.common.enums import StatusEnum
 from anbor_types.handbook.project.dto import ProjectShortListDTO
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
@@ -36,6 +37,7 @@ class TransferDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     comment: Optional[ATComment] = Field(default=None)
     shipped_at: ATDatetime
     confirmed: bool = Field(default=False)
+    file_ids: Optional[ATFileIds] = Field(default=None)
     items: List[TItem] = Field(
         min_length=1,
         max_length=doc_constraints.ITEM_MAX_COUNT,
@@ -97,6 +99,7 @@ class TransferDocumentDetailedDTO(msgspec.Struct):
     amount: Decimal
     status: StatusEnum
     application_status: BusinessDocumentApplicationStatusEnum
+    files: List[FileShortDTO]
     shipped_at: datetime
     created_at: datetime
     created_by: AuthorInfoShortDTO

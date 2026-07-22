@@ -5,7 +5,7 @@ from typing import Annotated, List, Optional
 import msgspec
 from pydantic import Field
 from anbor_types import ID_T, BasePydanticModel
-from anbor_types.common.annotated import ATComment, ATDatetime
+from anbor_types.common.annotated import ATComment, ATDatetime, ATFileIds
 from anbor_types.common.dto import FileShortDTO
 from anbor_types.common.enums import ContentTypeEnum
 from anbor_types.wallet.cash_desk.dto import CashDeskShortListDTO
@@ -94,7 +94,7 @@ class WalletDocumentTransferCreateDTO(BasePydanticModel):
     amount: Decimal
     operating_expense_id: ID_T
     comment: str
-    file_ids: List[ID_T]
+    file_ids: Optional[ATFileIds] = Field(default=None)
 
 
 class WalletTransferListDTO(msgspec.Struct):

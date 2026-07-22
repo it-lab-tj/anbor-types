@@ -3,6 +3,7 @@ from decimal import Decimal
 from typing import List, Optional
 
 from anbor_types.catalog.catalog_entry.dto import CatalogEntryOnBusinessDocumentItemDTO
+from anbor_types.common.dto import FileShortDTO
 from anbor_types.common.enums import StatusEnum
 from anbor_types.warehouse.constants.enums import (
     BusinessDocumentActionEnum,
@@ -25,7 +26,7 @@ from anbor_types.warehouse.business_document_item.dto import (
 from anbor_types.warehouse.constants.constraints import document as doc_constraints
 
 from anbor_types import BasePydanticModel, ID_T
-from anbor_types.common.annotated import ATDatetime, ATRate, ATComment
+from anbor_types.common.annotated import ATDatetime, ATFileIds, ATRate, ATComment
 
 
 class SaleDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
@@ -38,6 +39,7 @@ class SaleDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     rate: ATRate
     comment: Optional[ATComment] = Field(default=None)
     shipped_at: ATDatetime
+    file_ids: Optional[ATFileIds] = Field(default=None)
     confirmed: bool = Field(default=False)
     items: List[TItem] = Field(
         min_length=1,
@@ -130,6 +132,7 @@ class SaleDocumentDetailedDTO(msgspec.Struct):
     shipped_at: datetime
     created_at: datetime
     created_by: AuthorInfoShortDTO
+    files: List[FileShortDTO]
     paid: Decimal
     items: List[SaleDocumentItemDetailedDTO]
     comment: Optional[str] = None

@@ -6,10 +6,11 @@ import msgspec
 from pydantic import Field
 
 from anbor_types import ID_T, BasePydanticModel
-from anbor_types.common.annotated import ATComment, ATDatetime, ATRate
+from anbor_types.common.annotated import ATComment, ATDatetime, ATFileIds, ATRate
 from anbor_types.catalog.catalog_entry.dto import (
     CatalogEntryOnBusinessDocumentItemDTO,
 )
+from anbor_types.common.dto import FileShortDTO
 from anbor_types.common.enums import StatusEnum
 from anbor_types.handbook.project.dto import ProjectShortListDTO
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
@@ -37,6 +38,7 @@ class ServiceDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     project_id: ID_T
     currency_id: ID_T
     rate: ATRate
+    file_ids: Optional[ATFileIds] = Field(default=None)
     comment: Optional[ATComment] = Field(default=None)
     shipped_at: ATDatetime
     confirmed: bool = Field(default=False)
@@ -128,6 +130,7 @@ class ServiceDocumentDetailedDTO(msgspec.Struct):
     amount: Decimal
     status: StatusEnum
     application_status: BusinessDocumentApplicationStatusEnum
+    files: List[FileShortDTO]
     shipped_at: datetime
     created_at: datetime
     created_by: AuthorInfoShortDTO

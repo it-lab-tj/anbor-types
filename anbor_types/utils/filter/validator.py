@@ -65,6 +65,12 @@ class FilterValidator:
 
         low, high = value
 
+        if low is None and high is None:
+            raise ValueError(
+                "Range filter requires at least one boundary. "
+                "Use 'value,' for lower bound or ',value' for upper bound."
+            )
+
         if (low is None or high is None) and spec.both_required:
             raise AppException.from_details([cls._required_detail(spec)])
 
