@@ -7,6 +7,7 @@ import msgspec
 from anbor_types import ID_T
 from anbor_types.common.enums import StatusEnum
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
+from anbor_types.wallet.operating_expense.dto import OperatingExpenseShortListDTO
 
 
 class CashDeskShortListDTO(msgspec.Struct):
@@ -49,6 +50,7 @@ class CashDeskRebalanceHistoryListDTO(msgspec.Struct):
     id: ID_T
     new_balance: Decimal
     created_at: datetime
+    operating_expense: OperatingExpenseShortListDTO
     previous_balance: Optional[Decimal] = None
     diff: Optional[Decimal] = None
     created_by: Optional[AuthorInfoShortDTO] = None
