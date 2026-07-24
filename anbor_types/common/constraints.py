@@ -3,7 +3,7 @@ from decimal import Decimal
 
 import regex
 
-TITLE_REGEX = regex.compile(r"^[\p{L}\p{N} _-]+$")
+TITLE_REGEX = regex.compile(r"^[\p{L}\p{N} ._-]+$")
 
 
 # NAME
