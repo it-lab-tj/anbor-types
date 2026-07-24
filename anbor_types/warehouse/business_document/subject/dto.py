@@ -117,11 +117,21 @@ class SubjectStockProductsDTO(msgspec.Struct):
         value: str
 
     product_id: ID_T
+    # None when the stocked lots carry no variant (variant is unused in current data).
+    variant_id: Optional[ID_T]
     name: str
     remains: Decimal
-    image_url: str
     measurement_unit: str
     slug: str
+    status: int
+    # Aggregated cost price of the product in this warehouse: sum(price * remains).
+    cost_price: Decimal
+    # Last confirmed sale date of the product (across the company). None if never sold.
+    last_sold_date: Optional[datetime] = None
+    image_url: Optional[str] = None
+    # Variant characteristics; empty on current data (variant unused). Resolving the
+    # characteristic/value names is deferred until variants are populated.
+    characteristics: List[Characteristics] = msgspec.field(default_factory=list)
 
 
 class SubjectRebalanceResultDTO(msgspec.Struct):

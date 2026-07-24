@@ -61,8 +61,36 @@ class SubjectBalanceQuery(Query):
     id: ID_T
 
 
-class SubjectStockProductsQuery(Query):
+class SubjectStockProductsListQuery(
+    ListQuery, OrderingQueryMixin, metaclass=FilterMeta
+):
+    """Products currently stocked in a given warehouse (subject of kind STORAGE),
+    aggregated per (product, variant) across all inventory lots.
+
+    `id` is the warehouse id and comes from the URL path, not from query params.
+    """
+
+    _ordering_allowed_fields = {"name", "remains", "cost_price", "last_sold_date"}
+
     id: ID_T
+
+    search: Annotated[
+        str,
+        StringConstraints(max_length=100, strip_whitespace=True),
+        FilterSpec.string(max_length=100),
+    ]
+
+    status: Annotated[StatusEnum, FilterSpec.enum(StatusEnum)]
+
+    cost_price__rn: Annotated[
+        Tuple[Decimal, Decimal],
+        FilterSpec.numeric_range(
+            Decimal,
+            gte=Decimal(0),
+            description="Range filter over the aggregated cost price "
+            "(`sum(price * remains)`) of a product in the warehouse.",
+        ),
+    ]
 
 
 class SubjectRebalanceHistoryListQuery(ListQuery):
