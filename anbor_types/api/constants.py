@@ -1,6 +1,7 @@
 from decimal import Decimal
 
-import regex
+
+from anbor_types.common.constraints import TITLE_REGEX
 
 DEFAULT_LIMIT = 10
 DEFAULT_OFFSET = 0
@@ -12,7 +13,7 @@ MIN_OFFSET = 0
 TITLE_MIN_LENGTH = 1
 TITLE_MAX_LENGTH = 50
 
-TITLE_REGEX = regex.compile(r"^[\p{L}\p{N} _-]+$")
+TITLE_REGEX = TITLE_REGEX
 
 
 ID_MAX = 2**31 - 1  # 32 bits
