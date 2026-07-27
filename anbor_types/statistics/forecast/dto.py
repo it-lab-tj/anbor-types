@@ -20,5 +20,6 @@ class ProductForecastEntryDTO(msgspec.Struct):
 class ProductPurchaseSuggestionDTO(msgspec.Struct):
     entry: ProductForecastEntryDTO
     forecast_demand: Decimal  # forecast sales over the chosen horizon
-    current_stock: Decimal  # remains on hand (mview refresh-time snapshot)
+    current_stock: Decimal
+    snapshot_stock: Decimal  # remains on hand (mview refresh-time snapshot)
     recommend_to_buy: Decimal  # max(0, forecast_demand - current_stock)
