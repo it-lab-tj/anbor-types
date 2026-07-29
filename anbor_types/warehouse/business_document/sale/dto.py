@@ -151,7 +151,7 @@ class SaleDocumentProfitDetailedDto(SaleDocumentBaseDetailedDTO):
     confirmed_at: Optional[datetime] = None
 
 
-class SaleDocumentDetailedDto(SaleDocumentBaseDetailedDTO):
+class SaleDocumentDetailedDTO(SaleDocumentBaseDetailedDTO):
     items: List[SaleDocumentItemDetailedDTO]
     comment: Optional[str] = None
     confirmed_at: Optional[datetime] = None
