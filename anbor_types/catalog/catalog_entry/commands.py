@@ -14,3 +14,7 @@ class CatalogEntryImportCommand(Command):
     file: memoryview
     storage_id: ID_T
     project_id: ID_T
+
+
+class CatalogEntryDeleteCommand(Command):
+    id: ID_T

@@ -4,9 +4,12 @@ from typing import List, Optional
 from pydantic import Field, model_validator
 
 from anbor_types import ID_T, BasePydanticModel, ListQuery, Query
+from anbor_types.api.types import OrderingAllowedFieldsT
 from anbor_types.catalog.category.dto import CharValueDTO
 from anbor_types.common.annotated import ATDatetime, ATRate
 from anbor_types.common.enums import StatusEnum
+from anbor_types.utils.filter.meta import FilterMeta
+from anbor_types.utils.mixins import OrderingQueryMixin
 from anbor_types.warehouse.constants.constraints import (
     document as doc_constraints,
     document_item as item_constraints,
@@ -82,3 +85,9 @@ class SaleProfitQuery(Query):
                 raise ValueError("Provide exactly one of 'document' or 'document_id'.")
 
         return data
+
+
+class SaleDocumentItemsProfitQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMeta):
+    _ordering_allowed_fields: OrderingAllowedFieldsT = {
+        "created_at",
+    }

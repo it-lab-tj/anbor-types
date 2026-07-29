@@ -105,17 +105,26 @@ class BusinessDocumentItemSourceDTO(msgspec.Struct):
     rank: int
 
 
-class SaleDocumentItemDetailedDTO(msgspec.Struct):
+class SaleDocumentItemBaseDetailedDTO(msgspec.Struct):
     id: ID_T
     entry: CatalogEntryOnBusinessDocumentItemDTO
     price: Decimal
     discount: Decimal
     count: Decimal
+
+
+class SaleDocumentItemDetailedDTO(SaleDocumentItemBaseDetailedDTO):
     variant_id: Optional[ID_T] = None
     expires_at: Optional[date] = None
 
 
-class SaleDocumentDetailedDTO(msgspec.Struct):
+class SaleDocumentItemListProfitDTO(SaleDocumentItemBaseDetailedDTO):
+    profit: Decimal
+    variant_id: Optional[ID_T] = None
+    expires_at: Optional[date] = None
+
+
+class SaleDocumentBaseDetailedDTO(msgspec.Struct):
     """Full document with its items (GET_DETAILED by id)."""
 
     id: ID_T
@@ -134,6 +143,15 @@ class SaleDocumentDetailedDTO(msgspec.Struct):
     created_by: AuthorInfoShortDTO
     files: List[FileShortDTO]
     paid: Decimal
+
+
+class SaleDocumentProfitDetailedDto(SaleDocumentBaseDetailedDTO):
+    items: List[SaleDocumentItemListProfitDTO]
+    comment: Optional[str] = None
+    confirmed_at: Optional[datetime] = None
+
+
+class SaleDocumentDetailedDto(SaleDocumentBaseDetailedDTO):
     items: List[SaleDocumentItemDetailedDTO]
     comment: Optional[str] = None
     confirmed_at: Optional[datetime] = None
