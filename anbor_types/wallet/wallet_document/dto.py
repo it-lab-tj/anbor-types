@@ -1,9 +1,11 @@
 from datetime import datetime
 from decimal import Decimal
-from typing import Annotated, List, Optional
+from typing import Annotated, List, Optional, Self
 
 import msgspec
-from pydantic import Field
+from pydantic import Field, model_validator
+from pydantic_core import PydanticCustomError
+
 from anbor_types import ID_T, BasePydanticModel
 from anbor_types.common.annotated import ATComment, ATDatetime, ATFileIds
 from anbor_types.common.dto import FileShortDTO
@@ -61,8 +63,8 @@ class WalletDocumentCreateDTO(BasePydanticModel):
     cash_desk_id: ID_T
     comment: ATComment
     confirmed_at: ATDatetime
-    content_id: ID_T
-    content_type: ContentTypeEnum
+    content_id: Optional[ID_T] = None
+    content_type: Optional[ContentTypeEnum] = None
     currency_id: ID_T
     files_ids: List[ID_T]
     operating_expense_id: ID_T
@@ -70,6 +72,24 @@ class WalletDocumentCreateDTO(BasePydanticModel):
     rate: Decimal
     kind: WalletDocumentKindEnum
     business_document_id: Optional[ID_T] = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def validate(cls, v: Self) -> Self:
+        if v.content_type is None and v.content_id is not None:
+            field = "content_type"
+
+        elif v.content_id is None and v.content_type is not None:
+            field = "content_id"
+
+        else:
+            return v
+
+        raise PydanticCustomError(
+            "missing_paired_field",
+            "{field} is required when its pair is set",
+            {"field": field},
+        )
 
 
 class WalletDocumentUpdateDTO(BasePydanticModel):

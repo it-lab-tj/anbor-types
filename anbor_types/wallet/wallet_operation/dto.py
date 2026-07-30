@@ -8,7 +8,7 @@ from anbor_types.common.enums import ContentTypeEnum
 
 class WalletOperationCreateDTO(BasePydanticModel):
     amount: Decimal
-    content_id: ID_T
-    content_type: ContentTypeEnum
+    content_id: Optional[ID_T] = None
+    content_type: Optional[ContentTypeEnum] = None
     confirmed_at: ATDatetime
     cash_desk_id: Optional[ID_T] = None
