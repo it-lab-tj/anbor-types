@@ -73,7 +73,7 @@ class WalletDocumentCreateDTO(BasePydanticModel):
     kind: WalletDocumentKindEnum
     business_document_id: Optional[ID_T] = None
 
-    @model_validator(mode="before")
+    @model_validator(mode="after")
     @classmethod
     def validate(cls, v: Self) -> Self:
         if v.content_type is None and v.content_id is not None:
