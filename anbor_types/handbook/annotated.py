@@ -1,8 +1,9 @@
-from datetime import datetime
 from typing import Annotated
 
 from pydantic import Field, constr
 
+from anbor_types.common.annotated import ATDatetime
+from anbor_types.common.constraints import DATETIME_MAX, DATETIME_MIN
 from anbor_types.handbook.constraints import (
     PROMOTION_NAME_MAX_LENGTH,
     PROMOTION_NAME_MIN_LENGTH,
@@ -15,18 +16,18 @@ type ATPromotionName = Annotated[
 
 
 type ATPromotionStart = Annotated[
-    datetime,
+    ATDatetime,
     Field(
-        ge=datetime(2000, 1, 1),
-        le=datetime(2099, 12, 31),
+        ge=DATETIME_MIN,
+        le=DATETIME_MAX,
     ),
 ]
 
 
 type ATPromotionEnd = Annotated[
-    datetime,
+    ATDatetime,
     Field(
-        ge=datetime(2000, 1, 1),
-        le=datetime(2099, 12, 31),
+        ge=DATETIME_MIN,
+        le=DATETIME_MAX,
     ),
 ]

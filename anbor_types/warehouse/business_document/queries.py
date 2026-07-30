@@ -1,4 +1,3 @@
-from datetime import datetime
 from decimal import Decimal
 from typing import Annotated, Tuple
 
@@ -8,7 +7,7 @@ from anbor_types import ID_T, ListQuery, Query
 from anbor_types.api.constants import ID_MAX, PRICE_MAX
 from anbor_types.catalog.enums import CatalogEntryKindEnum
 from anbor_types.api.types import OrderingAllowedFieldsT
-from anbor_types.common.constraints import DATETIME_MAX
+from anbor_types.common.annotated import ATDatetimeRN
 from anbor_types.utils.filter import FilterLookupEnum
 from anbor_types.utils.filter.meta import FilterMeta, FilterSpec
 from anbor_types.utils.mixins import OrderingQueryMixin
@@ -122,19 +121,9 @@ class BusinessDocumentListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterM
         ),
     ]
 
-    shipped_at__rn: Annotated[
-        datetime,
-        FilterSpec.datetime_range(
-            lte=DATETIME_MAX,
-        ),
-    ]
+    shipped_at__rn: ATDatetimeRN
 
-    created_at__rn: Annotated[
-        datetime,
-        FilterSpec.datetime_range(
-            lte=DATETIME_MAX,
-        ),
-    ]
+    created_at__rn: ATDatetimeRN
 
     # When value is `True`, all documents which matching to expression `doc.amount == doc.paid`, otherwise all not payed
     is_paid: Annotated[

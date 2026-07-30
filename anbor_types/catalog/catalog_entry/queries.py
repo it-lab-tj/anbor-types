@@ -1,11 +1,10 @@
-from datetime import datetime
 from decimal import Decimal
 from typing import Annotated, Optional
 
 
 from anbor_types import ID_T, ListQuery
 from anbor_types.api.types import OrderingAllowedFieldsT
-from anbor_types.common.constraints import DATETIME_MAX
+from anbor_types.common.annotated import ATDatetimeRN
 from anbor_types.common.enums import StatusEnum
 from anbor_types.utils.filter.meta import FilterMeta, FilterSpec
 from anbor_types.utils.mixins import OrderingQueryMixin
@@ -64,9 +63,4 @@ class CatalogEntryBaseListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterM
         ),
     ]
 
-    created_at__rn: Annotated[
-        datetime,
-        FilterSpec.datetime_range(
-            lte=DATETIME_MAX,
-        ),
-    ]
+    created_at__rn: ATDatetimeRN

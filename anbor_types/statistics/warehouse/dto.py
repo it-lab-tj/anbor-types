@@ -30,3 +30,8 @@ class InventoryAnalyticsLiquidDTO(msgspec.Struct):
 class InventoryAnalyticsIlliquidDTO(msgspec.Struct):
     product_name: str
     last_sold_at: date
+
+
+class InventoryAnalyticsCashFlowDTO(msgspec.Struct):
+    income: Decimal
+    expense: Decimal

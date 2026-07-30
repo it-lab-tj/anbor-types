@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from decimal import Decimal
 
 import regex
@@ -54,6 +54,24 @@ DECIMAL_DISCOUNT_PLACES = 2
 
 
 # ===== DATE & DATETIME =====
-DATETIME_MAX = datetime.fromisoformat("2080-01-01T23:59:59")
+DATETIME_MAX = datetime(
+    2080,
+    1,
+    1,
+    23,
+    59,
+    59,
+    tzinfo=timezone.utc,
+)
+
+DATETIME_MIN = datetime(
+    2000,
+    1,
+    1,
+    00,
+    00,
+    00,
+    tzinfo=timezone.utc,
+)
 
 FILE_IDS_MAX_COUNT = 15

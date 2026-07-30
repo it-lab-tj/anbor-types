@@ -1,13 +1,22 @@
 from datetime import datetime
 from decimal import Decimal
-from typing import Annotated, TypeAlias, List
+from typing import Annotated, Optional, Tuple, TypeAlias, List
 
 from anbor_types import ID_T
 from pydantic import AfterValidator, Field, constr, StringConstraints
 from pydantic.functional_validators import BeforeValidator
 from anbor_types.common import constraints as common_constraints
-from anbor_types.common.constraints import COMMENT_MAX_LENGTH, MIN_RATE, MAX_RATE
-from anbor_types.utils.functions import check_timezone, parse_single_line_str
+from anbor_types.common.constraints import (
+    COMMENT_MAX_LENGTH,
+    DATETIME_MAX,
+    MIN_RATE,
+    MAX_RATE,
+)
+from anbor_types.utils.filter.types import FilterSpec
+from anbor_types.utils.functions import (
+    check_timezone,
+    parse_single_line_str,
+)
 
 # ===== Str =====
 type ATSingleLineStr = Annotated[str, BeforeValidator(parse_single_line_str)]
@@ -44,8 +53,6 @@ ATBalance: TypeAlias = Annotated[
     ),
 ]
 
-type ATDatetime = Annotated[datetime, AfterValidator(check_timezone)]
-
 type ATRate = Annotated[Decimal, Field(gt=MIN_RATE, le=MAX_RATE)]
 
 # ===== HTTP =====
@@ -62,4 +69,16 @@ type ATDomainName = Annotated[
 
 type ATFileIds = Annotated[
     List[ID_T], Field(max_length=common_constraints.FILE_IDS_MAX_COUNT)
+]
+
+# ====== Date =======
+type ATDatetime = Annotated[datetime, AfterValidator(check_timezone)]
+
+
+ATDatetimeRN = Annotated[
+    Tuple[Optional[datetime], Optional[datetime]],
+    AfterValidator(check_timezone),
+    FilterSpec.datetime_range(
+        lte=DATETIME_MAX,
+    ),
 ]

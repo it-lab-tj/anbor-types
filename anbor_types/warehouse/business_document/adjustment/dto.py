@@ -45,7 +45,7 @@ class AdjustmentDocumentItemBaseCreateDTO(BasePydanticModel):
         description="Направление движения товара: 1=INCOME (поступление), 2=OUTCOME (списание)."
     )
     count: Decimal = Field(le=item_constraints.COUNT_MAX, gt=Decimal("0"))
-    expires_at: Optional[ATDatetime] = Field(default=None)
+    expires_at: Optional[date] = Field(default=None)
 
 
 class AdjustmentDocumentCreateDTO[TItem: AdjustmentDocumentItemBaseCreateDTO](
@@ -84,7 +84,7 @@ class AdjustmentDocumentItemUpdateDTO(BasePydanticModel):
     kind: BusinessDocumentItemKindEnum
     count: Decimal = Field(le=item_constraints.COUNT_MAX, gt=Decimal("0"))
     variant_id: Optional[ID_T] = Field(default=None)
-    expires_at: Optional[ATDatetime] = Field(default=None)
+    expires_at: Optional[date] = Field(default=None)
 
 
 class AdjustmentDocumentUpdateDTO(BasePydanticModel):
