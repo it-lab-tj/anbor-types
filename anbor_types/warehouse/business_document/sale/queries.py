@@ -1,15 +1,17 @@
 from datetime import date
 from decimal import Decimal
-from typing import List, Optional
+from typing import Annotated, List, Optional, Tuple
 
 from pydantic import Field, model_validator
 
 from anbor_types import ID_T, BasePydanticModel, ListQuery, Query
+from anbor_types.api.constants import ID_MAX, PRICE_MAX
 from anbor_types.api.types import OrderingAllowedFieldsT
 from anbor_types.catalog.category.dto import CharValueDTO
-from anbor_types.common.annotated import ATRate
+from anbor_types.common.annotated import ATDatetimeRN, ATRate
 from anbor_types.common.enums import StatusEnum
 from anbor_types.utils.filter.meta import FilterMeta
+from anbor_types.utils.filter.types import FilterSpec
 from anbor_types.utils.mixins import OrderingQueryMixin
 from anbor_types.warehouse.constants.constraints import (
     document as doc_constraints,
@@ -92,3 +94,34 @@ class SaleDocumentItemsProfitQuery(ListQuery, OrderingQueryMixin, metaclass=Filt
     _ordering_allowed_fields: OrderingAllowedFieldsT = {
         "created_at",
     }
+
+    created_at__rn: ATDatetimeRN
+
+    profit__rn: Annotated[
+        Tuple[Decimal, Decimal],
+        FilterSpec.numeric_range(
+            Decimal,
+            gte=Decimal(0),
+            lte=PRICE_MAX,
+        ),
+    ]
+
+    entry_id: Annotated[
+        ID_T,
+        FilterSpec.numeric(int, lte=ID_MAX),
+    ]
+
+    debit_id: Annotated[
+        ID_T,
+        FilterSpec.numeric(int, lte=ID_MAX),
+    ]
+
+    credit_id: Annotated[
+        ID_T,
+        FilterSpec.numeric(int, lte=ID_MAX),
+    ]
+
+    vendor_code:Annotated[
+        ID_T,
+        FilterSpec.numeric(int, lte=ID_MAX),
+    ]

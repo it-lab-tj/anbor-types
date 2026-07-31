@@ -75,6 +75,10 @@ class SaleDocumentListDTO(msgspec.Struct):
     paid: Decimal
 
 
+class SaleDocumentWithProfitListDTO(SaleDocumentListDTO):
+    profit: Decimal
+
+
 class SaleDocumentDTO(msgspec.Struct):
     """Single-document summary (GET by id)."""
 
