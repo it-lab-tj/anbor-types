@@ -5,7 +5,10 @@ from typing import List, Optional
 import msgspec
 
 from anbor_types import ID_T
-from anbor_types.catalog.catalog_entry.dto import CatalogEntryProfileListDTO
+from anbor_types.catalog.catalog_entry.dto import (
+    CatalogEntryImageListDTO,
+    CatalogEntryProfileListDTO,
+)
 from anbor_types.catalog.enums import CatalogEntryKindEnum
 from anbor_types.handbook.project.dto import ProjectShortListDTO
 from anbor_types.wallet.currency.dto import CurrencyShortDTO
@@ -66,7 +69,7 @@ class DocumentEntryListDTO(msgspec.Struct):
     id: ID_T  # catalog entry id
     name: str
     kind: CatalogEntryKindEnum
-    image_url: Optional[str]
+    images: List[CatalogEntryImageListDTO]
     profiles: List[CatalogEntryProfileListDTO]
     remains: Optional[Decimal] = None
     subject_remains: Optional[Decimal] = None

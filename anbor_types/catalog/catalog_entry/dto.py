@@ -16,9 +16,23 @@ from anbor_types.catalog.product.constraints import IMAGES_MAX_COUNT
 from anbor_types.common.annotated import ATDiscount, ATPrice, ATInformationStr
 from anbor_types.common.dto import NameIdDTO, FileShortDTO
 from anbor_types.common.enums import StatusEnum
-from anbor_types.gallery.dto import ImageShortDTO
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
 from anbor_types.wallet.currency.dto import CurrencyShortDTO
+
+
+class CatalogEntryImageListDTO(msgspec.Struct, omit_defaults=True):
+    """Image of a catalog entry (product / service).
+
+    A single struct shared by every catalog-entry-based response. ``id`` is
+    always present; the URL fields are populated per-route and ``omit_defaults``
+    drops the ones left unset (so a list route sends ``thumbnail``/``medium``
+    while a detailed route sends ``original``). All URLs are full (host-qualified).
+    """
+
+    id: ID_T
+    medium: Optional[str] = None
+    thumbnail: Optional[str] = None
+    original: Optional[str] = None
 
 
 class CatalogEntryProfileListDTO(msgspec.Struct):
@@ -37,7 +51,7 @@ class CatalogEntryListDTO(msgspec.Struct):
     slug: str
     description: Optional[str]
     information: Optional[str]
-    image_url: Optional[str]  # Must be full url
+    images: List[CatalogEntryImageListDTO]
     status: StatusEnum
     created_at: datetime
 
@@ -63,7 +77,7 @@ class CatalogEntryDetailedDTO(msgspec.Struct):
     category: CategoryShortDTO
     created_by: AuthorInfoShortDTO
     files: List[FileShortDTO]
-    images: List[ImageShortDTO]
+    images: List[CatalogEntryImageListDTO]
 
 
 class CatalogEntryOnBusinessDocumentItemDTO(msgspec.Struct):
@@ -72,7 +86,7 @@ class CatalogEntryOnBusinessDocumentItemDTO(msgspec.Struct):
     selling_price: Decimal
     minimum_price: Decimal
     max_discount: Decimal
-    image_url: Optional[str]
+    images: List[CatalogEntryImageListDTO]
     currency: CurrencyShortDTO
     measurement_unit: NameIdDTO
 

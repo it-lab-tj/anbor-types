@@ -8,6 +8,7 @@ from anbor_types import ID_T, BasePydanticModel
 from anbor_types.catalog import annotated
 from anbor_types.catalog.catalog_entry.dto import (
     CatalogEntryCreateDTO,
+    CatalogEntryImageListDTO,
     CatalogEntryListDTO,
     CatalogEntryUpdateDTO,
     CatalogEntryDetailedDTO,
@@ -21,7 +22,6 @@ from anbor_types.catalog.constraints import CATALOG_ENTRY_VARIANT_CHAR_VALUES_MA
 from anbor_types.catalog.product.constraints import IMAGES_MAX_COUNT, PROFILES_MAX_COUNT
 from anbor_types.common.annotated import ATPrice
 from anbor_types.common.dto import NameDTO
-from anbor_types.gallery.dto import ImageListDTO
 
 
 class ProductSubjectRemainsListDTO(msgspec.Struct):
@@ -106,7 +106,7 @@ class ProductDetailedListDTO(msgspec.Struct):
     selling_price: Decimal
     category_id: ID_T
     remains: Decimal
-    images: List[ImageListDTO]
+    images: List[CatalogEntryImageListDTO]
     description: Optional[str]
     information: Optional[str]
     profiles: List[CatalogEntryProfileListDTO]

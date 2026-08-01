@@ -7,6 +7,7 @@ from pydantic import Field
 
 from anbor_types import ID_T, BasePydanticModel
 from anbor_types.api.constants import PRICE_MAX
+from anbor_types.catalog.catalog_entry.dto import CatalogEntryImageListDTO
 from anbor_types.common.dto import FileShortDTO
 from anbor_types.handbook.region.dto import RegionShortDTO
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
@@ -128,7 +129,7 @@ class SubjectStockProductsDTO(msgspec.Struct):
     cost_price: Decimal
     # Last confirmed sale date of the product (across the company). None if never sold.
     last_sold_date: Optional[datetime] = None
-    image_url: Optional[str] = None
+    images: List[CatalogEntryImageListDTO] = msgspec.field(default_factory=list)
     # Variant characteristics; empty on current data (variant unused). Resolving the
     # characteristic/value names is deferred until variants are populated.
     characteristics: List[Characteristics] = msgspec.field(default_factory=list)
