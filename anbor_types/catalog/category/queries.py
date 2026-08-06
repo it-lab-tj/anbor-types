@@ -19,6 +19,17 @@ class CategoryCharacteristicsQuery(Query):
     category_id: ID_T
 
 
+class CategoryWithProductCountQuery(Query):
+    """Every active category of ``kind``, each with its subtree entry count.
+
+    Not paginated: a parent's count is rolled up from its descendants, so the
+    whole tree has to be in hand to answer at all. The legacy endpoint this
+    replaces declared ``limit``/``offset`` and ignored them for the same reason.
+    """
+
+    kind: CategoryKindEnum
+
+
 class CategoryShortListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMeta):
     _ordering_allowed_fields: OrderingAllowedFieldsT = {
         "created_at",

@@ -118,7 +118,7 @@ class SubjectStockProductsDTO(msgspec.Struct):
         value: str
 
     product_id: ID_T
-    # None when the stocked lots carry no variant (variant is unused in current data).
+    # None when the stocked lots carry no variant.
     variant_id: Optional[ID_T]
     name: str
     remains: Decimal
@@ -130,8 +130,9 @@ class SubjectStockProductsDTO(msgspec.Struct):
     # Last confirmed sale date of the product (across the company). None if never sold.
     last_sold_date: Optional[datetime] = None
     images: List[CatalogEntryImageListDTO] = msgspec.field(default_factory=list)
-    # Variant characteristics; empty on current data (variant unused). Resolving the
-    # characteristic/value names is deferred until variants are populated.
+    # The variant's characteristics, resolved to names. Empty when the lots
+    # carry no variant. Same data as `CharacteristicValuePairDTO` under the
+    # shorter field names this DTO shipped with.
     characteristics: List[Characteristics] = msgspec.field(default_factory=list)
 
 

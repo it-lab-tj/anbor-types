@@ -8,6 +8,7 @@ from pydantic import Field
 from anbor_types.catalog.catalog_entry.dto import (
     CatalogEntryOnBusinessDocumentItemDTO,
 )
+from anbor_types.catalog.category.dto import CharacteristicValuePairDTO
 from anbor_types.common.dto import FileShortDTO
 from anbor_types.common.enums import StatusEnum
 from anbor_types.handbook.project.dto import ProjectShortListDTO
@@ -94,6 +95,11 @@ class PurchaseDocumentItemDetailedDTO(msgspec.Struct):
     count: Decimal
     variant_id: Optional[ID_T] = None
     expires_at: Optional[date] = None
+    # The variant's characteristics, resolved to names. Empty when the item
+    # carries no variant.
+    characteristic_values: List[CharacteristicValuePairDTO] = msgspec.field(
+        default_factory=list
+    )
 
 
 class PurchaseDocumentDetailedDTO(msgspec.Struct):
