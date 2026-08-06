@@ -20,14 +20,18 @@ class CategoryCharacteristicsQuery(Query):
 
 
 class CategoryWithProductCountQuery(Query):
-    """Every active category of ``kind``, each with its subtree entry count.
+    """Every category of ``kind`` and ``status``, each with its subtree count.
 
     Not paginated: a parent's count is rolled up from its descendants, so the
     whole tree has to be in hand to answer at all. The legacy endpoint this
     replaces declared ``limit``/``offset`` and ignored them for the same reason.
+
+    ``status`` picks which categories come back; it does not change what gets
+    counted, which is always the *active* entries in the subtree.
     """
 
     kind: CategoryKindEnum
+    status: StatusEnum = StatusEnum.ACTIVE
 
 
 class CategoryShortListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMeta):
