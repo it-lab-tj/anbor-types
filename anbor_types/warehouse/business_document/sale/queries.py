@@ -121,7 +121,7 @@ class SaleDocumentItemsProfitQuery(ListQuery, OrderingQueryMixin, metaclass=Filt
         FilterSpec.numeric(int, lte=ID_MAX),
     ]
 
-    vendor_code:Annotated[
+    vendor_code: Annotated[
         ID_T,
         FilterSpec.numeric(int, lte=ID_MAX),
     ]

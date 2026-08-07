@@ -16,6 +16,13 @@ class DailyAnalyticDTO(msgspec.Struct):
     cash_desk_balance: Decimal
 
 
+class DailyAnalyticShortDTO(msgspec.Struct):
+    revenue: Decimal
+    expense: Decimal
+    date: date
+    cash_desk_balance: Decimal
+
+
 class DailyAnalyticUpdateDTO(BasePydanticModel):
     expense: Optional[Decimal] = None
     revenue: Optional[Decimal] = None
