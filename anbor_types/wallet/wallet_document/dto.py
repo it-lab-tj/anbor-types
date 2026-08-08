@@ -17,6 +17,7 @@ from anbor_types.storage.counterparty.dto import CounterpartyShortDTO
 from anbor_types.wallet.currency.dto import CurrencyShortDTO, CurrencyShortListDTO
 from anbor_types.wallet.constants import WalletDocumentKindEnum
 from anbor_types.wallet.operating_expense.dto import OperatingExpenseShortListDTO
+from anbor_types.api.constants import DECIMAL_ZERO
 
 
 class WalletDocumentListDTO(msgspec.Struct):
@@ -58,7 +59,7 @@ class WalletDocumentDetailedDTO(msgspec.Struct):
 
 
 class WalletDocumentCreateDTO(BasePydanticModel):
-    amount: Annotated[Decimal, Field(gt=Decimal("0"), le=Decimal("9999999999.9999"))]
+    amount: Annotated[Decimal, Field(gt=DECIMAL_ZERO, le=Decimal("9999999999.9999"))]
     cash_desk_id: ID_T
     comment: ATComment
     confirmed_at: ATDatetime
@@ -92,7 +93,7 @@ class WalletDocumentCreateDTO(BasePydanticModel):
 
 
 class WalletDocumentUpdateDTO(BasePydanticModel):
-    amount: Annotated[Decimal, Field(gt=Decimal("0"), le=Decimal("9999999999.9999"))]
+    amount: Annotated[Decimal, Field(gt=DECIMAL_ZERO, le=Decimal("9999999999.9999"))]
     files_ids: List[ID_T]
     comment: ATComment
     project_id: ID_T

@@ -41,7 +41,7 @@ class SaleProfitDocumentItemDTO(BasePydanticModel):
     entry_id: ID_T
     price: Decimal
     discount: Decimal = DECIMAL_ZERO
-    count: Decimal = Field(gt=Decimal("0"))
+    count: Decimal = Field(gt=DECIMAL_ZERO)
     expires_at: Optional[date] = None
     char_values: List[CharValueDTO] = Field(
         default_factory=list,
@@ -101,7 +101,7 @@ class SaleDocumentItemsProfitQuery(ListQuery, OrderingQueryMixin, metaclass=Filt
         Tuple[Decimal, Decimal],
         FilterSpec.numeric_range(
             Decimal,
-            gte=Decimal(0),
+            gte=DECIMAL_ZERO,
             lte=PRICE_MAX,
         ),
     ]

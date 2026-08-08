@@ -4,7 +4,7 @@ from typing import Annotated, Tuple
 from pydantic import StringConstraints
 
 from anbor_types import ID_T, ListQuery, Query
-from anbor_types.api.constants import ID_MAX, PRICE_MAX
+from anbor_types.api.constants import ID_MAX, PRICE_MAX, DECIMAL_ZERO
 from anbor_types.catalog.enums import CatalogEntryKindEnum
 from anbor_types.api.types import OrderingAllowedFieldsT
 from anbor_types.common.annotated import ATDatetimeRN
@@ -99,7 +99,7 @@ class BusinessDocumentListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterM
         FilterSpec.numeric_range(
             Decimal,
             lte=PRICE_MAX,
-            gt=Decimal("0"),
+            gt=DECIMAL_ZERO,
         ),
     ]
 
@@ -107,7 +107,7 @@ class BusinessDocumentListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterM
         Decimal,
         FilterSpec.numeric(
             Decimal,
-            gte=Decimal("0"),
+            gte=DECIMAL_ZERO,
             lte=PRICE_MAX,
         ),
     ]
@@ -117,7 +117,7 @@ class BusinessDocumentListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterM
         FilterSpec.numeric_range(
             Decimal,
             lte=PRICE_MAX,
-            gte=Decimal("0"),
+            gte=DECIMAL_ZERO,
         ),
     ]
 

@@ -8,7 +8,7 @@ from anbor_types.common.annotated import ATDatetimeRN
 from anbor_types.common.enums import StatusEnum
 from anbor_types.utils.filter.meta import FilterMeta, FilterSpec
 from anbor_types.utils.mixins import OrderingQueryMixin
-from anbor_types.api.constants import ID_MAX, PRICE_MAX
+from anbor_types.api.constants import ID_MAX, PRICE_MAX, DECIMAL_ZERO
 from anbor_types.api.annotated import ATSearch
 
 
@@ -50,7 +50,7 @@ class CatalogEntryBaseListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterM
         FilterSpec.numeric_range(
             Decimal,
             lte=PRICE_MAX,
-            gt=Decimal("0"),
+            gt=DECIMAL_ZERO,
         ),
     ]
 
@@ -59,7 +59,7 @@ class CatalogEntryBaseListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterM
         FilterSpec.numeric_range(
             Decimal,
             lte=PRICE_MAX,
-            gt=Decimal("0"),
+            gt=DECIMAL_ZERO,
         ),
     ]
 

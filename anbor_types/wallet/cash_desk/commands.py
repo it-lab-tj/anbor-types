@@ -6,6 +6,7 @@ from pydantic import Field
 from anbor_types import ID_T, BasePydanticModel, Command
 from anbor_types.common.annotated import ATDatetime
 from anbor_types.wallet.cash_desk.constraints import CASH_DESK_TITLE_MAX_LENGTH
+from anbor_types.api.constants import DECIMAL_ZERO
 
 
 class CashDeskCreateDTO(BasePydanticModel):
@@ -38,7 +39,7 @@ class CashDeskRebalanceDTO(BasePydanticModel):
     writes a single WalletOperation for the delta. No WalletDocument is created.
     """
 
-    target_balance: Decimal = Field(ge=Decimal("0"))
+    target_balance: Decimal = Field(ge=DECIMAL_ZERO)
     operating_expense_id: ID_T
     comment: str
     confirmed_at: ATDatetime

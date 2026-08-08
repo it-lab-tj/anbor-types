@@ -12,6 +12,7 @@ from anbor_types.utils.mixins import OrderingQueryMixin
 from anbor_types.wallet.constraints import SUBJECT_BALANCE_MAX, SUBJECT_BALANCE_MIN
 from anbor_types.warehouse.constants.enums import SubjectKindEnum
 from anbor_types.utils.filter.types import FilterSpec
+from anbor_types.api.constants import DECIMAL_ZERO
 
 
 class SubjectListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMeta):
@@ -86,7 +87,7 @@ class SubjectStockProductsListQuery(
         Tuple[Decimal, Decimal],
         FilterSpec.numeric_range(
             Decimal,
-            gte=Decimal(0),
+            gte=DECIMAL_ZERO,
             description="Range filter over the aggregated cost price "
             "(`sum(price * remains)`) of a product in the warehouse.",
         ),

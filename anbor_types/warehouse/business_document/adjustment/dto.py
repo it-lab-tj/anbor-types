@@ -36,6 +36,7 @@ from anbor_types.warehouse.constants.enums import (
     BusinessDocumentApplicationStatusEnum,
     BusinessDocumentItemKindEnum,
 )
+from anbor_types.api.constants import DECIMAL_ZERO
 
 
 class AdjustmentDocumentItemBaseCreateDTO(BasePydanticModel):
@@ -45,7 +46,7 @@ class AdjustmentDocumentItemBaseCreateDTO(BasePydanticModel):
     kind: BusinessDocumentItemKindEnum = Field(
         description="Направление движения товара: 1=INCOME (поступление), 2=OUTCOME (списание)."
     )
-    count: Decimal = Field(le=item_constraints.COUNT_MAX, gt=Decimal("0"))
+    count: Decimal = Field(le=item_constraints.COUNT_MAX, gt=DECIMAL_ZERO)
     expires_at: Optional[date] = Field(default=None)
 
 
@@ -83,7 +84,7 @@ class AdjustmentDocumentItemUpdateDTO(BasePydanticModel):
     price: ATPrice
     discount: ATDiscount
     kind: BusinessDocumentItemKindEnum
-    count: Decimal = Field(le=item_constraints.COUNT_MAX, gt=Decimal("0"))
+    count: Decimal = Field(le=item_constraints.COUNT_MAX, gt=DECIMAL_ZERO)
     variant_id: Optional[ID_T] = Field(default=None)
     expires_at: Optional[date] = Field(default=None)
 

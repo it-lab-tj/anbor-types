@@ -2,7 +2,7 @@ from decimal import Decimal
 from typing import Annotated, List, Tuple
 
 from anbor_types import ID_T, ListQuery
-from anbor_types.api.constants import ID_MAX
+from anbor_types.api.constants import ID_MAX, DECIMAL_ZERO
 from anbor_types.api.types import OrderingAllowedFieldsT
 from anbor_types.catalog.category.dto import CharValueDTO
 from anbor_types.common.annotated import ATDatetimeRN
@@ -95,7 +95,7 @@ class CatalogEntryHistoryListQuery(ListQuery, OrderingQueryMixin, metaclass=Filt
         Tuple[Decimal, Decimal],
         FilterSpec.numeric_range(
             Decimal,
-            gte=Decimal("0"),
+            gte=DECIMAL_ZERO,
             lte=COUNT_MAX,
         ),
     ]
@@ -104,7 +104,7 @@ class CatalogEntryHistoryListQuery(ListQuery, OrderingQueryMixin, metaclass=Filt
         Tuple[Decimal, Decimal],
         FilterSpec.numeric_range(
             Decimal,
-            gte=Decimal("0"),
+            gte=DECIMAL_ZERO,
             lte=PRICE_MAX,
         ),
     ]

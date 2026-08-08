@@ -9,6 +9,7 @@ from anbor_types.common.annotated import ATPrice, ATDiscount
 from anbor_types.warehouse.constants.constraints import (
     document_item as item_constraints,
 )
+from anbor_types.api.constants import DECIMAL_ZERO
 
 
 class BusinessDocumentItemBaseCreateDTO(BaseModel):
@@ -33,7 +34,7 @@ class BusinessDocumentItemUpdateDTO(BaseModel):
 
 class ReturnDocumentItemCreateDTO(BaseModel):
     ref_item_id: ID_T
-    count: Decimal = Field(le=item_constraints.COUNT_MAX, gt=Decimal("0"))
+    count: Decimal = Field(le=item_constraints.COUNT_MAX, gt=DECIMAL_ZERO)
 
 
 class ReturnDocumentItemUpdateDTO(BaseModel):
@@ -41,4 +42,4 @@ class ReturnDocumentItemUpdateDTO(BaseModel):
     fixed at creation (no adding/removing via update)."""
 
     id: ID_T
-    count: Decimal = Field(le=item_constraints.COUNT_MAX, gt=Decimal("0"))
+    count: Decimal = Field(le=item_constraints.COUNT_MAX, gt=DECIMAL_ZERO)

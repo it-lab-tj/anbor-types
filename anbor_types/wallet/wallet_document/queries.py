@@ -7,7 +7,7 @@ from anbor_types.api.types import OrderingAllowedFieldsT
 from anbor_types.common.annotated import ATDatetimeRN
 from anbor_types.utils.mixins import OrderingQueryMixin
 from anbor_types.wallet.constants import WalletDocumentKindEnum
-from anbor_types.api.constants import PRICE_MAX, ID_MAX
+from anbor_types.api.constants import PRICE_MAX, ID_MAX, DECIMAL_ZERO
 from anbor_types.utils.filter.types import FilterSpec
 from anbor_types.utils.filter.meta import FilterMeta
 
@@ -41,7 +41,7 @@ class WalletTransferListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMet
         FilterSpec.numeric_range(
             Decimal,
             lte=PRICE_MAX,
-            gt=Decimal("0"),
+            gt=DECIMAL_ZERO,
         ),
     ]
 
@@ -122,7 +122,7 @@ class WalletDocumentListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMet
         FilterSpec.numeric_range(
             Decimal,
             lte=PRICE_MAX,
-            gt=Decimal("0"),
+            gt=DECIMAL_ZERO,
         ),
     ]
 

@@ -10,6 +10,7 @@ from anbor_types import ID_T, ListQuery, Query
 from anbor_types.catalog.catalog_entry.queries import CatalogEntryBaseListQuery
 from anbor_types.catalog.category.dto import CharValueDTO
 from anbor_types.catalog.constraints import CATALOG_ENTRY_VARIANT_CHAR_VALUES_MAX_COUNT
+from anbor_types.api.constants import DECIMAL_ZERO
 
 
 class ProductDetailedQuery(Query):
@@ -32,6 +33,14 @@ class ProductRemainsQuery(Query):
     def id(self) -> ID_T:
         return self._id
 
+    @field_validator("storage_id", mode="after")
+    @classmethod
+    def validate_storage_id(cls, v: Optional[ID_T]) -> Optional[ID_T]:
+        # Ignore value `0` for front-end purpose: Naimjon
+        if not v:
+            return None
+        return v
+
 
 class ProductListQuery(CatalogEntryBaseListQuery):
     buying_price__rn: Annotated[
@@ -39,7 +48,7 @@ class ProductListQuery(CatalogEntryBaseListQuery):
         FilterSpec.numeric_range(
             Decimal,
             lte=PRICE_MAX,
-            gt=Decimal("0"),
+            gt=DECIMAL_ZERO,
         ),
     ]
 
