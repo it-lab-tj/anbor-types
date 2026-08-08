@@ -21,12 +21,16 @@ class ProductProfilesQuery(Query):
 
 
 class ProductRemainsQuery(Query):
-    id: ID_T
+    _id: ID_T
     storage_id: Optional[ID_T] = None
     char_values: List[CharValueDTO] = Field(
         default_factory=list,
         max_length=CATALOG_ENTRY_VARIANT_CHAR_VALUES_MAX_COUNT,
     )
+
+    @property
+    def id(self) -> ID_T:
+        return self._id
 
 
 class ProductListQuery(CatalogEntryBaseListQuery):

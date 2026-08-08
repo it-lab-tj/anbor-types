@@ -36,6 +36,9 @@ class FilterValidator:
         elif spec.lookup == FilterLookupEnum.IN:
             cls._validate_collection(spec, value)
 
+        elif spec.lookup == FilterLookupEnum.JSON:
+            cls._validate_json(spec, value)
+
         else:
             raise RuntimeError(f"Undefined filter lookup type `{spec.lookup}`")
 
@@ -121,6 +124,23 @@ class FilterValidator:
 
         if duplicates:
             details.append(cls._duplicate_detail(spec, duplicates))
+
+        if details:
+            raise AppException.from_details(details)
+
+    @classmethod
+    def _validate_json(cls, spec: FilterSpec, value: Optional[Any]) -> None:
+        """The item schema is enforced by pydantic before this runs, so only
+        presence and item count are checked here."""
+        if value is None or (isinstance(value, (tuple, list)) and not value):
+            if spec.required:
+                raise AppException.from_details([cls._required_detail(spec)])
+            return
+
+        if not isinstance(value, (tuple, list)):
+            raise AppException.from_details([cls._invalid_value_detail(spec)])
+
+        details = cls._validate_length(spec, value)
 
         if details:
             raise AppException.from_details(details)

@@ -4,7 +4,6 @@ from anbor_types.identity.user.dto import (
     StaffMemberUpdateDTO,
 )
 
-
 # --------------------------------------------------------------------------- #
 # Common, kind-agnostic user-account commands
 # (reusable by any user kind, not just staff)

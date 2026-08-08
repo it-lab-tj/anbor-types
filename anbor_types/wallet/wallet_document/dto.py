@@ -8,14 +8,13 @@ from pydantic_core import PydanticCustomError
 
 from anbor_types import ID_T, BasePydanticModel
 from anbor_types.common.annotated import ATComment, ATDatetime, ATFileIds
-from anbor_types.common.dto import FileShortDTO
+from anbor_types.common.dto import FileShortDTO, NameIdDTO
 from anbor_types.common.enums import ContentTypeEnum
 from anbor_types.wallet.cash_desk.dto import CashDeskShortListDTO
 from anbor_types.handbook.project.dto import ProjectShortListDTO
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
 from anbor_types.storage.counterparty.dto import CounterpartyShortDTO
 from anbor_types.wallet.currency.dto import CurrencyShortDTO, CurrencyShortListDTO
-from anbor_types.warehouse.business_document.subject.dto import SubjectShortDTO
 from anbor_types.wallet.constants import WalletDocumentKindEnum
 from anbor_types.wallet.operating_expense.dto import OperatingExpenseShortListDTO
 
@@ -27,7 +26,7 @@ class WalletDocumentListDTO(msgspec.Struct):
     confirmed_at: datetime
     kind: WalletDocumentKindEnum
     created_by: AuthorInfoShortDTO
-    subject: Optional[SubjectShortDTO] = None
+    subject: Optional[NameIdDTO] = None
     currency: Optional[CurrencyShortDTO] = None
     vendor_code: Optional[str] = None
 
@@ -51,7 +50,7 @@ class WalletDocumentDetailedDTO(msgspec.Struct):
     operating_expense: OperatingExpenseShortListDTO
     vendor_code: Optional[str] = None
     receiver: Optional[CounterpartyShortDTO] = None
-    storage: Optional[SubjectShortDTO] = None
+    storage: Optional[NameIdDTO] = None
     currency: Optional[CurrencyShortListDTO] = None
     project: Optional[ProjectShortListDTO] = None
     comment: Optional[str] = None

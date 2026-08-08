@@ -87,8 +87,12 @@ class SubjectForBusinessDocumentShortDataDTO(msgspec.Struct):
 
 
 class SubjectShortDTO(msgspec.Struct):
+    """A subject plus the role it plays. Use `NameIdDTO` when the kind is
+    already implied by the field it sits on."""
+
     id: ID_T
     name: str
+    kind: SubjectKindEnum
 
 
 class SubjectBalanceDTO(msgspec.Struct):

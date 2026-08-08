@@ -1,3 +1,4 @@
+import json
 from dataclasses import replace
 from decimal import Decimal
 from enum import Enum
@@ -37,6 +38,24 @@ def _split_collection(value: Any) -> Any:
     return value.split(RANGE_SEPARATOR)
 
 
+def _parse_json(value: Any) -> Any:
+    """Decodes a JSON string into its Python value; anything else (an already
+    parsed list, from a body or direct construction) passes through for the
+    list schema to accept or reject.
+
+    A malformed string is passed through untouched rather than raised on, so the
+    caller gets the list schema's "expected list" error instead of a bare
+    JSONDecodeError leaking out of the pipeline.
+    """
+    if not isinstance(value, str):
+        return value
+
+    try:
+        return json.loads(value)
+    except ValueError:
+        return value
+
+
 def _json_number(value: Any) -> Any:
     """Decimal is not JSON-serializable; render it as int/float for the schema."""
     if isinstance(value, Decimal):
@@ -63,6 +82,8 @@ class FilterPipelineInjector:
             value_schema = self._range_value_schema(handler)
         elif self.spec.lookup == FilterLookupEnum.IN:
             value_schema = self._collection_value_schema(handler)
+        elif self.spec.lookup == FilterLookupEnum.JSON:
+            value_schema = self._json_value_schema(handler)
         else:
             value_schema = handler(self.spec.base_type)
 
@@ -91,6 +112,17 @@ class FilterPipelineInjector:
         endpoint = core_schema.nullable_schema(handler(self.spec.base_type))
         pair = core_schema.tuple_variable_schema(endpoint)
         return core_schema.no_info_before_validator_function(_split_collection, pair)
+
+    def _json_value_schema(
+        self, handler: GetCoreSchemaHandler
+    ) -> core_schema.CoreSchema:
+        """A JSON array of `base_type`, accepted either already-parsed (POST
+        body / direct construction) or as a raw JSON string (query param)."""
+        # `max_length` is left to `FilterValidator` so an over-long payload
+        # reports as an AppException detail like every other filter, rather than
+        # as a raw pydantic error.
+        items = core_schema.list_schema(handler(self.spec.base_type))
+        return core_schema.no_info_before_validator_function(_parse_json, items)
 
     def __get_pydantic_json_schema__(
         self, core_schema_: core_schema.CoreSchema, handler: GetJsonSchemaHandler

@@ -314,6 +314,34 @@ class FilterSpec[TValue]:
         )
 
     @classmethod
+    def json(
+        cls,
+        base_type: Type[TValue],
+        field: Optional[str] = None,
+        required: bool = False,
+        max_length: Optional[int] = None,
+        description: Optional[str] = None,
+    ) -> "FilterSpec[Tuple[TValue, ...]]":
+        """A structured filter whose value arrives as JSON rather than a scalar.
+
+        `base_type` is the item model (a pydantic model or msgspec struct); the
+        value is always a list of it, so a single-item payload is still sent as
+        a JSON array. `max_length` caps how many items are accepted.
+
+        The payload's *meaning* is the compiler's business: a `json` filter has
+        no generic column path, so it must have a
+        `compile_<field>__json` handler.
+        """
+        return cls(
+            base_type=base_type,
+            lookup=FilterLookupEnum.JSON,
+            field=field,
+            required=required,
+            max_length=max_length,
+            description=description,
+        )
+
+    @classmethod
     def collection(
         cls,
         base_type: Type[TValue],
