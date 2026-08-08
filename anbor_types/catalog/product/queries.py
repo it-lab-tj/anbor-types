@@ -4,7 +4,7 @@ from typing import Annotated, List, Optional
 from anbor_types.warehouse.constants.constraints import PRICE_MAX
 
 from anbor_types.utils.filter.types import FilterSpec
-from pydantic import Field, field_validator
+from pydantic import Field, field_validator, PrivateAttr
 
 from anbor_types import ID_T, ListQuery, Query
 from anbor_types.catalog.catalog_entry.queries import CatalogEntryBaseListQuery
@@ -21,7 +21,7 @@ class ProductProfilesQuery(Query):
 
 
 class ProductRemainsQuery(Query):
-    _id: ID_T
+    _id: ID_T = PrivateAttr(init=False)
     storage_id: Optional[ID_T] = None
     char_values: List[CharValueDTO] = Field(
         default_factory=list,

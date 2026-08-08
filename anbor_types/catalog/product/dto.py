@@ -5,6 +5,7 @@ import msgspec
 from pydantic import conlist, Field
 
 from anbor_types import ID_T, BasePydanticModel
+from anbor_types.api.constants import DECIMAL_ZERO
 from anbor_types.catalog import annotated
 from anbor_types.catalog.catalog_entry.dto import (
     CatalogEntryCreateDTO,
@@ -64,7 +65,7 @@ class ProductCreateDTO(CatalogEntryCreateDTO):
     buying_price: ATPrice
     # Defaulted (pydantic does not validate defaults) so imports that don't carry
     # a markup can omit it; explicit values still go through ATPrice.
-    surcharge: ATPrice = Decimal("0")
+    surcharge: ATPrice = DECIMAL_ZERO
 
     profiles: Annotated[
         Optional[List[CatalogEntryProfileCreateDTO]],

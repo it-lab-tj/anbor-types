@@ -5,7 +5,7 @@ from typing import Annotated, List, Optional, Tuple
 from pydantic import Field, model_validator
 
 from anbor_types import ID_T, BasePydanticModel, ListQuery, Query
-from anbor_types.api.constants import ID_MAX, PRICE_MAX
+from anbor_types.api.constants import ID_MAX, PRICE_MAX, DECIMAL_ZERO
 from anbor_types.api.types import OrderingAllowedFieldsT
 from anbor_types.catalog.category.dto import CharValueDTO
 from anbor_types.common.annotated import ATDatetimeRN, ATRate
@@ -40,7 +40,7 @@ class SaleProfitDocumentItemDTO(BasePydanticModel):
 
     entry_id: ID_T
     price: Decimal
-    discount: Decimal = Decimal("0")
+    discount: Decimal = DECIMAL_ZERO
     count: Decimal = Field(gt=Decimal("0"))
     expires_at: Optional[date] = None
     char_values: List[CharValueDTO] = Field(

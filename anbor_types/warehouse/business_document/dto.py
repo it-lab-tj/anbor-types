@@ -5,6 +5,7 @@ from typing import List, Optional
 import msgspec
 
 from anbor_types import ID_T
+from anbor_types.api.constants import DECIMAL_ZERO
 from anbor_types.catalog.catalog_entry.dto import (
     CatalogEntryImageListDTO,
     CatalogEntryProfileListDTO,
@@ -57,7 +58,7 @@ class BusinessDocumentListItemDTO(msgspec.Struct):
     shipped_at: Optional[datetime] = None
     rate: Optional[Decimal] = None
     items_count: Optional[int] = None
-    paid: Decimal = Decimal("0")
+    paid: Decimal = DECIMAL_ZERO
 
 
 class DocumentEntryListDTO(msgspec.Struct):

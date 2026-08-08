@@ -1,9 +1,10 @@
 from datetime import datetime, timezone
 from decimal import Decimal
 
-import regex
 
-TITLE_REGEX = regex.compile(r"^[\p{L}\p{N} .,:_+/-]+$")
+from anbor_types.api.constants import DECIMAL_ZERO, TITLE_REGEX
+
+TITLE_REGEX = TITLE_REGEX
 
 
 # NAME
@@ -25,10 +26,10 @@ DESCRIPTION_MAX_LENGTH = 5000
 
 # DISCOUNTS
 DISCOUNT_MAX = Decimal("100")
-DISCOUNT_MIN = Decimal("0")
+DISCOUNT_MIN = DECIMAL_ZERO
 
 # PRICE
-ANY_PRICE_MIN = Decimal("0")
+ANY_PRICE_MIN = DECIMAL_ZERO
 
 
 # ==== =====
