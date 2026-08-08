@@ -148,6 +148,17 @@ class FilterPipelineInjector:
         if _is_number(spec.lte):
             target["maximum"] = _json_number(spec.lte)
 
+        # A JSON filter's length bound counts *items*, not characters, so it
+        # renders as minItems/maxItems. Emitting minLength/maxLength here would
+        # tell a client the whole payload must be <= N characters long.
+        if spec.lookup == FilterLookupEnum.JSON:
+            if spec.min_length is not None:
+                target["minItems"] = spec.min_length
+            if spec.max_length is not None:
+                target["maxItems"] = spec.max_length
+
+            return schema
+
         if spec.min_length is not None:
             target["minLength"] = spec.min_length
         if spec.max_length is not None:

@@ -322,7 +322,7 @@ class FilterSpec[TValue]:
         max_length: Optional[int] = None,
         description: Optional[str] = None,
     ) -> "FilterSpec[Tuple[TValue, ...]]":
-        """A structured filter whose value arrives as JSON rather than a scalar.
+        """A structujsonred filter whose value arrives as JSON rather than a scalar.
 
         `base_type` is the item model (a pydantic model or msgspec struct); the
         value is always a list of it, so a single-item payload is still sent as
