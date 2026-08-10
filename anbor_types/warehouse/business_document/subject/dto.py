@@ -108,7 +108,7 @@ class SubjectRebalanceDTO(BasePydanticModel):
     writes a single WalletOperation for the delta. No WalletDocument is created.
     """
 
-    target_balance: Decimal = Field(lt=Decimal(PRICE_MAX))
+    target_balance: Decimal = Field(le=PRICE_MAX)
     operating_expense_id: ID_T
     comment: str
     files_ids: List[ID_T] = Field(default_factory=list)
