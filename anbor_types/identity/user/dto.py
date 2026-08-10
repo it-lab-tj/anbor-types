@@ -96,3 +96,22 @@ class StaffMemberDetailedDTO(msgspec.Struct):
     company: Optional[NameIdDTO] = None
     job_position: Optional[NameIdDTO] = None
     files: Optional[List[FileShortDTO]] = None
+
+
+# --------------------------------------------------------------------------- #
+# Confirmations
+#
+# Kind-agnostic: the same request shape serves invitation, email and phone
+# confirmation. The kind is carried by the route, never by the body, so a caller
+# cannot present a token issued for one purpose as another.
+# --------------------------------------------------------------------------- #
+
+
+class UserConfirmationRequestDTO(BasePydanticModel):
+    """Body of every confirmation request.
+
+    `otp` is the **decoded** secret: the emailed link carries a base64 token and
+    the client decodes it before posting.
+    """
+
+    otp: str
