@@ -29,5 +29,5 @@ class DailyAnalyticListQuery(Query, metaclass=FilterMeta):
 class WalletCashFlowListQuery(Query, metaclass=FilterMeta):
     date__rn: Annotated[
         Tuple[Optional[ATDatetime], Optional[ATDatetime]],
-        FilterSpec.date_range(both_required=True),
+        FilterSpec.datetime_range(both_required=True),
     ]
