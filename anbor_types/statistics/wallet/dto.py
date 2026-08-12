@@ -9,7 +9,7 @@ from anbor_types.statistics.daily_analytics.dto import DailyAnalyticShortDTO
 
 class WalletIncomeStatementListDTO(msgspec.Struct):
     cost_price: Decimal
-    gross_price: Decimal
+    gross_profit: Decimal
     operating_expenses: List[OperatingExpenseListDTO]
     operating_income_total: Decimal
     revenue: Decimal
