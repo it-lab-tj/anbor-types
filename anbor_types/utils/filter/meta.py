@@ -1,5 +1,6 @@
 import json
 from dataclasses import replace
+from datetime import datetime
 from decimal import Decimal
 from enum import Enum
 from typing import Annotated, Any, Type, Optional, get_args, get_origin
@@ -102,14 +103,14 @@ class FilterPipelineInjector:
     def _range_value_schema(
         self, handler: GetCoreSchemaHandler
     ) -> core_schema.CoreSchema:
-        endpoint = core_schema.nullable_schema(handler(self.spec.base_type))
+        endpoint = core_schema.nullable_schema(handler(self._get_base_type()))
         pair = core_schema.tuple_positional_schema([endpoint, endpoint])
         return core_schema.no_info_before_validator_function(_split_range, pair)
 
     def _collection_value_schema(
         self, handler: GetCoreSchemaHandler
     ) -> core_schema.CoreSchema:
-        endpoint = core_schema.nullable_schema(handler(self.spec.base_type))
+        endpoint = core_schema.nullable_schema(handler(self._get_base_type()))
         pair = core_schema.tuple_variable_schema(endpoint)
         return core_schema.no_info_before_validator_function(_split_collection, pair)
 
@@ -121,8 +122,15 @@ class FilterPipelineInjector:
         # `max_length` is left to `FilterValidator` so an over-long payload
         # reports as an AppException detail like every other filter, rather than
         # as a raw pydantic error.
-        items = core_schema.list_schema(handler(self.spec.base_type))
+        items = core_schema.list_schema(handler(self._get_base_type()))
         return core_schema.no_info_before_validator_function(_parse_json, items)
+
+    def _get_base_type(self) -> Any:
+        from anbor_types.common.annotated import ATDatetime
+
+        if self.spec.base_type is datetime:
+            return ATDatetime
+        return self.spec.base_type
 
     def __get_pydantic_json_schema__(
         self, core_schema_: core_schema.CoreSchema, handler: GetJsonSchemaHandler

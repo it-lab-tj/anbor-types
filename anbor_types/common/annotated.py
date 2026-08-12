@@ -14,7 +14,7 @@ from anbor_types.common.constraints import (
 )
 from anbor_types.utils.filter.types import FilterSpec
 from anbor_types.utils.functions import (
-    check_timezone,
+    set_timezone,
     parse_single_line_str,
 )
 
@@ -72,12 +72,11 @@ type ATFileIds = Annotated[
 ]
 
 # ====== Date =======
-type ATDatetime = Annotated[datetime, AfterValidator(check_timezone)]
+type ATDatetime = Annotated[datetime, AfterValidator(set_timezone)]
 
 
 ATDatetimeRN = Annotated[
-    Tuple[Optional[datetime], Optional[datetime]],
-    AfterValidator(check_timezone),
+    Tuple[Optional[ATDatetime], Optional[ATDatetime]],
     FilterSpec.datetime_range(
         lte=DATETIME_MAX,
     ),

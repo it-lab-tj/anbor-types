@@ -2,6 +2,7 @@ import datetime
 from decimal import Decimal
 from typing import Annotated, Optional, Tuple
 
+from anbor_types.common.annotated import ATDatetime
 
 from anbor_types import Query
 from anbor_types.utils.filter.types import FilterSpec
@@ -27,6 +28,6 @@ class DailyAnalyticListQuery(Query, metaclass=FilterMeta):
 
 class WalletCashFlowListQuery(Query, metaclass=FilterMeta):
     date__rn: Annotated[
-        Tuple[Optional[datetime.date], Optional[datetime.date]],
-        FilterSpec.date_range(),
+        Tuple[Optional[ATDatetime], Optional[ATDatetime]],
+        FilterSpec.date_range(both_required=True),
     ]

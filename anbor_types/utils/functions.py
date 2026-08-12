@@ -3,6 +3,8 @@ from enum import Enum
 import re
 from typing import Any, Tuple, Type
 
+import pytz
+
 re_rm_whitespace = re.compile(r"\s+")
 
 
@@ -22,9 +24,18 @@ def max_length_exceeded(field: str) -> str:
     return f"Превышена максимально допустимая длина {field}"
 
 
-def check_timezone(v: datetime) -> datetime:
+def parse_datetime(v: str) -> datetime:
+    res = datetime.fromisoformat(v)
+
+    if res.tzinfo is None:
+        res = res.replace(tzinfo=pytz.utc)
+
+    return res
+
+
+def set_timezone(v: datetime) -> datetime:
     if v.tzinfo is None:
-        raise ValueError("datetime must include timezone information")
+        return v.astimezone(pytz.utc)
     return v
 
 

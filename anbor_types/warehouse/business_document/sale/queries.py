@@ -95,7 +95,7 @@ class SaleDocumentItemsProfitQuery(ListQuery, OrderingQueryMixin, metaclass=Filt
         "created_at",
     }
 
-    created_at__rn: ATDatetimeRN
+    shipped_at__rn: ATDatetimeRN
 
     profit__rn: Annotated[
         Tuple[Decimal, Decimal],
