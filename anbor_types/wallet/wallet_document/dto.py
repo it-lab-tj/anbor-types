@@ -50,6 +50,9 @@ class WalletDocumentDetailedDTO(msgspec.Struct):
     created_by: AuthorInfoShortDTO
     operating_expense: OperatingExpenseShortListDTO
     rate: Decimal
+    # «Сумма прописью» — `amount` written out in Russian words, built with
+    # `numeric_funcs.get_capstone` at the repository. Printed on documents.
+    capstone: str
     vendor_code: Optional[str] = None
     receiver: Optional[CounterpartyShortDTO] = None
     storage: Optional[NameIdDTO] = None

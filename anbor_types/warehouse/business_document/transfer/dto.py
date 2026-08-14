@@ -110,5 +110,8 @@ class TransferDocumentDetailedDTO(msgspec.Struct):
     created_at: datetime
     created_by: AuthorInfoShortDTO
     items: List[TransferDocumentItemDetailedDTO]
+    # «Сумма прописью» — `amount` in words. A transfer carries no
+    # currency (storage/0052 leaves it NULL), so no unit is named.
+    capstone: str
     comment: Optional[str] = None
     confirmed_at: Optional[datetime] = None

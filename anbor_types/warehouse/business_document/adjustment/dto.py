@@ -159,5 +159,8 @@ class AdjustmentDocumentDetailedDTO(msgspec.Struct):
     created_at: datetime
     created_by: AuthorInfoShortDTO
     items: List[AdjustmentDocumentItemDetailedDTO]
+    # «Сумма прописью» — `amount` written out in Russian words, built with
+    # `numeric_funcs.get_capstone` at the repository. Printed on documents.
+    capstone: str
     comment: Optional[str] = None
     confirmed_at: Optional[datetime] = None
