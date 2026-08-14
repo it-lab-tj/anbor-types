@@ -49,6 +49,7 @@ class WalletDocumentDetailedDTO(msgspec.Struct):
     confirmed_at: datetime
     created_by: AuthorInfoShortDTO
     operating_expense: OperatingExpenseShortListDTO
+    rate: Decimal
     vendor_code: Optional[str] = None
     receiver: Optional[CounterpartyShortDTO] = None
     storage: Optional[NameIdDTO] = None
