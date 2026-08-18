@@ -28,6 +28,7 @@ class WalletDocumentListDTO(msgspec.Struct):
     kind: WalletDocumentKindEnum
     created_by: AuthorInfoShortDTO
     subject: Optional[NameIdDTO] = None
+    business_document_id: Optional[ID_T] = None
     currency: Optional[CurrencyShortDTO] = None
     vendor_code: Optional[str] = None
 
@@ -54,6 +55,7 @@ class WalletDocumentDetailedDTO(msgspec.Struct):
     # `numeric_funcs.get_capstone` at the repository. Printed on documents.
     capstone: str
     vendor_code: Optional[str] = None
+    business_document_id: Optional[ID_T] = None
     receiver: Optional[CounterpartyShortDTO] = None
     storage: Optional[NameIdDTO] = None
     currency: Optional[CurrencyShortListDTO] = None
