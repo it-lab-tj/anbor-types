@@ -65,7 +65,7 @@ class WalletDocumentDetailedDTO(msgspec.Struct):
 
 
 class WalletDocumentCreateDTO(BasePydanticModel):
-    amount: Annotated[Decimal, Field(gt=DECIMAL_ZERO, le=Decimal("9999999999.9999"))]
+    amount: Annotated[Decimal, Field(ge=DECIMAL_ZERO, le=Decimal("9999999999.9999"))]
     cash_desk_id: ID_T
     comment: ATComment
     confirmed_at: ATDatetime
