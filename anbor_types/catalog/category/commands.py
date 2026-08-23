@@ -20,9 +20,14 @@ class CategoryUpdateCommand(Command):
 class CharacteristicSetItem(BasePydanticModel):
     """One characteristic in a category's full-state characteristics payload.
 
-    ``id`` present = existing characteristic (row left untouched, its values
-    still synced by name); ``id is None`` = new characteristic to create.
-    ``values`` are plain value names, reconciled by name.
+    ``id`` present = existing characteristic: ``name``, ``kind`` and
+    ``is_required`` are written onto the row, its values synced by name.
+    ``id is None`` = new characteristic to create. Existing characteristics of
+    the category that no payload item names are deleted.
+
+    ``values`` are plain value names (not the ``{id, name}`` objects the GET
+    returns), reconciled by name. ``slug`` is derived once at creation and does
+    not follow a later rename.
     """
 
     name: str
