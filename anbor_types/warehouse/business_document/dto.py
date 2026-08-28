@@ -59,6 +59,7 @@ class BusinessDocumentListItemDTO(msgspec.Struct):
     rate: Optional[Decimal] = None
     items_count: Optional[int] = None
     paid: Decimal = DECIMAL_ZERO
+    tag: Optional[ID_T] = None
 
 
 class DocumentEntryListDTO(msgspec.Struct):
