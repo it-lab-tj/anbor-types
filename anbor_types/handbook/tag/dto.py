@@ -19,7 +19,7 @@ class TagUpdateDTO(BasePydanticModel):
     name: str
 
 
-class TagListDto(msgspec.Struct):
+class TagListDTO(msgspec.Struct):
     id: ID_T
     name: str
     content_type: ContentTypeEnum
