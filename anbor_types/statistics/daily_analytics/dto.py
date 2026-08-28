@@ -8,7 +8,6 @@ from anbor_types import BasePydanticModel
 
 
 class DailyAnalyticDTO(msgspec.Struct):
-    id: int
     date: Optional[date]
     revenues: Decimal
     expenses: Decimal

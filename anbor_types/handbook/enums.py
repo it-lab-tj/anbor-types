@@ -1,4 +1,4 @@
-from enum import IntEnum
+from enum import IntEnum, StrEnum
 
 
 class OperatingExpenseTypeEnum(IntEnum):
@@ -24,3 +24,12 @@ class PromotionItemAwardsEnum(IntEnum):
     QUANTITY_DISCOUNT = 6
     PROMOCODE = 7
     BONUS = 8
+
+
+# Tag
+class TagDefaultNameStrEnum(StrEnum):
+    NEW = "Новый"
+    IN_PROGRESS = "В работе"
+    COMPLETED = "Выполнен"
+    ON_HOLD = "Приостановлена"
+    CANCELLED = "Отменена"

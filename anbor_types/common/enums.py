@@ -13,3 +13,4 @@ class ContentTypeEnum(StrEnum):
     SUBJECT_REBALANCE_HISTORY = "warehouse_subjectrebalance"
     USER = "accounts_user"
     COMPANY = "company_company"
+    STOCK_OPERATION = "warehouse_stockoperation"
