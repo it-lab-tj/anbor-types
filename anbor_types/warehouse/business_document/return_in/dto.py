@@ -20,6 +20,7 @@ class ReturnInBusinessDocumentCreateDTO(BasePydanticModel):
     )
     confirmed: bool = Field(default=False)
     comment: Optional[ATComment] = Field(default=None)
+    tag_id: Optional[ID_T] = None
     file_ids: Optional[ATFileIds] = Field(default=None)
 
 

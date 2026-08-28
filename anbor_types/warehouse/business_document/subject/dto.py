@@ -24,6 +24,7 @@ class SubjectCreateDTO(BasePydanticModel):
     itn: Optional[str] = None
     comment: Optional[str] = None
     index: Optional[int] = None
+    tag_id: Optional[ID_T] = None
     region: Optional[ID_T] = None
     information: Optional[str] = None
     files: Optional[List[ID_T]] = Field(default=None)

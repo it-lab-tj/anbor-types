@@ -38,6 +38,7 @@ class SaleDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     project_id: ID_T
     currency_id: ID_T
     rate: ATRate
+    tag_id: Optional[ID_T] = None
     comment: Optional[ATComment] = Field(default=None)
     shipped_at: ATDatetime
     file_ids: Optional[ATFileIds] = Field(default=None)

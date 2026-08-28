@@ -39,6 +39,7 @@ class TransferDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     shipped_at: ATDatetime
     confirmed: bool = Field(default=False)
     file_ids: Optional[ATFileIds] = Field(default=None)
+    tag_id: Optional[ID_T] = None
     items: List[TItem] = Field(
         min_length=1,
         max_length=doc_constraints.ITEM_MAX_COUNT,

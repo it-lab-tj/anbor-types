@@ -43,6 +43,7 @@ class PurchaseDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     confirmed: bool = Field(default=False)
     comment: Optional[ATComment] = Field(default=None)
     file_ids: Optional[ATFileIds] = Field(default=None)
+    tag_id: Optional[ID_T] = None
     items: List[TItem] = Field(
         min_length=1,
         max_length=doc_constraints.ITEM_MAX_COUNT,

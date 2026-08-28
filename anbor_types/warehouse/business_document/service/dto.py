@@ -10,7 +10,7 @@ from anbor_types.common.annotated import ATComment, ATDatetime, ATFileIds, ATRat
 from anbor_types.catalog.catalog_entry.dto import (
     CatalogEntryOnBusinessDocumentItemDTO,
 )
-from anbor_types.common.dto import FileShortDTO
+from anbor_types.common.dto import FileShortDTO, NameIdDTO
 from anbor_types.common.enums import StatusEnum
 from anbor_types.handbook.project.dto import ProjectShortListDTO
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
@@ -39,6 +39,7 @@ class ServiceDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     currency_id: ID_T
     rate: ATRate
     file_ids: Optional[ATFileIds] = Field(default=None)
+    tag_id: Optional[ID_T] = None
     comment: Optional[ATComment] = Field(default=None)
     shipped_at: ATDatetime
     confirmed: bool = Field(default=False)
@@ -79,6 +80,7 @@ class ServiceDocumentListDTO(msgspec.Struct):
     count_items: int
     amount: Decimal
     status: StatusEnum
+    tag: NameIdDTO
     created_at: datetime
     created_by: AuthorInfoShortDTO
     paid: Decimal
@@ -134,6 +136,7 @@ class ServiceDocumentDetailedDTO(msgspec.Struct):
     shipped_at: datetime
     created_at: datetime
     created_by: AuthorInfoShortDTO
+    tag: NameIdDTO
     paid: Decimal
     items: List[ServiceDocumentItemDetailedDTO]
     # «Сумма прописью» — `amount` written out in Russian words, built with
