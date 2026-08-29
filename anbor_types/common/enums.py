@@ -14,3 +14,6 @@ class ContentTypeEnum(StrEnum):
     USER = "accounts_user"
     COMPANY = "company_company"
     STOCK_OPERATION = "warehouse_stockoperation"
+    SERVICE = "handbook_service"
+    PRODUCT = "handbook_product"
+    STOCK_OPERATION_GROUP = "storage_stockoperationgroup"

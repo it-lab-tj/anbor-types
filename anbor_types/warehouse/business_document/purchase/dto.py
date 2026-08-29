@@ -59,6 +59,7 @@ class PurchaseDocumentUpdateDTO(BasePydanticModel):
     comment: Optional[ATComment] = None
     shipped_at: ATDatetime
     confirmed: bool = Field(default=False)
+    file_ids: Optional[ATFileIds] = Field(default=None)
     items: List[BusinessDocumentItemUpdateDTO] = Field(
         min_length=1, max_length=doc_constraints.ITEM_MAX_COUNT
     )
