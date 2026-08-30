@@ -7,7 +7,7 @@ from anbor_types.utils.filter.meta import FilterSpec
 type AFSearch = Annotated[ATSearch, FilterSpec.string()]
 
 
-type ATSearch = Annotated[
+ATSearch = Annotated[
     str,
     StringConstraints(
         max_length=100,
