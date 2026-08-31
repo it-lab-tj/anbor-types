@@ -37,7 +37,7 @@ from anbor_types.warehouse.constants.enums import (
 )
 from anbor_types.api.constants import DECIMAL_ZERO
 from anbor_types.utils.functions import get_now_utc
-from common.annotated import ATDatetimeDefault
+from anbor_types.common.annotated import ATDatetimeDefault
 
 
 class AdjustmentDocumentItemBaseCreateDTO(BasePydanticModel):

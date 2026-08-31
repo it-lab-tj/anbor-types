@@ -30,7 +30,7 @@ from anbor_types.warehouse.constants.enums import (
 from anbor_types import BasePydanticModel, ID_T
 from anbor_types.common.annotated import ATRate, ATComment, ATFileIds
 from anbor_types.utils.functions import get_now_utc
-from common.annotated import ATDatetimeDefault
+from anbor_types.common.annotated import ATDatetimeDefault
 
 
 class PurchaseDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
