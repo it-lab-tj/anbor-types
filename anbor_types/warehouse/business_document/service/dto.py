@@ -28,6 +28,7 @@ from anbor_types.warehouse.constants.enums import (
     BusinessDocumentApplicationStatusEnum,
 )
 from anbor_types.utils.functions import get_now_utc
+from common.annotated import ATDatetimeDefault
 
 
 class ServiceDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
@@ -42,7 +43,7 @@ class ServiceDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     file_ids: Optional[ATFileIds] = Field(default=None)
     tag_id: Optional[ID_T] = None
     comment: Optional[ATComment] = Field(default=None)
-    shipped_at: ATDatetime = Field(default_factory=get_now_utc)
+    shipped_at: ATDatetimeDefault = Field(default_factory=get_now_utc)
     confirmed: bool = Field(default=False)
     items: List[TItem] = Field(
         min_length=1,
@@ -57,7 +58,7 @@ class ServiceDocumentUpdateDTO(BasePydanticModel):
     currency_id: ID_T
     rate: ATRate
     comment: Optional[ATComment] = None
-    shipped_at: ATDatetime
+    shipped_at: ATDatetimeDefault = Field(default_factory=get_now_utc)
     confirmed: bool = Field(default=False)
     file_ids: Optional[ATFileIds] = Field(default=None)
     items: List[BusinessDocumentItemUpdateDTO] = Field(

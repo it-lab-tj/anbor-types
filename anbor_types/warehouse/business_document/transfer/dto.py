@@ -6,7 +6,7 @@ import msgspec
 from pydantic import Field
 
 from anbor_types import BasePydanticModel, ID_T
-from anbor_types.common.annotated import ATComment, ATDatetime, ATFileIds
+from anbor_types.common.annotated import ATComment, ATFileIds
 from anbor_types.catalog.catalog_entry.dto import (
     CatalogEntryOnBusinessDocumentItemDTO,
 )
@@ -28,6 +28,7 @@ from anbor_types.warehouse.constants.enums import (
     BusinessDocumentApplicationStatusEnum,
 )
 from anbor_types.utils.functions import get_now_utc
+from common.annotated import ATDatetimeDefault
 
 
 class TransferDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
@@ -37,7 +38,7 @@ class TransferDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     credit_id: ID_T
     project_id: Optional[ID_T] = Field(default=None)
     comment: Optional[ATComment] = Field(default=None)
-    shipped_at: ATDatetime = Field(default_factory=get_now_utc)
+    shipped_at: ATDatetimeDefault = Field(default_factory=get_now_utc)
     confirmed: bool = Field(default=False)
     file_ids: Optional[ATFileIds] = Field(default=None)
     tag_id: Optional[ID_T] = None
@@ -52,7 +53,7 @@ class TransferDocumentUpdateDTO(BasePydanticModel):
     credit_id: ID_T
     project_id: Optional[ID_T] = Field(default=None)
     comment: Optional[ATComment] = None
-    shipped_at: ATDatetime
+    shipped_at: ATDatetimeDefault = Field(default_factory=get_now_utc)
     confirmed: bool = Field(default=False)
     file_ids: Optional[ATFileIds] = Field(default=None)
     items: List[BusinessDocumentItemUpdateDTO] = Field(
