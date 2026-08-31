@@ -37,6 +37,7 @@ from anbor_types.warehouse.constants.enums import (
     BusinessDocumentItemKindEnum,
 )
 from anbor_types.api.constants import DECIMAL_ZERO
+from anbor_types.utils.functions import get_now_utc
 
 
 class AdjustmentDocumentItemBaseCreateDTO(BasePydanticModel):
@@ -57,7 +58,7 @@ class AdjustmentDocumentCreateDTO[TItem: AdjustmentDocumentItemBaseCreateDTO](
     project_id: ID_T
     currency_id: ID_T
     rate: ATRate
-    shipped_at: ATDatetime
+    shipped_at: ATDatetime = Field(default_factory=get_now_utc)
     kind: AdjustmentDocumentKindEnum = Field(
         description=(
             "Вид документа: 0=WRITE_OFF (все строки OUTCOME), "

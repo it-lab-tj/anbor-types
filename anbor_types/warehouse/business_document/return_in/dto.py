@@ -1,5 +1,6 @@
 from typing import List, Optional
 
+
 from anbor_types.common.annotated import ATComment, ATDatetime, ATFileIds
 from pydantic import Field
 
@@ -10,11 +11,12 @@ from anbor_types.warehouse.business_document_item.dto import (
 )
 
 from anbor_types.warehouse.constants.constraints import document as doc_constraints
+from anbor_types.utils.functions import get_now_utc
 
 
 class ReturnInBusinessDocumentCreateDTO(BasePydanticModel):
     business_document_id: ID_T = Field()
-    shipped_at: ATDatetime
+    shipped_at: ATDatetime = Field(default_factory=get_now_utc)
     items: List[ReturnDocumentItemCreateDTO] = Field(
         max_length=doc_constraints.ITEM_MAX_COUNT
     )

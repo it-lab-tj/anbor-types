@@ -41,3 +41,7 @@ def set_timezone(v: datetime) -> datetime:
 
 def tuple_from_enum(enm: Type[Enum]) -> Tuple[Any]:
     return tuple(enm.__members__.values())
+
+
+def get_now_utc() -> datetime:
+    return datetime.now(tz=pytz.UTC)

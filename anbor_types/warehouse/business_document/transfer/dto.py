@@ -27,6 +27,7 @@ from anbor_types.warehouse.constants.enums import (
     BusinessDocumentActionEnum,
     BusinessDocumentApplicationStatusEnum,
 )
+from anbor_types.utils.functions import get_now_utc
 
 
 class TransferDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
@@ -36,7 +37,7 @@ class TransferDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     credit_id: ID_T
     project_id: Optional[ID_T] = Field(default=None)
     comment: Optional[ATComment] = Field(default=None)
-    shipped_at: ATDatetime
+    shipped_at: ATDatetime = Field(default_factory=get_now_utc)
     confirmed: bool = Field(default=False)
     file_ids: Optional[ATFileIds] = Field(default=None)
     tag_id: Optional[ID_T] = None
