@@ -53,6 +53,7 @@ class ServiceDocumentUpdateDTO(BasePydanticModel):
     debit_id: ID_T
     credit_id: ID_T
     project_id: ID_T
+    tag_id: ID_T
     currency_id: ID_T
     rate: ATRate
     comment: Optional[ATComment] = None
