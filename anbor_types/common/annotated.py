@@ -16,6 +16,7 @@ from anbor_types.utils.filter.types import FilterSpec
 from anbor_types.utils.functions import (
     set_timezone,
     parse_single_line_str,
+    default_utc_now,
 )
 
 # ===== Str =====
@@ -73,6 +74,9 @@ type ATFileIds = Annotated[
 
 # ====== Date =======
 type ATDatetime = Annotated[datetime, AfterValidator(set_timezone)]
+type ATDatetimeDefault = Annotated[
+    datetime, BeforeValidator(default_utc_now), AfterValidator(set_timezone)
+]
 
 
 ATDatetimeRN = Annotated[

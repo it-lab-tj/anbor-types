@@ -8,7 +8,6 @@ from pydantic import Field
 from anbor_types import BasePydanticModel, ID_T
 from anbor_types.common.annotated import (
     ATComment,
-    ATDatetime,
     ATDiscount,
     ATFileIds,
     ATPrice,
@@ -37,6 +36,8 @@ from anbor_types.warehouse.constants.enums import (
     BusinessDocumentItemKindEnum,
 )
 from anbor_types.api.constants import DECIMAL_ZERO
+from anbor_types.utils.functions import get_now_utc
+from anbor_types.common.annotated import ATDatetimeDefault
 
 
 class AdjustmentDocumentItemBaseCreateDTO(BasePydanticModel):
@@ -57,7 +58,7 @@ class AdjustmentDocumentCreateDTO[TItem: AdjustmentDocumentItemBaseCreateDTO](
     project_id: ID_T
     currency_id: ID_T
     rate: ATRate
-    shipped_at: ATDatetime
+    shipped_at: ATDatetimeDefault = Field(default_factory=get_now_utc)
     kind: AdjustmentDocumentKindEnum = Field(
         description=(
             "Вид документа: 0=WRITE_OFF (все строки OUTCOME), "

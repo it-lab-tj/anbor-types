@@ -1,7 +1,7 @@
 from datetime import datetime
 from enum import Enum
 import re
-from typing import Any, Tuple, Type
+from typing import Any, Tuple, Type, Optional
 
 import pytz
 
@@ -33,6 +33,10 @@ def parse_datetime(v: str) -> datetime:
     return res
 
 
+def default_utc_now(v: Optional[datetime]) -> datetime:
+    return get_now_utc() if v is None else v
+
+
 def set_timezone(v: datetime) -> datetime:
     if v.tzinfo is None:
         return v.astimezone(pytz.utc)
@@ -41,3 +45,7 @@ def set_timezone(v: datetime) -> datetime:
 
 def tuple_from_enum(enm: Type[Enum]) -> Tuple[Any]:
     return tuple(enm.__members__.values())
+
+
+def get_now_utc() -> datetime:
+    return datetime.now(tz=pytz.UTC)

@@ -2,6 +2,7 @@ from datetime import date, datetime
 from decimal import Decimal
 from typing import List, Optional
 
+
 from anbor_types.catalog.catalog_entry.dto import CatalogEntryOnBusinessDocumentItemDTO
 from anbor_types.catalog.category.dto import CharacteristicValuePairDTO
 from anbor_types.common.dto import FileShortDTO
@@ -27,7 +28,9 @@ from anbor_types.warehouse.business_document_item.dto import (
 from anbor_types.warehouse.constants.constraints import document as doc_constraints
 
 from anbor_types import BasePydanticModel, ID_T
-from anbor_types.common.annotated import ATDatetime, ATFileIds, ATRate, ATComment
+from anbor_types.common.annotated import ATFileIds, ATRate, ATComment
+from anbor_types.utils.functions import get_now_utc
+from anbor_types.common.annotated import ATDatetimeDefault
 
 
 class SaleDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
@@ -40,7 +43,7 @@ class SaleDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     rate: ATRate
     tag_id: Optional[ID_T] = None
     comment: Optional[ATComment] = Field(default=None)
-    shipped_at: ATDatetime
+    shipped_at: ATDatetimeDefault = Field(default_factory=get_now_utc)
     file_ids: Optional[ATFileIds] = Field(default=None)
     confirmed: bool = Field(default=False)
     items: List[TItem] = Field(

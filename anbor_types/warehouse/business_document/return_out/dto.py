@@ -1,7 +1,8 @@
 from typing import List, Optional
 
+
 from anbor_types import ID_T, BasePydanticModel
-from anbor_types.common.annotated import ATComment, ATDatetime, ATFileIds
+from anbor_types.common.annotated import ATComment, ATFileIds
 from pydantic import Field
 
 from anbor_types.warehouse.business_document_item.dto import (
@@ -9,11 +10,13 @@ from anbor_types.warehouse.business_document_item.dto import (
     ReturnDocumentItemUpdateDTO,
 )
 from anbor_types.warehouse.constants.constraints import document as doc_constraints
+from anbor_types.utils.functions import get_now_utc
+from anbor_types.common.annotated import ATDatetimeDefault
 
 
 class ReturnOutBusinessDocumentCreateDTO(BasePydanticModel):
     business_document_id: ID_T = Field()
-    shipped_at: ATDatetime
+    shipped_at: ATDatetimeDefault = Field(default_factory=get_now_utc)
     items: List[ReturnDocumentItemCreateDTO] = Field(
         max_length=doc_constraints.ITEM_MAX_COUNT
     )
