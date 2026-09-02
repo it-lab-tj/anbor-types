@@ -28,8 +28,8 @@ class PromotionItemAwardsEnum(IntEnum):
 
 # Tag
 class TagDefaultNameStrEnum(StrEnum):
-    NEW = "Новый"
+    NEW = "Новая"
     IN_PROGRESS = "В работе"
-    COMPLETED = "Выполнен"
     ON_HOLD = "Приостановлена"
     CANCELLED = "Отменена"
+    COMPLETED = "Выполнена"
