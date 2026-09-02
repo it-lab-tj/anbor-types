@@ -57,6 +57,7 @@ class SaleDocumentUpdateDTO(BasePydanticModel):
     project_id: ID_T
     currency_id: ID_T
     rate: ATRate
+    tag_id: ID_T
     comment: Optional[ATComment] = None
     confirmed: bool = Field(default=False)
     file_ids: Optional[ATFileIds] = Field(default=None)
