@@ -3,11 +3,12 @@ from decimal import Decimal
 from typing import Annotated, List, Optional, Self
 
 import msgspec
+from anbor_types.utils.functions import get_now_utc
 from pydantic import Field, model_validator
 from pydantic_core import PydanticCustomError
 
 from anbor_types import ID_T, BasePydanticModel
-from anbor_types.common.annotated import ATComment, ATDatetime, ATFileIds
+from anbor_types.common.annotated import ATComment, ATFileIds, ATDatetimeDefault
 from anbor_types.common.dto import FileShortDTO, NameIdDTO
 from anbor_types.common.enums import ContentTypeEnum
 from anbor_types.wallet.cash_desk.dto import CashDeskShortListDTO
@@ -68,7 +69,7 @@ class WalletDocumentCreateDTO(BasePydanticModel):
     amount: Annotated[Decimal, Field(gt=DECIMAL_ZERO, le=Decimal("9999999999.9999"))]
     cash_desk_id: ID_T
     comment: ATComment
-    confirmed_at: ATDatetime
+    confirmed_at: ATDatetimeDefault = Field(default_factory=get_now_utc)
     content_id: Optional[ID_T] = None
     content_type: Optional[ContentTypeEnum] = None
     currency_id: ID_T
