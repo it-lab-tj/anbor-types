@@ -1,16 +1,18 @@
-from datetime import date
 from decimal import Decimal
-from typing import Annotated, Optional, Tuple
+from typing import Annotated, Tuple
 
-from pydantic import Field, field_validator
+from pydantic import Field
 
 from anbor_types import ID_T, Query
-from anbor_types.api.constants import DECIMAL_ZERO
+from anbor_types.api.constants import DECIMAL_ZERO, ID_MAX
+from anbor_types.common.annotated import ATDatetimeRN
 from anbor_types.common.constraints import (
     DECIMAL_DISCOUNT_DIGITS,
     DECIMAL_DISCOUNT_PLACES,
     DISCOUNT_MAX,
 )
+from anbor_types.utils.filter.meta import FilterMeta
+from anbor_types.utils.filter.types import FilterSpec
 from anbor_types.warehouse.constants.enums import BusinessDocumentActionEnum
 
 # Document kinds a staff member can be credited for. The other three carry no
@@ -24,20 +26,48 @@ STAFF_SUMMARY_ALLOWED_ACTIONS: Tuple[BusinessDocumentActionEnum, ...] = (
 )
 
 
-class StaffBusinessDocumentSummaryQuery(Query):
+class StaffBusinessDocumentSummaryQuery(Query, metaclass=FilterMeta):
     """What one staff member turned over, and the commission share of it.
 
-    Sums the *confirmed* documents of a single kind that the given user
-    authored, and returns ``percentage`` of that total alongside it.
+    Everything that narrows the document set is a `FilterSpec`, so it compiles
+    through the shared filter pipeline. Only `percentage` is not: it does not
+    select rows, it scales the answer.
 
-    ``date_after`` / ``date_before`` bound the document's business date
-    (``shipped_at``), not the row's creation timestamp, and are inclusive on
-    both ends -- a request for a single day returns that whole day.
+    `user_id` filters on `created_by_id` -- the document's author is what makes
+    it "this person's". Confirmation status and company scope are not filters
+    at all: they are the repository's own invariants and the client may not
+    relax them.
     """
 
-    user_id: ID_T
+    user_id: Annotated[
+        ID_T,
+        FilterSpec.numeric(
+            int,
+            field="created_by_id",
+            required=True,
+            lte=ID_MAX,
+            description="ID сотрудника (автора документов)",
+        ),
+    ]
 
-    action: BusinessDocumentActionEnum
+    action: Annotated[
+        BusinessDocumentActionEnum,
+        FilterSpec.enum(
+            BusinessDocumentActionEnum,
+            required=True,
+            choices=STAFF_SUMMARY_ALLOWED_ACTIONS,
+            description=(
+                "**0** — Продажа\n"
+                "**1** — Закупка\n"
+                "**2** — Перемещение\n"
+                "**6** — Услуга\n"
+            ),
+        ),
+    ]
+
+    # Bounds the document's business date, inclusive on both ends. Not
+    # `created_at`: a backdated document belongs to the period it shipped in.
+    shipped_at__rn: ATDatetimeRN
 
     percentage: Annotated[
         Decimal,
@@ -46,19 +76,6 @@ class StaffBusinessDocumentSummaryQuery(Query):
             decimal_places=DECIMAL_DISCOUNT_PLACES,
             ge=DECIMAL_ZERO,
             le=DISCOUNT_MAX,
+            description="Процент начисления",
         ),
     ]
-
-    date_after: Optional[date] = None
-    date_before: Optional[date] = None
-
-    @field_validator("action", mode="after")
-    @classmethod
-    def validate_action(
-        cls, v: BusinessDocumentActionEnum
-    ) -> BusinessDocumentActionEnum:
-        if v not in STAFF_SUMMARY_ALLOWED_ACTIONS:
-            allowed = ", ".join(str(int(a)) for a in STAFF_SUMMARY_ALLOWED_ACTIONS)
-            raise ValueError(f"Allowed actions are: {allowed}")
-
-        return v
