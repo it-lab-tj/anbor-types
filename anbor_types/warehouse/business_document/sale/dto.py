@@ -78,7 +78,6 @@ class SaleDocumentListDTO(msgspec.Struct):
     currency: CurrencyShortListDTO
     rate: Decimal
     vendor_code: str
-    count_items: int
     amount: Decimal
     status: StatusEnum
     created_at: datetime
@@ -86,7 +85,13 @@ class SaleDocumentListDTO(msgspec.Struct):
     paid: Decimal
 
 
-class SaleDocumentWithProfitListDTO(SaleDocumentListDTO):
+class SaleDocumentWithProfitListDTO(msgspec.Struct):
+    id: ID_T
+    project: ProjectShortListDTO
+    currency: CurrencyShortListDTO
+    vendor_code: str
+    amount: Decimal
+    shipped_at: datetime
     profit: Decimal
 
 
