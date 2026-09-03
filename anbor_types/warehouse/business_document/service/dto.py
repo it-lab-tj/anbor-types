@@ -41,7 +41,7 @@ class ServiceDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     currency_id: ID_T
     rate: ATRate
     file_ids: Optional[ATFileIds] = Field(default=None)
-    tag_id: Optional[ID_T] = None
+    tag_id: ID_T
     comment: Optional[ATComment] = Field(default=None)
     shipped_at: ATDatetimeDefault = Field(default_factory=get_now_utc)
     confirmed: bool = Field(default=False)

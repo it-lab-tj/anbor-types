@@ -41,7 +41,9 @@ class SaleDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     project_id: ID_T
     currency_id: ID_T
     rate: ATRate
-    tag_id: Optional[ID_T] = None
+    tag_id: Optional[ID_T] = (
+        None  # TODO: temprory solution. Should make it required after adding tag to every document
+    )
     comment: Optional[ATComment] = Field(default=None)
     shipped_at: ATDatetimeDefault = Field(default_factory=get_now_utc)
     file_ids: Optional[ATFileIds] = Field(default=None)
@@ -57,7 +59,9 @@ class SaleDocumentUpdateDTO(BasePydanticModel):
     project_id: ID_T
     currency_id: ID_T
     rate: ATRate
-    tag_id: ID_T
+    tag_id: Optional[ID_T] = (
+        None  # TODO: temprory solution. Should make it required after adding tag to every document
+    )
     comment: Optional[ATComment] = None
     confirmed: bool = Field(default=False)
     file_ids: Optional[ATFileIds] = Field(default=None)
