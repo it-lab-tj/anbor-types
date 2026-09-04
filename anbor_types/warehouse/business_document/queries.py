@@ -51,7 +51,7 @@ class BusinessDocumentListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterM
     ]
 
     action__in: Annotated[
-        BusinessDocumentActionEnum,
+        Tuple[BusinessDocumentActionEnum, ...],
         FilterSpec.collection(
             BusinessDocumentActionEnum,
             lookup=FilterLookupEnum.IN,
@@ -119,6 +119,11 @@ class BusinessDocumentListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterM
             lte=PRICE_MAX,
             gte=DECIMAL_ZERO,
         ),
+    ]
+
+    tag_id__in: Annotated[
+        ID_T,
+        FilterSpec.collection(Tuple[ID_T, ...], lookup=FilterLookupEnum.IN),
     ]
 
     shipped_at__rn: ATDatetimeRN

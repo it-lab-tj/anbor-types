@@ -122,7 +122,7 @@ class FilterPipelineInjector:
         # `max_length` is left to `FilterValidator` so an over-long payload
         # reports as an AppException detail like every other filter, rather than
         # as a raw pydantic error.
-        items = core_schema.list_schema(handler(self._get_base_type()))
+        items = core_schema.tuple_variable_schema(handler(self._get_base_type()))
         return core_schema.no_info_before_validator_function(_parse_json, items)
 
     def _get_base_type(self) -> Any:

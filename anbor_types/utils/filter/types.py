@@ -354,14 +354,19 @@ class FilterSpec[TValue]:
         if lookup not in _COLLECTION_ALLOWED_LOOKUPS:
             raise RuntimeError("Invalid lookup for collection filter")
 
+        if choices:
+            _choices = cls._parse_choices(choices)
+        if isinstance(base_type, Enum):
+            _choices = tuple_from_enum(base_type)
+        else:
+            _choices = None
+
         return cls(
             base_type=base_type,
             lookup=lookup,
             required=required,
             description=description,
-            choices=(
-                cls._parse_choices(choices) if choices else tuple_from_enum(base_type)
-            ),
+            choices=_choices,
             unique=unique,
         )
 
