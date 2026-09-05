@@ -20,6 +20,7 @@ from anbor_types.catalog.category.dto import (
     CharacteristicValuePairDTO,
 )
 from anbor_types.catalog.constraints import CATALOG_ENTRY_VARIANT_CHAR_VALUES_MAX_COUNT
+from anbor_types.catalog.enums import CatalogEntryKindEnum
 from anbor_types.catalog.product.constraints import IMAGES_MAX_COUNT, PROFILES_MAX_COUNT
 from anbor_types.common.annotated import ATPrice
 from anbor_types.common.dto import NameDTO
@@ -138,3 +139,18 @@ class ProductDetailedDTO(CatalogEntryDetailedDTO):
 
     subjects_remains: List[ProductSubjectRemainsListDTO]
     profiles: List[CatalogEntryProfileListDTO]
+
+
+class CatalogEntryPositionsListDTO(msgspec.Struct):
+    id: ID_T
+    variant_id: Optional[ID_T]
+    name: str
+    slug: str
+    identifier: str
+    kind: CatalogEntryKindEnum
+    images: List[CatalogEntryImageListDTO] = msgspec.field(default_factory=list)
+    selling_price: Optional[Decimal] = None
+    minimum_price: Optional[Decimal] = None
+    characteristics: List[CharacteristicValuePairDTO] = msgspec.field(
+        default_factory=list
+    )

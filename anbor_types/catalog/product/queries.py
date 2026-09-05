@@ -53,6 +53,9 @@ class ProductListQuery(CatalogEntryBaseListQuery):
     ]
 
 
+class CatalogEntryPositionsListQuery(CatalogEntryBaseListQuery): ...
+
+
 class ProductDetailedListQuery(ListQuery):
     limit: int = Field(
         default=0,

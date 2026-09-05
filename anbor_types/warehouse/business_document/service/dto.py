@@ -87,6 +87,7 @@ class ServiceDocumentListDTO(msgspec.Struct):
     tag: NameIdDTO
     created_at: datetime
     created_by: AuthorInfoShortDTO
+    updated_at: datetime
     paid: Decimal
 
 
