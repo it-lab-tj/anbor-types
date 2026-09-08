@@ -1,5 +1,5 @@
 from decimal import Decimal
-from typing import Annotated, List, Optional
+from typing import Annotated, List, Optional, Tuple
 
 import msgspec
 from pydantic import conlist, Field
@@ -141,14 +141,14 @@ class ProductDetailedDTO(CatalogEntryDetailedDTO):
     profiles: List[CatalogEntryProfileListDTO]
 
 
-class CatalogEntryPositionsListDTO(msgspec.Struct):
+class CatalogEntryPositionListDTO(msgspec.Struct):
     id: ID_T
     variant_id: Optional[ID_T]
     name: str
     slug: str
     identifier: str
     kind: CatalogEntryKindEnum
-    images: List[CatalogEntryImageListDTO] = msgspec.field(default_factory=list)
+    images: Tuple[CatalogEntryImageListDTO, ...] = msgspec.field(default_factory=list)
     selling_price: Optional[Decimal] = None
     minimum_price: Optional[Decimal] = None
     characteristics: List[CharacteristicValuePairDTO] = msgspec.field(

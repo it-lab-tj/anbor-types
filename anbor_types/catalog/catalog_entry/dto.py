@@ -51,7 +51,6 @@ class CatalogEntryListDTO(msgspec.Struct):
     slug: str
     description: Optional[str]
     information: Optional[str]
-    images: List[CatalogEntryImageListDTO]
     status: StatusEnum
     created_at: datetime
 
