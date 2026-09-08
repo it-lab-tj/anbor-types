@@ -49,6 +49,7 @@ class CatalogEntryListDTO(msgspec.Struct):
     selling_price: Decimal
     max_discount: Decimal
     slug: str
+    images: List[CatalogEntryImageListDTO]
     description: Optional[str]
     information: Optional[str]
     status: StatusEnum
