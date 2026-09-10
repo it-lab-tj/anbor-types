@@ -125,3 +125,5 @@ class SaleDocumentItemsProfitQuery(ListQuery, OrderingQueryMixin, metaclass=Filt
         ID_T,
         FilterSpec.numeric(int, lte=ID_MAX),
     ]
+
+    project_id: Annotated[ID_T, FilterSpec.numeric(int, lte=ID_MAX)]
