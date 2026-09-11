@@ -4,7 +4,7 @@ from typing import List, Optional
 
 import msgspec
 
-from anbor_types import ID_T
+from anbor_types import ID_T, BasePydanticModel
 from anbor_types.api.constants import DECIMAL_ZERO
 from anbor_types.catalog.catalog_entry.dto import (
     CatalogEntryImageListDTO,
@@ -75,3 +75,7 @@ class DocumentEntryListDTO(msgspec.Struct):
     profiles: List[CatalogEntryProfileListDTO]
     remains: Optional[Decimal] = None
     subject_remains: Optional[Decimal] = None
+
+
+class BusinessDocumentChangeTagDTO(BasePydanticModel):
+    tag_id: ID_T
