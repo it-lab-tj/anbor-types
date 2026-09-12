@@ -102,16 +102,48 @@ class ProductUpdateDTO(CatalogEntryUpdateDTO):
     ]
 
 
+# ===== PRODUCT DETAILED LIST (marketplace sync) =====
+# The detailed list route exists only to feed the marketplace catalog sync, so it
+# carries its own nested structs instead of the shared catalog-entry ones. The
+# consumer joins the media root onto its own host and resolves characteristic
+# values by id against its local copy, so the shape here must stay put even when
+# the internal catalog-entry routes change.
+
+
+class ProductDetailedListImageDTO(msgspec.Struct):
+    """Image of a product, addressed relative to the media root.
+
+    ``original_url`` is the stored path (``images/<uuid>.jpg``) rather than a
+    full URL: the consumer prefixes it with the ERP host it synced from.
+    """
+
+    id: ID_T
+    name: str
+    original_url: str
+
+
+class ProductDetailedListCharValueDTO(msgspec.Struct):
+    """A single characteristic/value pair of a product profile."""
+
+    characteristic_id: ID_T
+    value_id: ID_T
+
+
+class ProductDetailedListProfileDTO(msgspec.Struct):
+    id: ID_T
+    characteristic_values: List[ProductDetailedListCharValueDTO]
+
+
 class ProductDetailedListDTO(msgspec.Struct):
     id: ID_T
     name: str
     selling_price: Decimal
     category_id: ID_T
     remains: Decimal
-    images: List[CatalogEntryImageListDTO]
+    images: List[ProductDetailedListImageDTO]
     description: Optional[str]
     information: Optional[str]
-    profiles: List[CatalogEntryProfileListDTO]
+    profiles: List[ProductDetailedListProfileDTO]
 
 
 class ProductRemainsRequestDTO(BasePydanticModel):

@@ -1,6 +1,6 @@
 [project]
 name = "anbor-types"
-version = "0.0.193" # MAJOR.MINOR.PATCH
+version = "0.0.194" # MAJOR.MINOR.PATCH
 description = "Anbor typing lib"
 authors = [
     {name = "Joniibek",email = "jonibek.ortikov03@gmail.com"}
@@ -12,7 +12,10 @@ dependencies = [
     "msgspec (>=0.20.0,<0.21.0)",
     "pydantic (>=2.12.5,<3.0.0)",
     "regex (>=2025.11.3,<2026.0.0)",
-    "num2words (>=0.5.14,<0.6.0)"
+    "num2words (>=0.5.14,<0.6.0)",
+    # Imported by anbor_types.utils.functions; previously only resolved because
+    # every consumer happened to depend on it already.
+    "pytz (>=2025.2,<2026.0)"
 ]
 
 
