@@ -17,6 +17,26 @@ from anbor_types.utils.filter.validator import FilterValidator
 RANGE_SEPARATOR = ","
 
 
+def _class_body_annotations(namespace: dict) -> dict:
+    """The annotations a class body declared, however the running Python exposes them.
+
+    Under PEP 649 (3.14+) the metaclass is handed a lazy ``__annotate_func__``
+    and no ``__annotations__`` key at all, so reading the old key there yields
+    an empty mapping -- and writing that back would strip every declared field,
+    leaving pydantic to reject the bare defaults left behind.
+    """
+    if "__annotations__" in namespace:
+        return namespace["__annotations__"]
+
+    annotate = namespace.get("__annotate_func__")
+    if annotate is None:
+        return {}
+
+    from annotationlib import Format
+
+    return dict(annotate(Format.VALUE))
+
+
 def _split_range(value: Any) -> Any:
     """`"low,high"` -> `(low|None, high|None)`; anything else passes through
     untouched for the tuple schema to accept or reject."""
@@ -197,7 +217,7 @@ class FilterMeta(ModelMetaclass):
         return None
 
     def __new__(mcs, name, bases, namespace, **kwargs) -> Type:
-        annotations = namespace.get("__annotations__", {})
+        annotations = _class_body_annotations(namespace)
 
         for field_name, annotation in list(annotations.items()):
             spec = mcs._extract_spec(annotation)
@@ -228,4 +248,7 @@ class FilterMeta(ModelMetaclass):
                 namespace[field_name] = None
 
         namespace["__annotations__"] = annotations
+        # Drop the lazy form so the rewritten annotations above are the ones
+        # consumers see; leaving it would re-supply the originals on 3.14+.
+        namespace.pop("__annotate_func__", None)
         return super().__new__(mcs, name, bases, namespace, **kwargs)
