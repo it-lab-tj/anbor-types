@@ -1,4 +1,9 @@
 from anbor_types.utils.filter.enums import FilterLookupEnum
+from anbor_types.utils.filter.errors import (
+    FilterErrorType,
+    FilterViolation,
+    raise_violations,
+)
 from anbor_types.utils.filter.meta import FilterMeta, FilterPipelineInjector
 from anbor_types.utils.filter.parser import PydanticFilterParser, parse_filters
 from anbor_types.utils.filter.ports import FilterCompilerProto
@@ -12,6 +17,9 @@ from anbor_types.utils.filter.validator import FilterValidator
 
 __all__ = [
     "FilterLookupEnum",
+    "FilterErrorType",
+    "FilterViolation",
+    "raise_violations",
     "FilterMeta",
     "FilterPipelineInjector",
     "PydanticFilterParser",

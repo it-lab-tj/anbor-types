@@ -1,18 +1,17 @@
 from enum import Enum
-from typing import Any, List, Optional, Tuple, Iterable
+from typing import Any, Iterable, List, Optional, Tuple
 
-from src.app.shared_kernel.errors.app_exception import (
-    AppException,
-    AppExceptionDetail,
-)
-from src.app.shared_kernel.errors.constants import (
-    AppExceptionMessage,
-    AppExceptionStatusCodes,
-    AppExceptionDetailPayloadKeys,
-    AppExceptionLocationEnum,
-)
 from anbor_types.utils.filter.enums import FilterLookupEnum
+from anbor_types.utils.filter.errors import (
+    FilterErrorType,
+    FilterViolation,
+    raise_violations,
+)
 from anbor_types.utils.filter.types import FilterSpec
+
+REQUIRED_VALUE_MESSAGE = "Value is required"
+INVALID_VALUE_MESSAGE = "Value format is invalid"
+DUPLICATED_VALUE_MESSAGE = "Filter value was duplicated"
 
 
 class FilterValidator:
@@ -43,28 +42,32 @@ class FilterValidator:
             raise RuntimeError(f"Undefined filter lookup type `{spec.lookup}`")
 
     @classmethod
+    def _raise(cls, spec: FilterSpec, violations: List[FilterViolation]) -> None:
+        raise_violations(violations, lookup=spec.lookup)
+
+    @classmethod
     def _validate_scalar(cls, spec: FilterSpec, value: Optional[Any]) -> None:
         if value is None:
             if spec.required:
-                raise AppException.from_details([cls._required_detail(spec)])
+                cls._raise(spec, [cls._required_violation()])
             return
 
-        details = cls._validate_bounds(spec, value)
-        details.extend(cls._validate_length(spec, value))
-        details.extend(cls._validate_choices(spec, value))
+        violations = cls._validate_bounds(spec, value)
+        violations.extend(cls._validate_length(spec, value))
+        violations.extend(cls._validate_choices(spec, value))
 
-        if details:
-            raise AppException.from_details(details)
+        if violations:
+            cls._raise(spec, violations)
 
     @classmethod
     def _validate_range(cls, spec: FilterSpec, value: Optional[Any]) -> None:
         if value is None:
             if spec.required:
-                raise AppException.from_details([cls._required_detail(spec)])
+                cls._raise(spec, [cls._required_violation()])
             return
 
         if not isinstance(value, (tuple, list)) or len(value) != 2:
-            raise AppException.from_details([cls._invalid_value_detail(spec)])
+            cls._raise(spec, [cls._invalid_value_violation()])
 
         low, high = value
 
@@ -75,47 +78,47 @@ class FilterValidator:
             )
 
         if (low is None or high is None) and spec.both_required:
-            raise AppException.from_details([cls._required_detail(spec)])
+            cls._raise(spec, [cls._required_violation()])
 
-        details: List[AppExceptionDetail] = []
+        violations: List[FilterViolation] = []
 
         if low is not None and high is not None and low > high:
-            details.append(cls._range_order_detail(spec, low, high))
+            violations.append(cls._range_order_violation(low, high))
 
         for endpoint in (low, high):
             if endpoint is not None:
-                details.extend(cls._validate_bounds(spec, endpoint))
-                details.extend(cls._validate_choices(spec, endpoint))
+                violations.extend(cls._validate_bounds(spec, endpoint))
+                violations.extend(cls._validate_choices(spec, endpoint))
 
-        if details:
-            raise AppException.from_details(details)
+        if violations:
+            cls._raise(spec, violations)
 
     @classmethod
     def _validate_collection(
         cls, spec: FilterSpec, value: Optional[Tuple[Any, ...]]
     ) -> None:
         if value is not None and not isinstance(value, (tuple, list)):
-            raise AppException.from_details([cls._invalid_value_detail(spec)])
+            cls._raise(spec, [cls._invalid_value_violation()])
 
         if value is None or all(v is None for v in value):
             if spec.required:
-                raise AppException.from_details([cls._required_detail(spec)])
+                cls._raise(spec, [cls._required_violation()])
             return
 
         if any(v is None for v in value):
-            raise AppException.from_details([cls._invalid_value_detail(spec)])
+            cls._raise(spec, [cls._invalid_value_violation()])
 
         if any(not isinstance(v, spec.base_type) for v in value):
-            raise AppException.from_details([cls._invalid_value_detail(spec)])
+            cls._raise(spec, [cls._invalid_value_violation()])
 
-        details: List[AppExceptionDetail] = []
+        violations: List[FilterViolation] = []
 
         duplicates = set()
         seen = set()
 
         for endpoint in value:
-            details.extend(cls._validate_bounds(spec, endpoint))
-            details.extend(cls._validate_choices(spec, endpoint))
+            violations.extend(cls._validate_bounds(spec, endpoint))
+            violations.extend(cls._validate_choices(spec, endpoint))
 
             if endpoint in seen:
                 duplicates.add(endpoint)
@@ -123,10 +126,10 @@ class FilterValidator:
                 seen.add(endpoint)
 
         if duplicates:
-            details.append(cls._duplicate_detail(spec, duplicates))
+            violations.append(cls._duplicate_violation(duplicates))
 
-        if details:
-            raise AppException.from_details(details)
+        if violations:
+            cls._raise(spec, violations)
 
     @classmethod
     def _validate_json(cls, spec: FilterSpec, value: Optional[Any]) -> None:
@@ -134,36 +137,36 @@ class FilterValidator:
         presence and item count are checked here."""
         if value is None or (isinstance(value, (tuple, list)) and not value):
             if spec.required:
-                raise AppException.from_details([cls._required_detail(spec)])
+                cls._raise(spec, [cls._required_violation()])
             return
 
         if not isinstance(value, (tuple, list)):
-            raise AppException.from_details([cls._invalid_value_detail(spec)])
+            cls._raise(spec, [cls._invalid_value_violation()])
 
-        details = cls._validate_length(spec, value)
+        violations = cls._validate_length(spec, value)
 
-        if details:
-            raise AppException.from_details(details)
+        if violations:
+            cls._raise(spec, violations)
 
     # --- constraint checks ------------------------------------------------
 
     @classmethod
-    def _validate_bounds(cls, spec: FilterSpec, value: Any) -> List[AppExceptionDetail]:
-        details: List[AppExceptionDetail] = []
+    def _validate_bounds(cls, spec: FilterSpec, value: Any) -> List[FilterViolation]:
+        violations: List[FilterViolation] = []
 
         if spec.gt is not None and not value > spec.gt:
-            details.append(cls._bound_detail(spec, "gt"))
+            violations.append(cls._bound_violation(spec, "gt"))
         if spec.gte is not None and not value >= spec.gte:
-            details.append(cls._bound_detail(spec, "gte"))
+            violations.append(cls._bound_violation(spec, "gte"))
         if spec.lt is not None and not value < spec.lt:
-            details.append(cls._bound_detail(spec, "lt"))
+            violations.append(cls._bound_violation(spec, "lt"))
         if spec.lte is not None and not value <= spec.lte:
-            details.append(cls._bound_detail(spec, "lte"))
+            violations.append(cls._bound_violation(spec, "lte"))
 
-        return details
+        return violations
 
     @classmethod
-    def _validate_length(cls, spec: FilterSpec, value: Any) -> List[AppExceptionDetail]:
+    def _validate_length(cls, spec: FilterSpec, value: Any) -> List[FilterViolation]:
         if spec.min_length is None and spec.max_length is None:
             return []
 
@@ -172,107 +175,81 @@ class FilterValidator:
         if (spec.min_length is not None and length < spec.min_length) or (
             spec.max_length is not None and length > spec.max_length
         ):
-            return [cls._length_detail(spec)]
+            return [cls._length_violation(spec)]
 
         return []
 
     @classmethod
-    def _validate_choices(
-        cls, spec: FilterSpec, value: Any
-    ) -> List[AppExceptionDetail]:
+    def _validate_choices(cls, spec: FilterSpec, value: Any) -> List[FilterViolation]:
         if spec.choices is None or value in spec.choices:
             return []
 
-        return [cls._choices_detail(spec)]
+        return [cls._choices_violation(spec)]
 
-    # --- detail builders --------------------------------------------------
+    # --- violation builders -----------------------------------------------
+    # `field` and `location` are deliberately absent: pydantic tags the error
+    # with the field's `loc` on the way out, and the framework already knows
+    # the model came from the query string.
 
     @staticmethod
-    def _required_detail(spec: FilterSpec) -> AppExceptionDetail:
-        return AppExceptionDetail(
-            status=AppExceptionStatusCodes.REQUIRED_FILTER,
-            message=AppExceptionMessage.REQUIRED_VALUE,
-            field=spec.field,
-            payload={
-                AppExceptionDetailPayloadKeys.LOOKUP: spec.lookup,
-                AppExceptionDetailPayloadKeys.LOCATION: AppExceptionLocationEnum.QUERY_PARAMS,
-            },
+    def _required_violation() -> FilterViolation:
+        return FilterViolation(
+            type=FilterErrorType.REQUIRED,
+            message=REQUIRED_VALUE_MESSAGE,
+            context={},
         )
 
     @staticmethod
-    def _invalid_value_detail(spec: FilterSpec) -> AppExceptionDetail:
-        return AppExceptionDetail(
-            status=AppExceptionStatusCodes.INVALID_VALUE,
-            message=AppExceptionMessage.INVALID_VALUE,
-            field=spec.field,
-            payload={
-                AppExceptionDetailPayloadKeys.LOCATION: AppExceptionLocationEnum.QUERY_PARAMS,
-            },
+    def _invalid_value_violation() -> FilterViolation:
+        return FilterViolation(
+            type=FilterErrorType.INVALID_VALUE,
+            message=INVALID_VALUE_MESSAGE,
+            context={},
         )
 
     @staticmethod
-    def _bound_detail(spec: FilterSpec, bound: str) -> AppExceptionDetail:
-        return AppExceptionDetail(
-            status=AppExceptionStatusCodes.INVALID_VALUE,
-            message=AppExceptionMessage.INVALID_VALUE,
-            field=spec.field,
-            payload={
-                AppExceptionDetailPayloadKeys.RANGES: {bound: getattr(spec, bound)}
-            },
+    def _bound_violation(spec: FilterSpec, bound: str) -> FilterViolation:
+        return FilterViolation(
+            type=FilterErrorType.BOUND,
+            message=INVALID_VALUE_MESSAGE,
+            context={"bounds": {bound: getattr(spec, bound)}},
         )
 
     @staticmethod
-    def _range_order_detail(
-        spec: FilterSpec, low: Any, high: Any
-    ) -> AppExceptionDetail:
-        return AppExceptionDetail(
-            status=AppExceptionStatusCodes.INVALID_VALUE,
-            message=AppExceptionMessage.INVALID_VALUE,
-            field=spec.field,
-            payload={
-                AppExceptionDetailPayloadKeys.RANGES: {"low": low, "high": high},
-            },
+    def _range_order_violation(low: Any, high: Any) -> FilterViolation:
+        return FilterViolation(
+            type=FilterErrorType.RANGE_ORDER,
+            message=INVALID_VALUE_MESSAGE,
+            context={"bounds": {"low": low, "high": high}},
         )
 
     @staticmethod
-    def _length_detail(spec: FilterSpec) -> AppExceptionDetail:
-        return AppExceptionDetail(
-            status=AppExceptionStatusCodes.INVALID_VALUE,
-            message=AppExceptionMessage.INVALID_VALUE,
-            field=spec.field,
-            payload={
-                AppExceptionDetailPayloadKeys.LOCATION: AppExceptionLocationEnum.QUERY_PARAMS,
-                AppExceptionDetailPayloadKeys.RANGES: {
+    def _length_violation(spec: FilterSpec) -> FilterViolation:
+        return FilterViolation(
+            type=FilterErrorType.LENGTH,
+            message=INVALID_VALUE_MESSAGE,
+            context={
+                "bounds": {
                     "min_length": spec.min_length,
                     "max_length": spec.max_length,
-                },
+                }
             },
         )
 
     @staticmethod
-    def _choices_detail(spec: FilterSpec) -> AppExceptionDetail:
-        return AppExceptionDetail(
-            status=AppExceptionStatusCodes.INVALID_VALUE,
-            message=AppExceptionMessage.INVALID_VALUE,
-            field=spec.field,
-            payload={
-                AppExceptionDetailPayloadKeys.LOCATION: AppExceptionLocationEnum.QUERY_PARAMS,
-                AppExceptionDetailPayloadKeys.VALUES: [
-                    c.value if isinstance(c, Enum) else c for c in spec.choices
-                ],
+    def _choices_violation(spec: FilterSpec) -> FilterViolation:
+        return FilterViolation(
+            type=FilterErrorType.CHOICES,
+            message=INVALID_VALUE_MESSAGE,
+            context={
+                "values": [c.value if isinstance(c, Enum) else c for c in spec.choices]
             },
         )
 
     @staticmethod
-    def _duplicate_detail(
-        spec: FilterSpec, duplicates: Iterable[Any]
-    ) -> AppExceptionDetail:
-        return AppExceptionDetail(
-            status=AppExceptionStatusCodes.DUPLICATED,
-            message=AppExceptionMessage.DUPLICATED_FILTER_VALUE,
-            field=spec.field,
-            payload={
-                AppExceptionDetailPayloadKeys.LOCATION: AppExceptionLocationEnum.QUERY_PARAMS,
-                AppExceptionDetailPayloadKeys.VALUES: duplicates,
-            },
+    def _duplicate_violation(duplicates: Iterable[Any]) -> FilterViolation:
+        return FilterViolation(
+            type=FilterErrorType.DUPLICATED,
+            message=DUPLICATED_VALUE_MESSAGE,
+            context={"values": sorted(duplicates, key=repr)},
         )
