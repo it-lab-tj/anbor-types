@@ -52,14 +52,17 @@ class ServiceDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
 
 
 class ServiceDocumentUpdateDTO(BasePydanticModel):
+    """Full-state update. Both parties stay editable after confirmation (the
+    balance legs are reposted); ``shipped_at`` is PENDING-only."""
+
     debit_id: ID_T
     credit_id: ID_T
     project_id: ID_T
     tag_id: ID_T
     currency_id: ID_T
     rate: ATRate
+    shipped_at: ATDatetime
     comment: Optional[ATComment] = None
-    shipped_at: ATDatetimeDefault = Field(default_factory=get_now_utc)
     confirmed: bool = Field(default=False)
     file_ids: Optional[ATFileIds] = Field(default=None)
     items: List[BusinessDocumentItemUpdateDTO] = Field(

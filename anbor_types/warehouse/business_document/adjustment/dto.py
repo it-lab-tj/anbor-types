@@ -12,6 +12,7 @@ from anbor_types.common.annotated import (
     ATFileIds,
     ATPrice,
     ATRate,
+    ATDatetime,
 )
 from anbor_types.catalog.catalog_entry.dto import (
     CatalogEntryOnBusinessDocumentItemDTO,
@@ -92,10 +93,17 @@ class AdjustmentDocumentItemUpdateDTO(BasePydanticModel):
 
 
 class AdjustmentDocumentUpdateDTO(BasePydanticModel):
+    """Full-state update. ``shipped_at`` and the storage side (``storage_id``, sent as ``debit_id``) are editable
+    only while the document is PENDING; sending them unchanged on a CONFIRMED
+    document is fine, changing one is rejected."""
+
+    storage_id: ID_T = Field(alias="debit_id")
     project_id: ID_T
     currency_id: ID_T
     rate: ATRate
     kind: AdjustmentDocumentKindEnum
+    shipped_at: ATDatetime
+    tag_id: Optional[ID_T] = None
     confirmed: bool = Field(default=False)
     comment: Optional[ATComment] = Field(default=None)
     file_ids: Optional[ATFileIds] = Field(default=None)

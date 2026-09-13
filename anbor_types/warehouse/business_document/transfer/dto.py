@@ -6,7 +6,7 @@ import msgspec
 from pydantic import Field
 
 from anbor_types import BasePydanticModel, ID_T
-from anbor_types.common.annotated import ATComment, ATFileIds
+from anbor_types.common.annotated import ATComment, ATDatetime, ATFileIds
 from anbor_types.catalog.catalog_entry.dto import (
     CatalogEntryOnBusinessDocumentItemDTO,
 )
@@ -49,11 +49,16 @@ class TransferDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
 
 
 class TransferDocumentUpdateDTO(BasePydanticModel):
+    """Full-state update. ``shipped_at`` and the storage sides (both storages) are editable
+    only while the document is PENDING; sending them unchanged on a CONFIRMED
+    document is fine, changing one is rejected."""
+
     debit_id: ID_T
     credit_id: ID_T
+    shipped_at: ATDatetime
     project_id: Optional[ID_T] = Field(default=None)
+    tag_id: Optional[ID_T] = None
     comment: Optional[ATComment] = None
-    shipped_at: ATDatetimeDefault = Field(default_factory=get_now_utc)
     confirmed: bool = Field(default=False)
     file_ids: Optional[ATFileIds] = Field(default=None)
     items: List[BusinessDocumentItemUpdateDTO] = Field(

@@ -28,7 +28,7 @@ from anbor_types.warehouse.business_document_item.dto import (
 from anbor_types.warehouse.constants.constraints import document as doc_constraints
 
 from anbor_types import BasePydanticModel, ID_T
-from anbor_types.common.annotated import ATFileIds, ATRate, ATComment
+from anbor_types.common.annotated import ATDatetime, ATFileIds, ATRate, ATComment
 from anbor_types.utils.functions import get_now_utc
 from anbor_types.common.annotated import ATDatetimeDefault
 
@@ -55,10 +55,17 @@ class SaleDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
 
 
 class SaleDocumentUpdateDTO(BasePydanticModel):
+    """Full-state update. Every field the document has is sent back, including
+    the ones that are only editable while it is PENDING (``credit_id`` — the
+    storage the goods leave — and ``shipped_at``). Sending those unchanged on a
+    CONFIRMED document is fine; changing one is rejected."""
+
     debit_id: ID_T
+    credit_id: ID_T
     project_id: ID_T
     currency_id: ID_T
     rate: ATRate
+    shipped_at: ATDatetime
     tag_id: Optional[ID_T] = (
         None  # TODO: temprory solution. Should make it required after adding tag to every document
     )

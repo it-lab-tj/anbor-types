@@ -25,11 +25,29 @@ class BusinessDocumentItemCreateDTO(BusinessDocumentItemBaseCreateDTO):
 
 
 class BusinessDocumentItemUpdateDTO(BaseModel):
+    """One line of a full-state document update.
+
+    ``id`` present → an existing row, ``id`` None → a new one.
+
+    ``entry_id``, ``variant_id`` and ``expires_at`` are the line's *identity*.
+    They are freely editable while the document is PENDING; on a CONFIRMED
+    document they are locked and changing one is rejected, because moving a
+    confirmed line onto a different entry or lot means reversing its stock and
+    re-sourcing it — remove the line and add a new one instead, which the
+    reconcile processors already handle.
+
+    ``entry_id`` is required: it used to be optional and was then silently
+    dropped for existing rows, so a payload could name a different entry, get a
+    200, and change nothing.
+    """
+
     id: Optional[ID_T] = None
-    entry_id: Optional[ID_T] = None
+    entry_id: ID_T
     price: ATPrice
     discount: ATDiscount
     count: Decimal = Field(le=item_constraints.COUNT_MAX)
+    variant_id: Optional[ID_T] = Field(default=None)
+    expires_at: Optional[date] = Field(default=None)
 
 
 class ReturnDocumentItemCreateDTO(BaseModel):
