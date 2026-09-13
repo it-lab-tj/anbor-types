@@ -14,6 +14,11 @@ class DailyAnalyticListQuery(Query, metaclass=FilterMeta):
         FilterSpec.date(),
     ]
 
+    date__rn: Annotated[
+        Tuple[Optional[datetime.date], Optional[datetime.date]],
+        FilterSpec.date_range(both_required=True),
+    ]
+
     realisations: Annotated[
         Decimal,
         FilterSpec.numeric(base_type=Decimal),
