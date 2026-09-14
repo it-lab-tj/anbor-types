@@ -1,6 +1,7 @@
 from decimal import Decimal
 from typing import Annotated, List, Optional
 
+from anbor_types.catalog.enums import CatalogEntryKindEnum
 from anbor_types.warehouse.constants.constraints import PRICE_MAX
 
 from anbor_types.utils.filter.types import FilterSpec
@@ -53,7 +54,14 @@ class ProductListQuery(CatalogEntryBaseListQuery):
     ]
 
 
-class CatalogEntryPositionsListQuery(CatalogEntryBaseListQuery): ...
+class CatalogEntryPositionsListQuery(CatalogEntryBaseListQuery):
+    kind: Annotated[
+        CatalogEntryKindEnum,
+        FilterSpec.numeric(
+            CatalogEntryKindEnum,
+            choices=CatalogEntryKindEnum,
+        ),
+    ]
 
 
 class ProductDetailedListQuery(ListQuery):
