@@ -15,6 +15,7 @@ class CategoryCreateCommand(Command):
 class CategoryUpdateCommand(Command):
     id: ID_T
     name: ATSingleLineStr
+    parent_id: Optional[ID_T] = None
 
 
 class CharacteristicSetItem(BasePydanticModel):

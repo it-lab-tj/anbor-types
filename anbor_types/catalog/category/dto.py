@@ -12,6 +12,7 @@ class CharValueDTO(BasePydanticModel):
 
 class CategoryUpdateDTO(BasePydanticModel):
     name: ATSingleLineStr
+    parent_id: Optional[ID_T] = None
 
 
 class CharValueDetailedDTO(msgspec.Struct):
