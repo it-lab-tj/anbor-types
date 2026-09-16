@@ -32,10 +32,9 @@ class SubjectCreateDTO(BasePydanticModel):
     region: Optional[ID_T] = None
     information: Optional[str] = None
     commission_share: Optional[Decimal] = Field(
-        default=None,
+        default=Decimal("0"),
         max_digits=DECIMAL_DISCOUNT_DIGITS,
         decimal_places=DECIMAL_DISCOUNT_PLACES,
-        ge=DECIMAL_ZERO,
         le=Decimal("99"),
     )
     files: Optional[List[ID_T]] = Field(default=None)
@@ -92,10 +91,9 @@ class SubjectUpdateDTO(BasePydanticModel):
     information: Optional[str] = None
     files: Optional[List[ID_T]] = Field(default=None)
     commission_share: Optional[Decimal] = Field(
-        default=None,
+        default=Decimal("0"),
         max_digits=DECIMAL_DISCOUNT_DIGITS,
         decimal_places=DECIMAL_DISCOUNT_PLACES,
-        ge=DECIMAL_ZERO,
         le=Decimal("99"),
     )
 
