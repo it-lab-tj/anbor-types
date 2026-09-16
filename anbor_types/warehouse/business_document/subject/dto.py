@@ -6,7 +6,7 @@ import msgspec
 from pydantic import Field
 
 from anbor_types import ID_T, BasePydanticModel
-from anbor_types.api.constants import PRICE_MAX
+from anbor_types.api.constants import DECIMAL_ZERO, PRICE_MAX
 from anbor_types.catalog.catalog_entry.dto import CatalogEntryImageListDTO
 from anbor_types.common.constraints import (
     DECIMAL_DISCOUNT_DIGITS,

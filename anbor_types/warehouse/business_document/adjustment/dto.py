@@ -45,6 +45,7 @@ class AdjustmentDocumentItemBaseCreateDTO(BasePydanticModel):
     entry_id: ID_T
     price: ATPrice
     discount: ATDiscount
+    reason: str
     kind: BusinessDocumentItemKindEnum = Field(
         description="Направление движения товара: 1=INCOME (поступление), 2=OUTCOME (списание)."
     )
@@ -85,6 +86,7 @@ class AdjustmentDocumentItemUpdateDTO(BasePydanticModel):
     id: Optional[ID_T] = Field(default=None)
     entry_id: ID_T
     price: ATPrice
+    reason: str
     discount: ATDiscount
     kind: BusinessDocumentItemKindEnum
     count: Decimal = Field(le=item_constraints.COUNT_MAX, gt=DECIMAL_ZERO)
