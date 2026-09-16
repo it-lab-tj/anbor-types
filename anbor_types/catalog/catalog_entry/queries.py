@@ -4,6 +4,7 @@ from typing import Annotated, Optional
 
 from anbor_types import ID_T, ListQuery
 from anbor_types.api.types import OrderingAllowedFieldsT
+from anbor_types.catalog.enums import CatalogEntryKindEnum
 from anbor_types.common.annotated import ATDatetimeRN
 from anbor_types.common.enums import StatusEnum
 from anbor_types.utils.filter.meta import FilterMeta, FilterSpec
@@ -64,3 +65,13 @@ class CatalogEntryBaseListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterM
     ]
 
     created_at__rn: ATDatetimeRN
+
+
+class CatalogEntryPositionsListQuery(CatalogEntryBaseListQuery):
+    kind: Annotated[
+        CatalogEntryKindEnum,
+        FilterSpec.numeric(
+            CatalogEntryKindEnum,
+            choices=CatalogEntryKindEnum,
+        ),
+    ]
