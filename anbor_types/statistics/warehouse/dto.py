@@ -4,6 +4,8 @@ import msgspec
 from decimal import Decimal
 from typing import List
 
+from anbor_types.common.dto import NameIdDTO
+
 
 class InventoryAnalyticsOverviewDTO(msgspec.Struct):
     products_count: Decimal
@@ -35,3 +37,11 @@ class InventoryAnalyticsIlliquidDTO(msgspec.Struct):
 class InventoryAnalyticsCashFlowDTO(msgspec.Struct):
     income: Decimal
     expense: Decimal
+
+
+class PerformerSummaryDTO(msgspec.Struct):
+    performer: NameIdDTO
+    service_completed: Decimal
+    revenue: Decimal
+    commission: Decimal
+    revenue_commission: Decimal

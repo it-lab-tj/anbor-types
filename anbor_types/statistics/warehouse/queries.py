@@ -17,3 +17,7 @@ class InventoryAnalyticsIlliquidQuery(ListQuery): ...
 
 class InventoryAnalyticsCashFlowQuery(Query, metaclass=FilterMeta):
     created_at__rn: ATDatetimeRN
+
+
+class PerformerDocumentSummaryQuery(Query, metaclass=FilterMeta):
+    shipped_at__rn: ATDatetimeRN

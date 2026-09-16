@@ -6,8 +6,12 @@ import msgspec
 from pydantic import Field
 
 from anbor_types import ID_T, BasePydanticModel
-from anbor_types.api.constants import PRICE_MAX
+from anbor_types.api.constants import DECIMAL_ZERO, PRICE_MAX
 from anbor_types.catalog.catalog_entry.dto import CatalogEntryImageListDTO
+from anbor_types.common.constraints import (
+    DECIMAL_DISCOUNT_DIGITS,
+    DECIMAL_DISCOUNT_PLACES,
+)
 from anbor_types.common.dto import FileShortDTO
 from anbor_types.handbook.region.dto import RegionShortDTO
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
@@ -27,6 +31,13 @@ class SubjectCreateDTO(BasePydanticModel):
     tag_id: Optional[ID_T] = None
     region: Optional[ID_T] = None
     information: Optional[str] = None
+    commission_share: Optional[Decimal] = Field(
+        default=None,
+        max_digits=DECIMAL_DISCOUNT_DIGITS,
+        decimal_places=DECIMAL_DISCOUNT_PLACES,
+        ge=DECIMAL_ZERO,
+        le=Decimal("99"),
+    )
     files: Optional[List[ID_T]] = Field(default=None)
 
 
@@ -41,6 +52,7 @@ class SubjectListDTO(msgspec.Struct):
     phone: Optional[str] = None
     email: Optional[str] = None
     region: Optional[RegionShortDTO] = None
+    commission_share: Optional[Decimal] = None
 
 
 class SubjectCreateResultDTO(SubjectListDTO): ...
@@ -64,6 +76,7 @@ class SubjectDetailedDTO(msgspec.Struct):
     phone: Optional[str] = None
     email: Optional[str] = None
     region: Optional[RegionShortDTO] = None
+    commission_share: Optional[Decimal] = None
 
 
 class SubjectUpdateDTO(BasePydanticModel):
@@ -78,6 +91,13 @@ class SubjectUpdateDTO(BasePydanticModel):
     region: Optional[ID_T] = None
     information: Optional[str] = None
     files: Optional[List[ID_T]] = Field(default=None)
+    commission_share: Optional[Decimal] = Field(
+        default=None,
+        max_digits=DECIMAL_DISCOUNT_DIGITS,
+        decimal_places=DECIMAL_DISCOUNT_PLACES,
+        ge=DECIMAL_ZERO,
+        le=Decimal("99"),
+    )
 
 
 class SubjectForBusinessDocumentShortDataDTO(msgspec.Struct):
