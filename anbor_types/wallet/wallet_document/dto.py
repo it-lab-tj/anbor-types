@@ -29,7 +29,7 @@ class WalletDocumentListDTO(msgspec.Struct):
     kind: WalletDocumentKindEnum
     created_by: AuthorInfoShortDTO
     subject: Optional[NameIdDTO] = None
-    operating_expense: Optional[NameIdDTO] = None
+    operating_expense: Optional[OperatingExpenseShortListDTO] = None
     business_document_id: Optional[ID_T] = None
     currency: Optional[CurrencyShortDTO] = None
     vendor_code: Optional[str] = None
