@@ -40,9 +40,3 @@ class JobPositionDetailedQuery(Query):
 class PermissionCatalogQuery(Query):
     """The whole catalog, grouped by boundary -- what a permission matrix needs
     to render before anything is ticked. Static, so it is cacheable."""
-
-
-class StaffJobPositionsQuery(Query):
-    """Positions held by one user, and the permissions they union up to."""
-
-    user_id: ID_T
