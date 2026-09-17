@@ -41,14 +41,17 @@ class JobPositionWriteDTO(BasePydanticModel):
 
 class PermissionDTO(msgspec.Struct):
     """One permission as the catalog defines it. Static data -- ids are a
-    declared contract, not a sequence, so the client may cache this."""
+    declared contract, not a sequence, so the client may cache this.
+
+    No display text: a permission is a boundary, an action and an id, and how
+    that is worded to a user is the client's business. `codename`
+    (`<boundary>.<action>`) is the key a translation table is keyed by.
+    """
 
     id: ID_T
     codename: str
     boundary: str
     action: str
-    title_ru: str
-    title_en: str
     # Ids this permission pulls in when granted. The UI should tick these too,
     # so what the user sees matches what the server will store.
     requires: List[ID_T]
@@ -62,9 +65,9 @@ class PermissionBoundaryDTO(msgspec.Struct):
     chosen object ids.
     """
 
+    # No display text here either -- `code` is what a client-side translation
+    # table is keyed by.
     code: str
-    title_ru: str
-    title_en: str
     group: str
     order: int
     scopable: bool
