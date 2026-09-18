@@ -110,3 +110,16 @@ class JobPositionDetailedDTO(msgspec.Struct):
 
     object_scopes: List[JobPositionObjectScopeDTO]
     staff: List[NameIdDTO]
+
+class StaffJobPositionsDTO(msgspec.Struct):
+    """One user's positions and what they add up to.
+
+    A user may hold several positions and positions only ever grant, so
+    `permission_ids` is the UNION across them -- computed here because the
+    client cannot union two positions without the dependency graph.
+    """
+
+    user_id: ID_T
+    job_positions: List[NameIdDTO]
+    permission_ids: List[ID_T]
+    object_scopes: List[JobPositionObjectScopeDTO]
