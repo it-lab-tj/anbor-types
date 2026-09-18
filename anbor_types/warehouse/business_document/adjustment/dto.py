@@ -45,7 +45,7 @@ class AdjustmentDocumentItemBaseCreateDTO(BasePydanticModel):
     entry_id: ID_T
     price: ATPrice
     discount: ATDiscount
-    reason: str
+    reason: Optional[str] = None
     kind: BusinessDocumentItemKindEnum = Field(
         description="Направление движения товара: 1=INCOME (поступление), 2=OUTCOME (списание)."
     )
