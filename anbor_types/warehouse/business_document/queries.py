@@ -26,6 +26,11 @@ class BusinessDocumentListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterM
     returns resolve through their parent sale/purchase. Documents that lack the
     concept at all (ADJUSTMENT has no credit, TRANSFER has no currency/paid)
     simply never match that filter.
+
+    ``subject_id`` is side-agnostic: it matches a document where the subject sits
+    on *either* side, so a counterparty's full history (sales where it is the
+    debit, returns where it is the credit) comes back from one filter. Use
+    ``debit_id`` / ``credit_id`` when the side matters.
     """
 
     _ordering_allowed_fields: OrderingAllowedFieldsT = {
@@ -64,13 +69,23 @@ class BusinessDocumentListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterM
     ]
 
     tag_id__in: Annotated[
-        ID_T,
-        FilterSpec.string(min_length=1, max_length=100),
+        Tuple[ID_T, ...],
+        FilterSpec.collection(ID_T, lookup=FilterLookupEnum.IN),
     ]
 
     application_status: Annotated[
         BusinessDocumentApplicationStatusEnum,
         FilterSpec.enum(BusinessDocumentApplicationStatusEnum),
+    ]
+
+    # Matches documents where the subject is the debit OR the credit party.
+    subject_id: Annotated[
+        ID_T,
+        FilterSpec.numeric(
+            int,
+            lte=ID_MAX,
+            description="Matches documents where the subject is on either side (debit or credit).",
+        ),
     ]
 
     debit_id: Annotated[
@@ -125,8 +140,6 @@ class BusinessDocumentListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterM
             gte=DECIMAL_ZERO,
         ),
     ]
-
-    tag_id__in: Annotated[ID_T, FilterSpec.collection(ID_T, lookup=FilterLookupEnum.IN)]
 
     shipped_at__rn: ATDatetimeRN
 
