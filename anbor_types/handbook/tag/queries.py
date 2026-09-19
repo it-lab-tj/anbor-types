@@ -7,6 +7,7 @@ from anbor_types.api.annotated import ATSearch
 from anbor_types.api.filter_specs import AFStatus
 from anbor_types.api.queries import ShortListQuery
 from anbor_types.utils.filter import FilterMeta
+from anbor_types.warehouse.constants.enums import BusinessDocumentActionEnum
 
 
 class TagListQuery(ListQuery, metaclass=FilterMeta):
@@ -15,3 +16,8 @@ class TagListQuery(ListQuery, metaclass=FilterMeta):
 
 
 class TagShortListQuery(ShortListQuery): ...
+
+
+class TagsWithDocumentCountQuery(ListQuery, metaclass=FilterMeta):
+    status: AFStatus
+    document_type: BusinessDocumentActionEnum
