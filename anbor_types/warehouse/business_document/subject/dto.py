@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 from decimal import Decimal
 from typing import Optional, List
 
@@ -38,6 +38,7 @@ class SubjectCreateDTO(BasePydanticModel):
         le=Decimal("99"),
     )
     files: Optional[List[ID_T]] = Field(default=None)
+    birth_date: Optional[date] = None
 
 
 class SubjectListDTO(msgspec.Struct):
@@ -52,6 +53,7 @@ class SubjectListDTO(msgspec.Struct):
     email: Optional[str] = None
     region: Optional[RegionShortDTO] = None
     commission_share: Optional[Decimal] = None
+    birth_date: Optional[date] = None
 
 
 class SubjectCreateResultDTO(SubjectListDTO): ...
@@ -76,6 +78,7 @@ class SubjectDetailedDTO(msgspec.Struct):
     email: Optional[str] = None
     region: Optional[RegionShortDTO] = None
     commission_share: Optional[Decimal] = None
+    birth_date: Optional[date] = None
 
 
 class SubjectUpdateDTO(BasePydanticModel):
@@ -96,6 +99,7 @@ class SubjectUpdateDTO(BasePydanticModel):
         decimal_places=DECIMAL_DISCOUNT_PLACES,
         le=Decimal("99"),
     )
+    birth_date: Optional[date] = None
 
 
 class SubjectForBusinessDocumentShortDataDTO(msgspec.Struct):

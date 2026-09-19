@@ -111,6 +111,7 @@ class JobPositionDetailedDTO(msgspec.Struct):
     object_scopes: List[JobPositionObjectScopeDTO]
     staff: List[NameIdDTO]
 
+
 class StaffJobPositionsDTO(msgspec.Struct):
     """One user's positions and what they add up to.
 
