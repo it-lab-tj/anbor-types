@@ -29,9 +29,9 @@ class JobPositionWriteDTO(BasePydanticModel):
     part of the same write so a permission and the objects it applies to land
     in one transaction -- they are meaningless apart.
 
-    Staff membership is deliberately NOT here; it is owned from the user side
-    (`PUT /identity/staff/{user_id}/job-positions`), so this screen cannot
-    unassign people by omitting a field it never displayed.
+    Staff membership is deliberately NOT here; it is written from the staff
+    member's side, so this screen cannot unassign people by omitting a field
+    it never displayed.
     """
 
     name: str = Field(min_length=1, max_length=100)
@@ -66,9 +66,9 @@ class PermissionBoundaryDTO(msgspec.Struct):
     """
 
     # No display text here either -- `code` is what a client-side translation
-    # table is keyed by.
+    # table is keyed by. `order` is the catalog's declaration order, so a
+    # client can render boundaries the way the product groups them.
     code: str
-    group: str
     order: int
     scopable: bool
     object_scope_permission_id: Optional[ID_T]

@@ -25,8 +25,9 @@ class PermissionBoundaryEnum(StrEnum):
     ``identity_jobposition_permittedobject.boundary`` -- so they are
     append-only; renaming a member silently reinterprets stored rows.
 
-    Only boundaries that own addressable objects can be scoped per object
-    (currently ``STORAGE`` and ``CASH_DESK``); the rest are all-or-nothing.
+    Only boundaries that own addressable objects can be scoped per object --
+    the subjects (``STORAGE``, ``CLIENT``, ``PERFORMER``) and ``CASH_DESK``;
+    the rest are all-or-nothing.
     """
 
     # documents -- one per BusinessDocumentActionEnum
@@ -115,9 +116,11 @@ class PermissionActionEnum(StrEnum):
     REBALANCE = "rebalance"
     RECALCULATE = "recalculate"
     TRANSFER = "transfer"
-    # Narrows a boundary to named objects instead of all of them. Only
-    # meaningful where `identity_jobposition_permittedobject` rows exist, which
-    # today is `storage` and `cash_desk`.
+    # Narrows a boundary to named objects instead of all of them. A position
+    # holding this marker reaches only the objects listed for it in
+    # `identity_jobposition_permittedobject`; without the marker it reaches
+    # every object of the boundary. Declared for the subjects (`storage`,
+    # `client`, `performer`) and `cash_desk`.
     #
     # This is a deliberate collapse of what v1 did. There, a per-object row
     # carried its own bitmask, so a position could hold different rights on
@@ -126,6 +129,14 @@ class PermissionActionEnum(StrEnum):
     # object in the scope. That trades granularity nobody was using for a rule
     # that can be reasoned about, and it is reversible -- per-object rights would
     # come back as rows pairing an object with a permission id, not as a bitmask.
+    #
+    # How scope is read (the rules live with the capability service):
+    #   * a boundary's own objects -- the list, a balance, a history -- are
+    #     strict: the object must be in reach for the permission checked;
+    #   * a document is visible when ANY scoped object it references is in
+    #     reach -- reading is a lens over what the user is assigned to;
+    #   * a document is writable only when EVERY scoped object it references
+    #     is in reach -- writing acts on each of them.
     ACCESS_SCOPED_OBJECTS = "access_scoped_objects"
 
     # scoped reads -- each is separately grantable
