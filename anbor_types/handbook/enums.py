@@ -27,7 +27,7 @@ class PromotionItemAwardsEnum(IntEnum):
 
 
 # Tag
-class TagDefaultNameStrEnum(StrEnum):
+class TagDefaultNameEnum(StrEnum):
     NEW = "Новая"
     IN_PROGRESS = "В работе"
     ON_HOLD = "Приостановлена"
