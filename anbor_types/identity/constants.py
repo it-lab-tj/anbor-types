@@ -79,6 +79,12 @@ class PermissionBoundaryEnum(StrEnum):
     # platform
     MODULE = "module"
 
+    # money, continued -- the third wallet document kind, beside INCOME_ORDER
+    # and EXPENSE_ORDER. Appended here rather than next to them because id
+    # windows are handed out in declaration order: a member inserted mid-list
+    # would shift every boundary after it onto other rows' ids.
+    TRANSFER_ORDER = "transfer_order"
+
 
 class PermissionActionEnum(StrEnum):
     """What a permission lets you do within its boundary.
