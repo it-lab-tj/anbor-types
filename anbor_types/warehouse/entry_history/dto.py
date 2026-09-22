@@ -1,8 +1,9 @@
 from datetime import datetime
 from decimal import Decimal
-from typing import Optional
+from typing import Optional, Tuple
 
 import msgspec
+from anbor_types.catalog.category.dto import CharacteristicValuePairDTO
 
 from anbor_types import ID_T
 from anbor_types.common.dto import NameIdDTO
@@ -35,6 +36,7 @@ class CatalogEntryHistoryListDTO(msgspec.Struct):
     discount: Decimal
     amount: Decimal
     created_by: AuthorInfoShortDTO
+    characteristics: Tuple[CharacteristicValuePairDTO, ...]
     shipped_at: Optional[datetime] = None
     currency: Optional[CurrencyCodeSymbolDTO] = None
     project: Optional[NameIdDTO] = None

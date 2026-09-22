@@ -184,6 +184,6 @@ class CatalogEntryPositionListDTO(msgspec.Struct):
     remains: Optional[Decimal] = None
     selling_price: Optional[Decimal] = None
     minimum_price: Optional[Decimal] = None
-    characteristics: List[CharacteristicValuePairDTO] = msgspec.field(
+    characteristics: Tuple[CharacteristicValuePairDTO, ...] = msgspec.field(
         default_factory=list
     )
