@@ -23,7 +23,7 @@ from anbor_types.warehouse.business_document.subject.dto import (
 )
 from anbor_types.warehouse.business_document_item.dto import (
     BusinessDocumentItemBaseCreateDTO,
-    BusinessDocumentItemUpdateDTO,
+    BusinessDocumentItemBaseUpdateDTO,
 )
 from anbor_types.warehouse.constants.constraints import document as doc_constraints
 
@@ -54,7 +54,9 @@ class SaleDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     )
 
 
-class SaleDocumentUpdateDTO(BasePydanticModel):
+class SaleDocumentUpdateDTO[TItem: BusinessDocumentItemBaseUpdateDTO](
+    BasePydanticModel
+):
     """Full-state update. Every field the document has is sent back, including
     the ones that are only editable while it is PENDING (``credit_id`` — the
     storage the goods leave — and ``shipped_at``). Sending those unchanged on a
@@ -72,9 +74,7 @@ class SaleDocumentUpdateDTO(BasePydanticModel):
     comment: Optional[ATComment] = None
     confirmed: bool = Field(default=False)
     file_ids: Optional[ATFileIds] = Field(default=None)
-    items: List[BusinessDocumentItemUpdateDTO] = Field(
-        min_length=1, max_length=doc_constraints.ITEM_MAX_COUNT
-    )
+    items: List[TItem] = Field(min_length=1, max_length=doc_constraints.ITEM_MAX_COUNT)
 
 
 class SaleDocumentListDTO(msgspec.Struct):

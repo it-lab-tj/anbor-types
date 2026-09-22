@@ -5,6 +5,9 @@ from anbor_types.warehouse.constants.constraints import (
     document_item as item_constraints,
 )
 
+from anbor_types.warehouse.business_document_item.dto import (
+    BusinessDocumentItemUpdateDTO,
+)
 from anbor_types import ID_T, BasePydanticModel, Command
 from anbor_types.catalog.category.dto import CharValueDTO
 from anbor_types.warehouse.business_document.sale.dto import (
@@ -28,7 +31,17 @@ class SaleDocumentCreateCommand(
 ): ...
 
 
-class SaleDocumentUpdateCommand(SaleDocumentUpdateDTO, Command):
+class SaleDocumentUpdateBodyDTO(SaleDocumentUpdateDTO[BusinessDocumentItemUpdateDTO]):
+    """The PUT body: the generic bound to this action's item type.
+
+    Named rather than left as an inline parameterisation so the OpenAPI
+    schema reads ``SaleDocumentUpdateBodyDTO`` instead of
+    ``SaleDocumentUpdateDTO_BusinessDocumentItemUpdateDTO_``. The create side gets clean
+    names the same way, through its concrete command classes.
+    """
+
+
+class SaleDocumentUpdateCommand(SaleDocumentUpdateBodyDTO, Command):
     id: ID_T
 
 

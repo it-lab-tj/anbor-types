@@ -26,6 +26,9 @@ from anbor_types.wallet.currency.dto import CurrencyShortListDTO
 from anbor_types.warehouse.business_document.subject.dto import (
     SubjectForBusinessDocumentShortDataDTO,
 )
+from anbor_types.warehouse.business_document_item.dto import (
+    BusinessDocumentItemBaseUpdateDTO,
+)
 from anbor_types.warehouse.constants.constraints import document as doc_constraints
 from anbor_types.warehouse.constants.constraints import (
     document_item as item_constraints,
@@ -79,22 +82,20 @@ class AdjustmentDocumentCreateDTO[TItem: AdjustmentDocumentItemBaseCreateDTO](
     )
 
 
-class AdjustmentDocumentItemUpdateDTO(BasePydanticModel):
-    """An item on an update: ``id`` present → existing row, ``id`` None → new row.
-    ``kind`` (1=INCOME, 2=OUTCOME) is carried per item, like the create item."""
+class AdjustmentDocumentItemUpdateDTO(BusinessDocumentItemBaseUpdateDTO):
+    """An adjustment line on an update. Everything common (including
+    ``char_values``) comes from the base; ``kind`` (1=INCOME, 2=OUTCOME) and
+    ``reason`` are carried per item, like the create item, and ``count`` is
+    strictly positive — direction lives in ``kind``, never in the sign."""
 
-    id: Optional[ID_T] = Field(default=None)
-    entry_id: ID_T
-    price: ATPrice
     reason: Optional[str] = None
-    discount: ATDiscount
     kind: BusinessDocumentItemKindEnum
     count: Decimal = Field(le=item_constraints.COUNT_MAX, gt=DECIMAL_ZERO)
-    variant_id: Optional[ID_T] = Field(default=None)
-    expires_at: Optional[date] = Field(default=None)
 
 
-class AdjustmentDocumentUpdateDTO(BasePydanticModel):
+class AdjustmentDocumentUpdateDTO[TItem: BusinessDocumentItemBaseUpdateDTO](
+    BasePydanticModel
+):
     """Full-state update. ``shipped_at`` and the storage side (``storage_id``, sent as ``debit_id``) are editable
     only while the document is PENDING; sending them unchanged on a CONFIRMED
     document is fine, changing one is rejected."""
@@ -109,7 +110,7 @@ class AdjustmentDocumentUpdateDTO(BasePydanticModel):
     confirmed: bool = Field(default=False)
     comment: Optional[ATComment] = Field(default=None)
     file_ids: Optional[ATFileIds] = Field(default=None)
-    items: List[AdjustmentDocumentItemUpdateDTO] = Field(
+    items: List[TItem] = Field(
         min_length=1,
         max_length=doc_constraints.ITEM_MAX_COUNT,
     )

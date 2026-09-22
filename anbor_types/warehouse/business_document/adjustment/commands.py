@@ -5,6 +5,7 @@ from pydantic import Field
 from anbor_types import BasePydanticModel, Command, ID_T
 from anbor_types.catalog.category.dto import CharValueDTO
 from anbor_types.warehouse.business_document.adjustment.dto import (
+    AdjustmentDocumentItemUpdateDTO,
     AdjustmentDocumentCreateDTO,
     AdjustmentDocumentItemBaseCreateDTO,
     AdjustmentDocumentUpdateDTO,
@@ -26,7 +27,19 @@ class AdjustmentDocumentCreateCommand(
 ): ...
 
 
-class AdjustmentDocumentUpdateCommand(AdjustmentDocumentUpdateDTO, Command):
+class AdjustmentDocumentUpdateBodyDTO(
+    AdjustmentDocumentUpdateDTO[AdjustmentDocumentItemUpdateDTO]
+):
+    """The PUT body: the generic bound to this action's item type.
+
+    Named rather than left as an inline parameterisation so the OpenAPI
+    schema reads ``AdjustmentDocumentUpdateBodyDTO`` instead of
+    ``AdjustmentDocumentUpdateDTO_AdjustmentDocumentItemUpdateDTO_``. The create side gets clean
+    names the same way, through its concrete command classes.
+    """
+
+
+class AdjustmentDocumentUpdateCommand(AdjustmentDocumentUpdateBodyDTO, Command):
     id: ID_T
 
 

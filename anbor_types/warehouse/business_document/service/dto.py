@@ -20,7 +20,7 @@ from anbor_types.warehouse.business_document.subject.dto import (
 )
 from anbor_types.warehouse.business_document_item.dto import (
     BusinessDocumentItemBaseCreateDTO,
-    BusinessDocumentItemUpdateDTO,
+    BusinessDocumentItemBaseUpdateDTO,
 )
 from anbor_types.warehouse.constants.constraints import document as doc_constraints
 from anbor_types.warehouse.constants.enums import (
@@ -51,7 +51,9 @@ class ServiceDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     )
 
 
-class ServiceDocumentUpdateDTO(BasePydanticModel):
+class ServiceDocumentUpdateDTO[TItem: BusinessDocumentItemBaseUpdateDTO](
+    BasePydanticModel
+):
     """Full-state update. Both parties stay editable after confirmation (the
     balance legs are reposted); ``shipped_at`` is PENDING-only."""
 
@@ -65,9 +67,7 @@ class ServiceDocumentUpdateDTO(BasePydanticModel):
     comment: Optional[ATComment] = None
     confirmed: bool = Field(default=False)
     file_ids: Optional[ATFileIds] = Field(default=None)
-    items: List[BusinessDocumentItemUpdateDTO] = Field(
-        min_length=1, max_length=doc_constraints.ITEM_MAX_COUNT
-    )
+    items: List[TItem] = Field(min_length=1, max_length=doc_constraints.ITEM_MAX_COUNT)
 
 
 class ServiceShortDTO(msgspec.Struct):

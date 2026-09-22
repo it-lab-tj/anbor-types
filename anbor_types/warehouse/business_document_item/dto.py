@@ -1,10 +1,11 @@
 from datetime import date
 from decimal import Decimal
-from typing import Optional
+from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
-from anbor_types import ID_T
+from anbor_types import ID_T, BasePydanticModel
+from anbor_types.catalog.category.dto import CharValueDTO
 from anbor_types.common.annotated import ATPrice, ATDiscount
 from anbor_types.warehouse.constants.constraints import (
     document_item as item_constraints,
@@ -20,25 +21,33 @@ class BusinessDocumentItemBaseCreateDTO(BaseModel):
 
 
 class BusinessDocumentItemCreateDTO(BusinessDocumentItemBaseCreateDTO):
-    variant_id: Optional[ID_T] = Field(default=None)
     expires_at: Optional[date] = Field(default=None)
 
 
-class BusinessDocumentItemUpdateDTO(BaseModel):
-    """One line of a full-state document update.
+class BusinessDocumentItemBaseUpdateDTO(BasePydanticModel):
+    """What every action's update line carries, and the bound the document
+    update DTOs are generic over — the mirror of
+    ``BusinessDocumentItemBaseCreateDTO`` on the write-back side.
 
     ``id`` present → an existing row, ``id`` None → a new one.
 
-    ``entry_id``, ``variant_id`` and ``expires_at`` are the line's *identity*.
-    They are freely editable while the document is PENDING; on a CONFIRMED
-    document they are locked and changing one is rejected, because moving a
-    confirmed line onto a different entry or lot means reversing its stock and
-    re-sourcing it — remove the line and add a new one instead, which the
-    reconcile processors already handle.
+    ``entry_id``, the variant ``char_values`` resolve to, and ``expires_at`` are
+    the line's *identity*. They are freely editable while the document is
+    PENDING; on a CONFIRMED document they are locked and changing one is
+    rejected, because moving a confirmed line onto a different entry or lot
+    means reversing its stock and re-sourcing it — remove the line and add a new
+    one instead, which the reconcile processors already handle.
 
     ``entry_id`` is required: it used to be optional and was then silently
     dropped for existing rows, so a payload could name a different entry, get a
     200, and change nothing.
+
+    ``char_values`` names the characteristics of the line, exactly as on create.
+    The server resolves them to a catalog entry variant; the variant id itself
+    is internal and is neither accepted nor needed here. Full-state, like every
+    other field: an empty list means the line has no characteristics, so a line
+    that had a variant loses it. Send back what the detailed GET returned under
+    ``characteristics`` to leave a line unchanged.
     """
 
     id: Optional[ID_T] = None
@@ -46,8 +55,16 @@ class BusinessDocumentItemUpdateDTO(BaseModel):
     price: ATPrice
     discount: ATDiscount
     count: Decimal = Field(le=item_constraints.COUNT_MAX)
-    variant_id: Optional[ID_T] = Field(default=None)
     expires_at: Optional[date] = Field(default=None)
+    char_values: List[CharValueDTO] = Field(
+        default_factory=list,
+        max_length=item_constraints.CHAR_VALUES_MAX_COUNT,
+    )
+
+
+class BusinessDocumentItemUpdateDTO(BusinessDocumentItemBaseUpdateDTO):
+    """The update line of every action whose items carry nothing of their own
+    (sale, purchase, transfer, service). Adjustment declares its own."""
 
 
 class ReturnDocumentItemCreateDTO(BaseModel):
