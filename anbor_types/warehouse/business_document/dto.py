@@ -1,6 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 import msgspec
 
@@ -13,6 +13,9 @@ from anbor_types.catalog.catalog_entry.dto import (
 from anbor_types.catalog.enums import CatalogEntryKindEnum
 from anbor_types.handbook.project.dto import ProjectShortListDTO
 from anbor_types.wallet.currency.dto import CurrencyShortDTO
+from anbor_types.warehouse.business_document_item.dto import (
+    BusinessDocumentItemShortDTO,
+)
 from anbor_types.warehouse.constants.enums import (
     BusinessDocumentActionEnum,
     BusinessDocumentApplicationStatusEnum,
@@ -51,6 +54,7 @@ class BusinessDocumentListItemDTO(msgspec.Struct):
     created_by: BusinessDocumentAuthorDTO
     application_status: BusinessDocumentApplicationStatusEnum
     created_at: datetime
+    items: Tuple[BusinessDocumentItemShortDTO, ...]
     debit: Optional[BusinessDocumentSubjectDTO] = None
     credit: Optional[BusinessDocumentSubjectDTO] = None
     currency: Optional[CurrencyShortDTO] = None

@@ -2,11 +2,13 @@ from datetime import date
 from decimal import Decimal
 from typing import List, Optional
 
+import msgspec
 from pydantic import BaseModel, Field
 
 from anbor_types import ID_T, BasePydanticModel
 from anbor_types.catalog.category.dto import CharValueDTO
 from anbor_types.common.annotated import ATPrice, ATDiscount
+from anbor_types.common.dto import NameIdDTO
 from anbor_types.warehouse.constants.constraints import (
     document_item as item_constraints,
 )
@@ -60,6 +62,11 @@ class BusinessDocumentItemBaseUpdateDTO(BasePydanticModel):
         default_factory=list,
         max_length=item_constraints.CHAR_VALUES_MAX_COUNT,
     )
+
+
+class BusinessDocumentItemShortDTO(msgspec.Struct):
+    id: ID_T
+    entry: NameIdDTO
 
 
 class BusinessDocumentItemUpdateDTO(BusinessDocumentItemBaseUpdateDTO):
