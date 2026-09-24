@@ -2,7 +2,6 @@ from typing import Optional, List
 import msgspec
 from anbor_types import ID_T, BasePydanticModel
 from anbor_types.common.annotated import ATSingleLineStr
-from anbor_types.common.dto import NameIdDTO
 
 
 class CharValueDTO(BasePydanticModel):
@@ -13,12 +12,6 @@ class CharValueDTO(BasePydanticModel):
 class CategoryUpdateDTO(BasePydanticModel):
     name: ATSingleLineStr
     parent_id: Optional[ID_T] = None
-
-
-class CharValueDetailedDTO(msgspec.Struct):
-    characteristic_id: ID_T
-    characteristic_name: str
-    values: List[NameIdDTO]
 
 
 class CharacteristicValuePairDTO(msgspec.Struct):

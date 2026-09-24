@@ -1,6 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
-from typing import Optional, List, Annotated
+from typing import Optional, List, Annotated, Tuple
 
 import msgspec
 from pydantic import Field
@@ -11,7 +11,10 @@ from anbor_types.catalog.annotated import (
     ATCatalogEntryName,
     ATCatalogEntryVendorCode,
 )
-from anbor_types.catalog.category.dto import CharValueDetailedDTO, CategoryShortDTO
+from anbor_types.catalog.category.dto import (
+    CharacteristicValuePairDTO,
+    CategoryShortDTO,
+)
 from anbor_types.catalog.product.constraints import IMAGES_MAX_COUNT
 from anbor_types.common.annotated import ATDiscount, ATPrice, ATInformationStr
 from anbor_types.common.dto import NameIdDTO, FileShortDTO
@@ -37,8 +40,8 @@ class CatalogEntryImageListDTO(msgspec.Struct, omit_defaults=True):
 
 class CatalogEntryProfileListDTO(msgspec.Struct):
     id: ID_T
-    characteristic_values: List[CharValueDetailedDTO]
     identifier: str
+    characteristic_values: Tuple[CharacteristicValuePairDTO, ...]
 
 
 class CatalogEntryListDTO(msgspec.Struct):

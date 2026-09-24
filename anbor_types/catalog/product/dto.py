@@ -131,7 +131,7 @@ class ProductDetailedListCharValueDTO(msgspec.Struct):
 
 class ProductDetailedListProfileDTO(msgspec.Struct):
     id: ID_T
-    characteristic_values: List[ProductDetailedListCharValueDTO]
+    char_values: List[ProductDetailedListCharValueDTO]
 
 
 class ProductDetailedListDTO(msgspec.Struct):
@@ -169,8 +169,8 @@ class ProductDetailedDTO(CatalogEntryDetailedDTO):
     consider_characteristics: bool
     shelf_number: Optional[str]
 
-    subjects_remains: List[ProductSubjectRemainsListDTO]
-    profiles: List[CatalogEntryProfileListDTO]
+    subjects_remains: Tuple[ProductSubjectRemainsListDTO, ...]
+    profiles: Tuple[CatalogEntryProfileListDTO, ...]
 
 
 class CatalogEntryPositionListDTO(msgspec.Struct):
