@@ -19,7 +19,6 @@ class TagShortListQuery(ShortListQuery): ...
 
 
 class TagsWithDocumentCountQuery(ListQuery, metaclass=FilterMeta):
-    status: AFStatus
     action: Annotated[
         BusinessDocumentActionEnum,
         FilterSpec.enum(BusinessDocumentActionEnum),
