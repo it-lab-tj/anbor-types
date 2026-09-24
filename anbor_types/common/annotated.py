@@ -85,3 +85,7 @@ ATDatetimeRN = Annotated[
         lte=DATETIME_MAX,
     ),
 ]
+
+
+# ======= For Filters =====
+type ATFilterRange[T] = Tuple[Optional[T], Optional[T]]

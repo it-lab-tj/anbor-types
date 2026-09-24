@@ -126,4 +126,12 @@ class WalletDocumentListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMet
         ),
     ]
 
+    project_id: Annotated[
+        ID_T,
+        FilterSpec.numeric(
+            int,
+            lte=ID_MAX,
+        ),
+    ]
+
     created_at__rn: ATDatetimeRN
