@@ -119,6 +119,7 @@ class PermissionActionEnum(StrEnum):
     IMPORT = "import"
     TUNE = "tune"
     IGNORE_DISCOUNT = "ignore_discount"
+    CHANGE_ENTRY_SALE_PRICE = "change_entry_sale_price"
     REBALANCE = "rebalance"
     RECALCULATE = "recalculate"
     TRANSFER = "transfer"
