@@ -1,5 +1,4 @@
 from decimal import Decimal
-from typing import Optional
 
 from pydantic import Field
 
@@ -10,8 +9,16 @@ from anbor_types.utils.functions import get_now_utc
 
 
 class WalletOperationCreateDTO(BasePydanticModel):
+    """One ledger row: who the balance belongs to, how much, when.
+
+    The ledger carries no notion of the action that produced the row -- no
+    document kind, no direction, no second operand. `content_type`/`content_id`
+    name the OWNER of the affected balance and nothing else, uniformly, so a
+    balance is `SUM(amount)` over the rows naming that owner. A document that
+    moves two balances posts two of these.
+    """
+
+    content_type: ContentTypeEnum
+    content_id: ID_T
     amount: Decimal
-    content_id: Optional[ID_T] = None
-    content_type: Optional[ContentTypeEnum] = None
     confirmed_at: ATDatetimeDefault = Field(default_factory=get_now_utc)
-    cash_desk_id: Optional[ID_T] = None
