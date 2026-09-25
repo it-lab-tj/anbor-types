@@ -28,10 +28,14 @@ class CategoryWithProductCountQuery(Query):
 
     ``status`` picks which categories come back; it does not change what gets
     counted, which is always the *active* entries in the subtree.
+
+    ``has_product`` is for deciding should we return all categories or only
+    which has products referenced
     """
 
     kind: CategoryKindEnum
     status: StatusEnum = StatusEnum.ACTIVE
+    has_product: bool = False
 
 
 class CategoryShortListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMeta):

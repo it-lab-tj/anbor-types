@@ -39,7 +39,7 @@ class WalletDocumentKindEnum(IntEnum):
         cls, kind: "WalletDocumentKindEnum"
     ) -> Optional["WalletDocumentKindEnum"]:
         """What to put in the `kind` column -- None for a plain direction."""
-        if kind in (cls.EXPENSE, cls.INCOME):
+        if kind not in (cls.EXPENSE, cls.INCOME):
             return None
 
         return kind
