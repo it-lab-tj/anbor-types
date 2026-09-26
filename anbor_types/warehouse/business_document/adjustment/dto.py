@@ -152,7 +152,7 @@ class AdjustmentDocumentItemDetailedDTO(msgspec.Struct):
     characteristic_values: List[CharacteristicValuePairDTO] = msgspec.field(
         default_factory=list
     )
-
+    reason: Optional[str] = None
 
 class AdjustmentDocumentDetailedDTO(msgspec.Struct):
     """Full document with its items (GET_DETAILED by id)."""
