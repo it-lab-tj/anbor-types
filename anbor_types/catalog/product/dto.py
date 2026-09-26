@@ -57,6 +57,7 @@ class ProductListDTO(CatalogEntryListDTO):
     shelf_number: str
     vendor_code: str
     remains: Decimal
+    identifiers: List[str]
 
 
 class ProductCreateDTO(CatalogEntryCreateDTO):
