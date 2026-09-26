@@ -13,6 +13,7 @@ from anbor_types.warehouse.constants.constraints import (
     document_item as item_constraints,
 )
 from anbor_types.api.constants import DECIMAL_ZERO
+from anbor_types.warehouse.constants.enums import BusinessDocumentItemKindEnum
 
 
 class BusinessDocumentItemBaseCreateDTO(BaseModel):
@@ -67,6 +68,7 @@ class BusinessDocumentItemBaseUpdateDTO(BasePydanticModel):
 class BusinessDocumentItemShortDTO(msgspec.Struct):
     id: ID_T
     entry: NameIdDTO
+    kind: BusinessDocumentItemKindEnum
 
 
 class BusinessDocumentItemUpdateDTO(BusinessDocumentItemBaseUpdateDTO):
