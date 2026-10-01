@@ -12,9 +12,15 @@ from anbor_types.common.constraints import (
     DECIMAL_DISCOUNT_DIGITS,
     DECIMAL_DISCOUNT_PLACES,
 )
-from anbor_types.common.dto import FileShortDTO
+from anbor_types.common.dto import FileShortDTO, NameIdDTO
 from anbor_types.handbook.region.dto import RegionShortDTO
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
+from anbor_types.wallet.cash_desk.dto import CashDeskShortListDTO
+from anbor_types.wallet.currency.dto import CurrencyShortDTO
+from anbor_types.wallet.operating_expense.dto import OperatingExpenseShortListDTO
+from anbor_types.warehouse.business_document.subject.queries import (
+    SubjectClientHistoryListQuery,
+)
 from anbor_types.warehouse.constants.enums import SubjectKindEnum
 
 
@@ -180,3 +186,18 @@ class SubjectRebalanceHistoryListDTO(msgspec.Struct):
     previous_balance: Optional[Decimal] = None
     diff: Optional[Decimal] = None
     created_by: Optional[AuthorInfoShortDTO] = None
+
+
+class SubjectClientHistoryListDTO(msgspec.Struct):
+    id: ID_T
+    kind: SubjectClientHistoryListQuery.SubjectClientHistoryEnum
+    amount: Decimal
+    created_at: datetime
+    confirmed_at: datetime
+    cash_desk: CashDeskShortListDTO
+    created_by: Optional[AuthorInfoShortDTO] = None
+    subject: Optional[NameIdDTO] = None
+    operating_expense: Optional[OperatingExpenseShortListDTO] = None
+    business_document_id: Optional[ID_T] = None
+    currency: Optional[CurrencyShortDTO] = None
+    vendor_code: Optional[str] = None
