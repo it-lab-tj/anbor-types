@@ -154,6 +154,7 @@ class AdjustmentDocumentItemDetailedDTO(msgspec.Struct):
     )
     reason: Optional[str] = None
 
+
 class AdjustmentDocumentDetailedDTO(msgspec.Struct):
     """Full document with its items (GET_DETAILED by id)."""
 
