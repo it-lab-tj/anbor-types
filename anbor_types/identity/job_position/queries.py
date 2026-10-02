@@ -46,3 +46,15 @@ class StaffJobPositionsQuery(Query):
     """Positions held by one user, and the permissions they union up to."""
 
     user_id: ID_T
+
+
+class MyJobPositionsQuery(Query):
+    """The CALLER's own positions and what they add up to.
+
+    Carries no `user_id` on purpose. The subject is whoever is authenticated, read
+    from the execution context, so this query cannot be pointed at somebody else
+    -- which is also why it needs no permission of its own: a user may always see
+    what they themselves hold. Reading another user's positions is
+    `StaffJobPositionsQuery`, and that one is an admin action that has to be
+    guarded.
+    """
