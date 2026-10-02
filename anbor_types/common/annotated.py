@@ -89,3 +89,4 @@ ATDatetimeRN = Annotated[
 
 # ======= For Filters =====
 type ATFilterRange[T] = Tuple[Optional[T], Optional[T]]
+type ATFilterRangeRequired[T] = Tuple[T, T]

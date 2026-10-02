@@ -3,6 +3,9 @@ from decimal import Decimal
 
 
 from anbor_types.api.constants import DECIMAL_ZERO, TITLE_REGEX
+from src.app.shared_kernel.validation.value_validation.value_validation_rule import (
+    Numeric,
+)
 
 TITLE_REGEX = TITLE_REGEX
 
@@ -49,6 +52,11 @@ DECIMAL_RATE_PLACES = 6
 
 MAX_RATE = Decimal("100000")
 MIN_RATE = Decimal("0.0001")
+
+
+def ROUND_PRICE[T: Numeric](v: T) -> T:
+    return round(v, DECIMAL_PRICE_PLACES)
+
 
 DECIMAL_DISCOUNT_DIGITS = 5
 DECIMAL_DISCOUNT_PLACES = 2

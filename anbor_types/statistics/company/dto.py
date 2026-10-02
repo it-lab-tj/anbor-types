@@ -3,6 +3,11 @@ from decimal import Decimal
 import msgspec
 
 
+class CompanyAnalyticsComparedProperty(msgspec.Struct):
+    given_period: Decimal
+    previous_period_change_pct: Decimal
+
+
 class CompanyAnalyticsSummaryDTO(msgspec.Struct):
     """Company-wide money totals for the analytics summary panel.
 
@@ -23,3 +28,13 @@ class CompanyAnalyticsSummaryDTO(msgspec.Struct):
     # Total balance across all performers: positive means the company owes them,
     # negative means they owe the company.
     performers_total: Decimal
+
+
+class CompanyAnalyticsMoneySummaryDTO(msgspec.Struct):
+    sales_amount: CompanyAnalyticsComparedProperty
+    sales_count: CompanyAnalyticsComparedProperty
+
+    avg_sales_receipt_amount: CompanyAnalyticsComparedProperty
+    avg_marginality: CompanyAnalyticsComparedProperty
+
+    gross_profit: CompanyAnalyticsComparedProperty
