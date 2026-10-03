@@ -5,12 +5,15 @@ from typing import Annotated, Optional, Tuple, TypeAlias, List
 from anbor_types import ID_T
 from pydantic import AfterValidator, Field, constr, StringConstraints
 from pydantic.functional_validators import BeforeValidator
+
+from anbor_types.api.constants import DECIMAL_ZERO, PRICE_MAX
 from anbor_types.common import constraints as common_constraints
 from anbor_types.common.constraints import (
     COMMENT_MAX_LENGTH,
     DATETIME_MAX,
     MIN_RATE,
     MAX_RATE,
+    DISCOUNT_MAX,
 )
 from anbor_types.utils.filter.types import FilterSpec
 from anbor_types.utils.functions import (
@@ -35,6 +38,8 @@ type ATPrice = Annotated[
     Field(
         max_digits=common_constraints.DECIMAL_PRICE_DIGITS,
         decimal_places=common_constraints.DECIMAL_PRICE_PLACES,
+        ge=DECIMAL_ZERO,
+        le=PRICE_MAX,
     ),
 ]
 type ATDiscount = Annotated[
@@ -42,8 +47,8 @@ type ATDiscount = Annotated[
     Field(
         max_digits=common_constraints.DECIMAL_DISCOUNT_DIGITS,
         decimal_places=common_constraints.DECIMAL_DISCOUNT_PLACES,
-        ge=Decimal("-0.99"),
-        le=Decimal("100"),
+        ge=DECIMAL_ZERO,
+        le=DISCOUNT_MAX,
     ),
 ]
 ATBalance: TypeAlias = Annotated[

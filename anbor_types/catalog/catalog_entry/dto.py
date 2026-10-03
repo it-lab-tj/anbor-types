@@ -6,6 +6,7 @@ import msgspec
 from pydantic import Field
 
 from anbor_types import ID_T, BasePydanticModel
+from anbor_types.api.constants import DECIMAL_ZERO
 from anbor_types.catalog.annotated import (
     ATCatalogEntryDescription,
     ATCatalogEntryName,
@@ -63,12 +64,13 @@ class CatalogEntryListDTO(msgspec.Struct):
     category: NameIdDTO
 
 
-class CatalogEntryDetailedDTO(msgspec.Struct):
+class CatalogEntryDetailedDTO(msgspec.Struct, kw_only=True):
     id: ID_T
     name: str
     vendor_code: str
     minimum_price: Decimal
     selling_price: Decimal
+    measurement_units_ratio: Decimal
     max_discount: Decimal
     description: Optional[str]
     information: Optional[str]
@@ -81,6 +83,8 @@ class CatalogEntryDetailedDTO(msgspec.Struct):
     created_by: AuthorInfoShortDTO
     files: List[FileShortDTO]
     images: List[CatalogEntryImageListDTO]
+
+    second_measurement_unit: Optional[NameIdDTO] = None
 
 
 class CatalogEntryOnBusinessDocumentItemDTO(msgspec.Struct):
@@ -101,13 +105,10 @@ class CatalogEntryCreateDTO(BasePydanticModel):
     selling_price: ATPrice
     max_discount: ATDiscount
 
-    description: Optional[ATCatalogEntryDescription] = None
-    information: Optional[ATInformationStr] = None
-    vendor_code: Optional[ATCatalogEntryVendorCode] = None
-
     # Non-validate
     category_id: ID_T
     measurement_unit_id: ID_T
+    measurement_units_ratio: ATPrice = DECIMAL_ZERO
     currency_id: ID_T
     images: Annotated[
         List[ID_T],
@@ -117,6 +118,11 @@ class CatalogEntryCreateDTO(BasePydanticModel):
         List[ID_T],
         Field(default_factory=list),
     ]
+
+    second_measurement_unit_id: Optional[ID_T] = None
+    description: Optional[ATCatalogEntryDescription] = None
+    information: Optional[ATInformationStr] = None
+    vendor_code: Optional[ATCatalogEntryVendorCode] = None
 
 
 class CatalogEntryUpdateDTO(BasePydanticModel):
@@ -134,6 +140,8 @@ class CatalogEntryUpdateDTO(BasePydanticModel):
     category_id: ID_T
     measurement_unit_id: ID_T
     currency_id: ID_T
+    second_measurement_unit_id: Optional[ID_T] = None
+    measurement_units_ratio: ATPrice = DECIMAL_ZERO
 
 
 class CatalogEntryImportAcceptedDTO(msgspec.Struct):
