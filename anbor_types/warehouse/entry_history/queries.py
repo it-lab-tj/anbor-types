@@ -7,7 +7,7 @@ from anbor_types.api.types import OrderingAllowedFieldsT
 from anbor_types.catalog.category.dto import CharValueDTO
 from anbor_types.common.annotated import ATDatetimeRN
 from anbor_types.utils.filter.meta import FilterMeta
-from anbor_types.utils.filter.types import FilterSpec
+from anbor_types.utils.filter.types import FilterLookupEnum, FilterSpec
 from anbor_types.utils.mixins import OrderingQueryMixin
 from anbor_types.warehouse.constants.constraints.document_item import (
     CHAR_VALUES_MAX_COUNT,
@@ -110,6 +110,11 @@ class CatalogEntryHistoryListQuery(ListQuery, OrderingQueryMixin, metaclass=Filt
     ]
 
     shipped_at__rn: ATDatetimeRN
+
+    tag_id__in: Annotated[
+        Tuple[ID_T, ...],
+        FilterSpec.collection(ID_T, lookup=FilterLookupEnum.IN),
+    ]
 
     char_values: Annotated[
         List[CharValueDTO],
