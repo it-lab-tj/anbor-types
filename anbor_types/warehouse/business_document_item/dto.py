@@ -65,6 +65,52 @@ class BusinessDocumentItemBaseUpdateDTO(BasePydanticModel):
     )
 
 
+class TransferDocumentItemCreateDTO(BaseModel):
+    """A create line whose value the ALLOCATOR determines, not the client.
+
+    A transfer has no counterparty and no currency (``rate`` is NULL for the
+    whole action), so there is no price to negotiate and no discount to grant:
+    what the line is worth is the cost of the lots the allocator ends up
+    consuming at the source, which is only known once the document is
+    confirmed. ``price`` and ``discount`` are therefore absent rather than
+    ignored -- while they were accepted, a transfer could value its destination
+    lot at any number the client sent, creating or destroying stock value
+    outright, and a discount silently scaled the document nominal that the
+    storage balance legs are posted from.
+
+    ``expires_at`` is absent for the same reason it was never read: a transfer
+    moves existing lots and the destination lot inherits the source lot's date.
+
+    The server fills ``price`` from the ledger on confirm (see
+    ``backfill_transfer_prices``); the detailed GET still returns it.
+    """
+
+    entry_id: ID_T
+    count: Decimal = Field(le=item_constraints.COUNT_MAX)
+
+
+class TransferDocumentItemUpdateDTO(BasePydanticModel):
+    """The write-back side of ``TransferDocumentItemCreateDTO``.
+
+    ``id`` present -> an existing row, ``id`` None -> a new one. ``entry_id``
+    and the variant ``char_values`` resolve to are the line's identity: freely
+    editable while PENDING, locked once CONFIRMED.
+
+    Carries no ``price``/``discount`` for the reasons on the create DTO. Note
+    that an edit of a confirmed transfer re-derives EVERY line's price from the
+    ledger, not just the ones that changed, because the reconcile re-sources the
+    allocation.
+    """
+
+    id: Optional[ID_T] = None
+    entry_id: ID_T
+    count: Decimal = Field(le=item_constraints.COUNT_MAX)
+    char_values: List[CharValueDTO] = Field(
+        default_factory=list,
+        max_length=item_constraints.CHAR_VALUES_MAX_COUNT,
+    )
+
+
 class BusinessDocumentItemShortDTO(msgspec.Struct):
     id: ID_T
     entry: NameIdDTO
