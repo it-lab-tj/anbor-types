@@ -19,8 +19,8 @@ from anbor_types.warehouse.business_document.subject.dto import (
     SubjectForBusinessDocumentShortDataDTO,
 )
 from anbor_types.warehouse.business_document_item.dto import (
-    BusinessDocumentItemBaseCreateDTO,
-    BusinessDocumentItemBaseUpdateDTO,
+    TransferDocumentItemCreateDTO,
+    TransferDocumentItemUpdateDTO,
 )
 from anbor_types.warehouse.constants.constraints import document as doc_constraints
 from anbor_types.warehouse.constants.enums import (
@@ -31,7 +31,7 @@ from anbor_types.utils.functions import get_now_utc
 from anbor_types.common.annotated import ATDatetimeDefault
 
 
-class TransferDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
+class TransferDocumentCreateDTO[TItem: TransferDocumentItemCreateDTO](
     BasePydanticModel
 ):
     debit_id: ID_T
@@ -48,7 +48,7 @@ class TransferDocumentCreateDTO[TItem: BusinessDocumentItemBaseCreateDTO](
     )
 
 
-class TransferDocumentUpdateDTO[TItem: BusinessDocumentItemBaseUpdateDTO](
+class TransferDocumentUpdateDTO[TItem: TransferDocumentItemUpdateDTO](
     BasePydanticModel
 ):
     """Full-state update. ``shipped_at`` and the storage sides (both storages) are editable

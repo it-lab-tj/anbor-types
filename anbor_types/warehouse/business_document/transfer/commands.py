@@ -1,5 +1,5 @@
 from anbor_types.warehouse.business_document_item.dto import (
-    BusinessDocumentItemUpdateDTO,
+    TransferDocumentItemUpdateDTO,
 )
 from anbor_types import ID_T, BasePydanticModel, Command
 from anbor_types.warehouse.business_document.transfer.dto import (
@@ -7,23 +7,23 @@ from anbor_types.warehouse.business_document.transfer.dto import (
     TransferDocumentUpdateDTO,
 )
 from anbor_types.warehouse.business_document_item.commands import (
-    BusinessDocumentItemCreateCommand,
+    TransferDocumentItemCreateCommand,
 )
 
 
 class TransferDocumentCreateCommand(
-    TransferDocumentCreateDTO[BusinessDocumentItemCreateCommand], Command
+    TransferDocumentCreateDTO[TransferDocumentItemCreateCommand], Command
 ): ...
 
 
 class TransferDocumentUpdateBodyDTO(
-    TransferDocumentUpdateDTO[BusinessDocumentItemUpdateDTO]
+    TransferDocumentUpdateDTO[TransferDocumentItemUpdateDTO]
 ):
     """The PUT body: the generic bound to this action's item type.
 
     Named rather than left as an inline parameterisation so the OpenAPI
     schema reads ``TransferDocumentUpdateBodyDTO`` instead of
-    ``TransferDocumentUpdateDTO_BusinessDocumentItemUpdateDTO_``. The create side gets clean
+    ``TransferDocumentUpdateDTO_TransferDocumentItemUpdateDTO_``. The create side gets clean
     names the same way, through its concrete command classes.
     """
 
