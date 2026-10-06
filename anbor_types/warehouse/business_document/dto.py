@@ -1,6 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
-from typing import List, Optional, Tuple
+from typing import Annotated, List, Optional, Tuple, Union
 
 import msgspec
 
@@ -77,8 +77,14 @@ class DocumentEntryListDTO(msgspec.Struct):
     kind: CatalogEntryKindEnum
     images: List[CatalogEntryImageListDTO]
     profiles: List[CatalogEntryProfileListDTO]
-    remains: Optional[Decimal] = None
-    subject_remains: Optional[Decimal] = None
+    remains: Annotated[
+        Union[Decimal, None, msgspec.UnsetType],
+        msgspec.Meta(description="Omitted when the caller lacks product.read_stock."),
+    ] = None
+    subject_remains: Annotated[
+        Union[Decimal, None, msgspec.UnsetType],
+        msgspec.Meta(description="Omitted when the caller lacks product.read_stock."),
+    ] = None
 
 
 class BusinessDocumentChangeTagDTO(BasePydanticModel):

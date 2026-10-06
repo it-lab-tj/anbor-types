@@ -1,6 +1,6 @@
 from datetime import date, datetime
 from decimal import Decimal
-from typing import List, Optional
+from typing import Annotated, List, Optional, Union
 
 import msgspec
 from pydantic import Field
@@ -141,7 +141,12 @@ class AdjustmentDocumentItemDetailedDTO(msgspec.Struct):
 
     id: ID_T
     entry: CatalogEntryOnBusinessDocumentItemDTO
-    price: Decimal
+    price: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(
+            description="Omitted when the caller lacks product.read_purchase_price."
+        ),
+    ]
     discount: Decimal
     count: Decimal
     kind: BusinessDocumentItemKindEnum

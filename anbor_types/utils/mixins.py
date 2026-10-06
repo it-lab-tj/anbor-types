@@ -25,8 +25,19 @@ class OrderingQueryMixin:
 
     @classmethod
     def get_allowed_fields(cls) -> Set[str]:
-        return (
-            cls._ordering_allowed_fields
-            if isinstance(cls._ordering_allowed_fields, set)
-            else set()
-        )
+        """The sortable field names, readable off the class.
+
+        Accessed on an *instance* pydantic resolves a private attribute to its
+        value, but on the class it hands back the `ModelPrivateAttr`
+        descriptor -- so the plain isinstance check returned an empty set for
+        every query. That made the OpenAPI `Allowed fields` list render empty
+        on every ordering parameter. Unwrap the descriptor's default.
+        """
+        allowed = cls._ordering_allowed_fields
+
+        if isinstance(allowed, set):
+            return allowed
+
+        default = getattr(allowed, "default", None)
+
+        return default if isinstance(default, set) else set()

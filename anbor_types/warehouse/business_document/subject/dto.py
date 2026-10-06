@@ -1,6 +1,6 @@
 from datetime import date, datetime
 from decimal import Decimal
-from typing import Optional, List
+from typing import Annotated, List, Optional, Union
 
 import msgspec
 from pydantic import Field
@@ -111,7 +111,12 @@ class SubjectUpdateDTO(BasePydanticModel):
 class SubjectForBusinessDocumentShortDataDTO(msgspec.Struct):
     id: ID_T
     name: str
-    balance: Decimal
+    balance: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(
+            description="Omitted unless the caller may read this subject's balance: storage.read_balance for a warehouse, or client/performer.read_positive_balance / read_negative_balance according to the sign."
+        ),
+    ]
     kind: SubjectKindEnum
 
 
@@ -154,12 +159,20 @@ class SubjectStockProductsDTO(msgspec.Struct):
     # None when the stocked lots carry no variant.
     variant_id: Optional[ID_T]
     name: str
-    remains: Decimal
+    remains: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(description="Omitted when the caller lacks product.read_stock."),
+    ]
     measurement_unit: str
     slug: str
     status: int
     # Aggregated cost price of the product in this warehouse: sum(price * remains).
-    cost_price: Decimal
+    cost_price: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(
+            description="Omitted when the caller lacks product.read_purchase_price."
+        ),
+    ]
     # Last confirmed sale date of the product (across the company). None if never sold.
     last_sold_date: Optional[datetime] = None
     images: List[CatalogEntryImageListDTO] = msgspec.field(default_factory=list)

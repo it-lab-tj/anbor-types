@@ -85,6 +85,12 @@ class PermissionBoundaryEnum(StrEnum):
     # would shift every boundary after it onto other rows' ids.
     TRANSFER_ORDER = "transfer_order"
 
+    # handbook, continued -- same append-only rule as TRANSFER_ORDER above.
+    # Both were reachable with no permission at all until now: tags had seven
+    # unguarded registrations (four of them writes) and promotions two.
+    TAG = "tag"
+    PROMOTION = "promotion"
+
 
 class PermissionActionEnum(StrEnum):
     """What a permission lets you do within its boundary.
@@ -185,3 +191,6 @@ class PermissionActionEnum(StrEnum):
     READ_WAREHOUSE_OVERVIEW = "read_warehouse_overview"
     READ_WAREHOUSE_CASH_FLOW = "read_warehouse_cash_flow"
     READ_WAREHOUSE_CATEGORY_FLOW = "read_warehouse_category_flow"
+    READ_PERFORMER_SUMMARY = "read_performer_summary"
+    READ_STAFF_SUMMARY = "read_staff_summary"
+    READ_COMPANY_MONEY_SUMMARY = "read_company_money_summary"

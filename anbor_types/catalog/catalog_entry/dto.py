@@ -1,6 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
-from typing import Optional, List, Annotated, Tuple
+from typing import Annotated, List, Optional, Tuple, Union
 
 import msgspec
 from pydantic import Field
@@ -49,9 +49,19 @@ class CatalogEntryListDTO(msgspec.Struct):
     id: ID_T
     name: str
     vendor_code: str
-    minimum_price: Decimal
+    minimum_price: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(
+            description="Omitted when the caller lacks product.read_min_price."
+        ),
+    ]
     selling_price: Decimal
-    max_discount: Decimal
+    max_discount: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(
+            description="Omitted when the caller lacks product.read_max_discount."
+        ),
+    ]
     slug: str
     images: List[CatalogEntryImageListDTO]
     description: Optional[str]
@@ -68,10 +78,20 @@ class CatalogEntryDetailedDTO(msgspec.Struct, kw_only=True):
     id: ID_T
     name: str
     vendor_code: str
-    minimum_price: Decimal
+    minimum_price: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(
+            description="Omitted when the caller lacks product.read_min_price."
+        ),
+    ]
     selling_price: Decimal
     measurement_units_ratio: Decimal
-    max_discount: Decimal
+    max_discount: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(
+            description="Omitted when the caller lacks product.read_max_discount."
+        ),
+    ]
     description: Optional[str]
     information: Optional[str]
     created_at: datetime
@@ -91,8 +111,18 @@ class CatalogEntryOnBusinessDocumentItemDTO(msgspec.Struct):
     id: ID_T
     name: str
     selling_price: Decimal
-    minimum_price: Decimal
-    max_discount: Decimal
+    minimum_price: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(
+            description="Omitted when the caller lacks product.read_min_price."
+        ),
+    ]
+    max_discount: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(
+            description="Omitted when the caller lacks product.read_max_discount."
+        ),
+    ]
     images: List[CatalogEntryImageListDTO]
     currency: CurrencyShortDTO
     measurement_unit: NameIdDTO

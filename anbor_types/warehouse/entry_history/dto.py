@@ -1,6 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
-from typing import Optional, Tuple
+from typing import Annotated, Optional, Tuple, Union
 
 import msgspec
 from anbor_types.catalog.category.dto import CharacteristicValuePairDTO
@@ -32,9 +32,19 @@ class CatalogEntryHistoryListDTO(msgspec.Struct):
     action: BusinessDocumentActionEnum
     vendor_code: str
     count: Decimal
-    price: Decimal
+    price: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(
+            description="Omitted when the caller lacks product.read_purchase_price."
+        ),
+    ]
     discount: Decimal
-    amount: Decimal
+    amount: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(
+            description="Omitted when the caller lacks product.read_purchase_price."
+        ),
+    ]
     created_by: AuthorInfoShortDTO
     characteristics: Tuple[CharacteristicValuePairDTO, ...]
     shipped_at: Optional[datetime] = None

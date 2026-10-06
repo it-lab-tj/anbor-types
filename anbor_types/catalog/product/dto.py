@@ -1,5 +1,5 @@
 from decimal import Decimal
-from typing import Annotated, List, Optional, Tuple
+from typing import Annotated, List, Optional, Tuple, Union
 
 import msgspec
 from pydantic import conlist, Field
@@ -28,7 +28,10 @@ from anbor_types.common.dto import NameDTO
 
 class ProductSubjectRemainsListDTO(msgspec.Struct):
     subject: NameDTO
-    remains: Decimal
+    remains: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(description="Omitted when the caller lacks product.read_stock."),
+    ]
 
 
 # ===== PRODUCT PROFILE =====
@@ -53,10 +56,18 @@ class ProductProfileCharacteristicsDTO(msgspec.Struct):
 
 
 class ProductListDTO(CatalogEntryListDTO):
-    buying_price: Decimal
+    buying_price: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(
+            description="Omitted when the caller lacks product.read_purchase_price."
+        ),
+    ]
     shelf_number: str
     vendor_code: str
-    remains: Decimal
+    remains: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(description="Omitted when the caller lacks product.read_stock."),
+    ]
     identifiers: List[str]
 
 
@@ -140,7 +151,10 @@ class ProductDetailedListDTO(msgspec.Struct):
     name: str
     selling_price: Decimal
     category_id: ID_T
-    remains: Decimal
+    remains: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(description="Omitted when the caller lacks product.read_stock."),
+    ]
     images: List[ProductDetailedListImageDTO]
     description: Optional[str]
     information: Optional[str]
@@ -163,14 +177,28 @@ class ProductRemainsDTO(msgspec.Struct):
 
 
 class ProductDetailedDTO(CatalogEntryDetailedDTO):
-    buying_price: Decimal
+    buying_price: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(
+            description="Omitted when the caller lacks product.read_purchase_price."
+        ),
+    ]
     vendor_code: str
-    remains: Decimal
-    surcharge: Decimal
+    remains: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(description="Omitted when the caller lacks product.read_stock."),
+    ]
+    surcharge: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(description="Omitted when the caller lacks product.read_margin."),
+    ]
     consider_characteristics: bool
     shelf_number: Optional[str]
 
-    subjects_remains: Tuple[ProductSubjectRemainsListDTO, ...]
+    subjects_remains: Annotated[
+        Union[Tuple[ProductSubjectRemainsListDTO, ...], msgspec.UnsetType],
+        msgspec.Meta(description="Omitted when the caller lacks product.read_stock."),
+    ]
     profiles: Tuple[CatalogEntryProfileListDTO, ...]
 
 
@@ -182,9 +210,17 @@ class CatalogEntryPositionListDTO(msgspec.Struct):
     identifier: str
     kind: CatalogEntryKindEnum
     images: Tuple[CatalogEntryImageListDTO, ...] = msgspec.field(default_factory=list)
-    remains: Optional[Decimal] = None
+    remains: Annotated[
+        Union[Decimal, None, msgspec.UnsetType],
+        msgspec.Meta(description="Omitted when the caller lacks product.read_stock."),
+    ] = None
     selling_price: Optional[Decimal] = None
-    minimum_price: Optional[Decimal] = None
+    minimum_price: Annotated[
+        Union[Decimal, None, msgspec.UnsetType],
+        msgspec.Meta(
+            description="Omitted when the caller lacks product.read_min_price."
+        ),
+    ] = None
     characteristics: Tuple[CharacteristicValuePairDTO, ...] = msgspec.field(
         default_factory=list
     )
