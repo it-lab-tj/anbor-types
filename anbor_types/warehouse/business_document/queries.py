@@ -178,6 +178,6 @@ class DocumentEntryListQuery(ListQuery, metaclass=FilterMeta):
         CatalogEntryKindEnum,
         FilterSpec.enum(
             CatalogEntryKindEnum,
-            description="**1** - Товар\n" "**2** - Услуга\n",
+            description="**1** - Товар\n**2** - Услуга\n",
         ),
     ]

@@ -55,6 +55,6 @@ class CategoryShortListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMeta
         CategoryKindEnum,
         FilterSpec.enum(
             CategoryKindEnum,
-            description="**1** - Товар\n" "**2** - Услуга\n",
+            description="**1** - Товар\n**2** - Услуга\n",
         ),
     ]

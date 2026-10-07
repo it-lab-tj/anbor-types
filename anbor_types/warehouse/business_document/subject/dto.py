@@ -50,7 +50,12 @@ class SubjectCreateDTO(BasePydanticModel):
 class SubjectListDTO(msgspec.Struct):
     id: ID_T
     name: str
-    balance: Decimal
+    balance: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(
+            description="Omitted unless the caller may read this subject's balance: storage.read_balance for a warehouse, or client/performer.read_positive_balance / read_negative_balance according to the sign."
+        ),
+    ]
     kind: SubjectKindEnum
     created_at: datetime
     status: int
@@ -68,7 +73,12 @@ class SubjectCreateResultDTO(SubjectListDTO): ...
 class SubjectDetailedDTO(msgspec.Struct):
     id: ID_T
     name: str
-    balance: Decimal
+    balance: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(
+            description="Omitted unless the caller may read this subject's balance: storage.read_balance for a warehouse, or client/performer.read_positive_balance / read_negative_balance according to the sign."
+        ),
+    ]
     kind: SubjectKindEnum
     created_at: datetime
     updated_at: datetime

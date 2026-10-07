@@ -23,7 +23,7 @@ class SubjectListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMeta):
         SubjectKindEnum,
         FilterSpec.enum(
             SubjectKindEnum,
-            description="**1** - Склад\n" "**2** - Клиент\n" "**3** - Исполнитель\n",
+            description="**1** - Склад\n**2** - Клиент\n**3** - Исполнитель\n",
             required=True,
         ),
     ]
@@ -50,7 +50,7 @@ class SubjectShortListQuery(ShortListQuery):
         SubjectKindEnum,
         FilterSpec.enum(
             SubjectKindEnum,
-            description="**1** - Склад\n" "**2** - Клиент\n" "**3** - Исполнитель\n",
+            description="**1** - Склад\n**2** - Клиент\n**3** - Исполнитель\n",
         ),
     ]
 

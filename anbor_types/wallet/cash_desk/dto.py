@@ -1,6 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
-from typing import Optional
+from typing import Annotated, Optional, Union
 
 import msgspec
 
@@ -18,7 +18,12 @@ class CashDeskShortListDTO(msgspec.Struct):
 class CashDeskListDTO(msgspec.Struct):
     id: ID_T
     title: str
-    balance: Decimal
+    balance: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(
+            description="Omitted when the caller lacks cash_desk.read_balance."
+        ),
+    ]
     status: StatusEnum
     created_at: datetime
     updated_at: datetime
@@ -28,7 +33,12 @@ class CashDeskListDTO(msgspec.Struct):
 class CashDeskDetailedDTO(msgspec.Struct):
     id: ID_T
     title: str
-    balance: Decimal
+    balance: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(
+            description="Omitted when the caller lacks cash_desk.read_balance."
+        ),
+    ]
     status: StatusEnum
     created_at: datetime
     updated_at: datetime
