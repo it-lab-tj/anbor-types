@@ -3,9 +3,7 @@ from decimal import Decimal
 
 
 from anbor_types.api.constants import DECIMAL_ZERO, TITLE_REGEX
-from src.app.shared_kernel.validation.value_validation.value_validation_rule import (
-    Numeric,
-)
+from anbor_types import Numeric
 
 TITLE_REGEX = TITLE_REGEX
 

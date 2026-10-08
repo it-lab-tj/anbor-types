@@ -1,8 +1,9 @@
-from typing import Iterable, List, Optional
+from typing import Iterable, List, Optional, Tuple
 
 from pydantic import BaseModel
 
 from anbor_types.utils.filter.types import (
+    FilterLookupEnum,
     FilterSpec,
     FilterContainerCollection,
     FilterContainer,
@@ -32,12 +33,17 @@ class PydanticFilterParser:
         return None
 
     @classmethod
-    def parse(cls, obj: BaseModel) -> FilterContainerCollection:
+    def parse(
+        cls, obj: BaseModel, excludes: Tuple[FilterLookupEnum, ...] = ()
+    ) -> FilterContainerCollection:
         """Parses obj to FilterContainer"""
         res: List[FilterContainer] = []
 
         for name, info in type(obj).model_fields.items():
             spec = cls.extract_spec(info.metadata)
+
+            if name in excludes:
+                continue
 
             if spec is None:
                 continue
@@ -59,5 +65,7 @@ class PydanticFilterParser:
         return tuple(res)
 
 
-def parse_filters(obj: BaseModel) -> FilterContainerCollection:
-    return PydanticFilterParser.parse(obj)
+def parse_filters(
+    obj: BaseModel, excludes: Tuple[FilterLookupEnum, ...] = ()
+) -> FilterContainerCollection:
+    return PydanticFilterParser.parse(obj, excludes)
