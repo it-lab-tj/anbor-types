@@ -126,6 +126,15 @@ class CatalogEntryOnBusinessDocumentItemDTO(msgspec.Struct):
     images: List[CatalogEntryImageListDTO]
     currency: CurrencyShortDTO
     measurement_unit: NameIdDTO
+    # What the ENTRY is configured with now, which is not necessarily what the
+    # line was entered in: the line carries its own
+    # ``BusinessDocumentItem.measurement_units_ratio``, NULL when the primary
+    # unit was used. Neither is derived from the other and neither is a
+    # historical record -- both are just the current values. 0 here means the
+    # entry has no second unit (`catalog_entry` stores this NOT NULL, unlike
+    # the item).
+    measurement_units_ratio: Decimal
+    second_measurement_unit: Optional[NameIdDTO] = None
 
 
 class CatalogEntryCreateDTO(BasePydanticModel):

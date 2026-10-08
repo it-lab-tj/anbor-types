@@ -23,7 +23,7 @@ from anbor_types.catalog.constraints import CATALOG_ENTRY_VARIANT_CHAR_VALUES_MA
 from anbor_types.catalog.enums import CatalogEntryKindEnum
 from anbor_types.catalog.product.constraints import IMAGES_MAX_COUNT, PROFILES_MAX_COUNT
 from anbor_types.common.annotated import ATPrice
-from anbor_types.common.dto import NameDTO
+from anbor_types.common.dto import NameDTO, NameIdDTO
 
 
 class ProductSubjectRemainsListDTO(msgspec.Struct):
@@ -224,3 +224,10 @@ class CatalogEntryPositionListDTO(msgspec.Struct):
     characteristics: Tuple[CharacteristicValuePairDTO, ...] = msgspec.field(
         default_factory=list
     )
+    # Both units, because a second unit with no first one cannot be rendered:
+    # the label is "2 boxes (24 pcs)". `measurement_units_ratio` is how many
+    # primary units the second one holds -- 0 when no second unit is configured
+    # (the entry stores it NOT NULL, unlike a document line).
+    measurement_unit: Optional[NameIdDTO] = None
+    second_measurement_unit: Optional[NameIdDTO] = None
+    measurement_units_ratio: Optional[Decimal] = None

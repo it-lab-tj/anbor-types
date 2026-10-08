@@ -124,6 +124,13 @@ class ServiceDocumentItemDetailedDTO(msgspec.Struct):
     price: Decimal
     discount: Decimal
     count: Decimal
+    # The ratio the line was ENTERED with: NULL means the entry's primary unit,
+    # a value means the second one, worth that many primary units. Informational
+    # and freely updatable through an item update, including on a confirmed
+    # document -- it records how the line was typed, not what it is worth, so
+    # nothing in the accounting reads it. `entry.measurement_units_ratio` is
+    # what the entry is configured with now; the two need not agree.
+    measurement_units_ratio: Optional[Decimal] = None
 
 
 class ServiceDocumentDetailedDTO(msgspec.Struct):
@@ -144,12 +151,12 @@ class ServiceDocumentDetailedDTO(msgspec.Struct):
     shipped_at: datetime
     created_at: datetime
     created_by: AuthorInfoShortDTO
-    tag: NameIdDTO
     paid: Decimal
     items: List[ServiceDocumentItemDetailedDTO]
     # «Сумма прописью» — `amount` written out in Russian words, built with
     # `numeric_funcs.get_capstone` at the repository. Printed on documents.
     capstone: str
+    tag: Optional[NameIdDTO] = None
     comment: Optional[str] = None
     confirmed_at: Optional[datetime] = None
 

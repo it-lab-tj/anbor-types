@@ -21,6 +21,19 @@ class BusinessDocumentItemBaseCreateDTO(BaseModel):
     price: ATPrice
     discount: ATDiscount
     count: Decimal = Field(le=item_constraints.COUNT_MAX)
+    measurement_units_ratio: Optional[Decimal] = Field(
+        default=None,
+        gt=DECIMAL_ZERO,
+        description=(
+            "Set it to the entry's `measurement_units_ratio` when the line was "
+            "entered in the entry's SECOND measurement unit; leave it out for "
+            "the primary unit. Informational: `price` and `count` are always "
+            "in the PRIMARY unit whichever one was picked, so this never "
+            "changes stock, cost or any balance -- it only lets the line be "
+            "rendered back in the unit it was typed in. There is no companion "
+            "flag on purpose; presence IS the choice. Must be > 0 if sent."
+        ),
+    )
 
 
 class BusinessDocumentItemCreateDTO(BusinessDocumentItemBaseCreateDTO):
@@ -63,6 +76,19 @@ class BusinessDocumentItemBaseUpdateDTO(BasePydanticModel):
         default_factory=list,
         max_length=item_constraints.CHAR_VALUES_MAX_COUNT,
     )
+    measurement_units_ratio: Optional[Decimal] = Field(
+        default=None,
+        gt=DECIMAL_ZERO,
+        description=(
+            "Set it to the entry's `measurement_units_ratio` when the line was "
+            "entered in the entry's SECOND measurement unit; leave it out for "
+            "the primary unit. Informational: `price` and `count` are always "
+            "in the PRIMARY unit whichever one was picked, so this never "
+            "changes stock, cost or any balance -- it only lets the line be "
+            "rendered back in the unit it was typed in. There is no companion "
+            "flag on purpose; presence IS the choice. Must be > 0 if sent."
+        ),
+    )
 
 
 class TransferDocumentItemCreateDTO(BaseModel):
@@ -87,6 +113,19 @@ class TransferDocumentItemCreateDTO(BaseModel):
 
     entry_id: ID_T
     count: Decimal = Field(le=item_constraints.COUNT_MAX)
+    measurement_units_ratio: Optional[Decimal] = Field(
+        default=None,
+        gt=DECIMAL_ZERO,
+        description=(
+            "Set it to the entry's `measurement_units_ratio` when the line was "
+            "entered in the entry's SECOND measurement unit; leave it out for "
+            "the primary unit. Informational: `price` and `count` are always "
+            "in the PRIMARY unit whichever one was picked, so this never "
+            "changes stock, cost or any balance -- it only lets the line be "
+            "rendered back in the unit it was typed in. There is no companion "
+            "flag on purpose; presence IS the choice. Must be > 0 if sent."
+        ),
+    )
 
 
 class TransferDocumentItemUpdateDTO(BasePydanticModel):
@@ -108,6 +147,19 @@ class TransferDocumentItemUpdateDTO(BasePydanticModel):
     char_values: List[CharValueDTO] = Field(
         default_factory=list,
         max_length=item_constraints.CHAR_VALUES_MAX_COUNT,
+    )
+    measurement_units_ratio: Optional[Decimal] = Field(
+        default=None,
+        gt=DECIMAL_ZERO,
+        description=(
+            "Set it to the entry's `measurement_units_ratio` when the line was "
+            "entered in the entry's SECOND measurement unit; leave it out for "
+            "the primary unit. Informational: `price` and `count` are always "
+            "in the PRIMARY unit whichever one was picked, so this never "
+            "changes stock, cost or any balance -- it only lets the line be "
+            "rendered back in the unit it was typed in. There is no companion "
+            "flag on purpose; presence IS the choice. Must be > 0 if sent."
+        ),
     )
 
 

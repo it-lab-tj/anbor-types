@@ -148,6 +148,13 @@ class SaleDocumentItemDetailedDTO(SaleDocumentItemBaseDetailedDTO):
     characteristic_values: List[CharacteristicValuePairDTO] = msgspec.field(
         default_factory=list
     )
+    # The ratio the line was ENTERED with: NULL means the entry's primary unit,
+    # a value means the second one, worth that many primary units. Informational
+    # and freely updatable through an item update, including on a confirmed
+    # document -- it records how the line was typed, not what it is worth, so
+    # nothing in the accounting reads it. `entry.measurement_units_ratio` is
+    # what the entry is configured with now; the two need not agree.
+    measurement_units_ratio: Optional[Decimal] = None
 
 
 class SaleDocumentItemListProfitDTO(SaleDocumentItemBaseDetailedDTO):
