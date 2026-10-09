@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date as Date, time as Time
 from decimal import Decimal
 from typing import Optional
 
@@ -8,7 +8,15 @@ from anbor_types import BasePydanticModel
 
 
 class DailyAnalyticDTO(msgspec.Struct):
-    date: Optional[date]
+    date: Optional[Date]
+    revenues: Decimal
+    expenses: Decimal
+    realisations: Decimal
+    cash_desk_balance: Decimal
+
+
+class DailyAnalyticByDateDTO(msgspec.Struct):
+    hour: Optional[Time]
     revenues: Decimal
     expenses: Decimal
     realisations: Decimal
@@ -18,7 +26,7 @@ class DailyAnalyticDTO(msgspec.Struct):
 class DailyAnalyticShortDTO(msgspec.Struct):
     revenue: Decimal
     expense: Decimal
-    date: date
+    date: Date
     cash_desk_balance: Decimal
 
 

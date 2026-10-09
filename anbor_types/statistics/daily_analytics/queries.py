@@ -30,6 +30,13 @@ class DailyAnalyticListQuery(Query, metaclass=FilterMeta):
     ]
 
 
+class DailyAnalyticByDateQuery(Query):
+    date: Annotated[
+        datetime.date,
+        FilterSpec.date(),
+    ]
+
+
 class WalletCashFlowListQuery(Query, metaclass=FilterMeta):
     date__rn: Annotated[
         Tuple[Optional[datetime.date], Optional[datetime.date]],
