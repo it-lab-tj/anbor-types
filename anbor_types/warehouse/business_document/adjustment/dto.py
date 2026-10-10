@@ -54,6 +54,19 @@ class AdjustmentDocumentItemBaseCreateDTO(BasePydanticModel):
     )
     count: Decimal = Field(le=item_constraints.COUNT_MAX, gt=DECIMAL_ZERO)
     expires_at: Optional[date] = Field(default=None)
+    measurement_units_ratio: Optional[Decimal] = Field(
+        default=None,
+        gt=DECIMAL_ZERO,
+        description=(
+            "Set it to the entry's `measurement_units_ratio` when the line was "
+            "entered in the entry's SECOND measurement unit; leave it out for "
+            "the primary unit. Informational: `price` and `count` are always "
+            "in the PRIMARY unit whichever one was picked, so this never "
+            "changes stock, cost or any balance -- it only lets the line be "
+            "rendered back in the unit it was typed in. There is no companion "
+            "flag on purpose; presence IS the choice. Must be > 0 if sent."
+        ),
+    )
 
 
 class AdjustmentDocumentCreateDTO[TItem: AdjustmentDocumentItemBaseCreateDTO](
