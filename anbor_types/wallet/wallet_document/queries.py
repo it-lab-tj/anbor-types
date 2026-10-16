@@ -54,7 +54,11 @@ class WalletTransferListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMet
 
 class WalletDocumentListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMeta):
     search: Optional[ATSearch] = None
-    _ordering_allowed_fields: OrderingAllowedFieldsT = {"created_at", "amount", "confirmed_at"}
+    _ordering_allowed_fields: OrderingAllowedFieldsT = {
+        "created_at",
+        "amount",
+        "confirmed_at",
+    }
 
     cash_desk_id: Annotated[
         ID_T,
@@ -135,3 +139,4 @@ class WalletDocumentListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMet
     ]
 
     created_at__rn: ATDatetimeRN
+    confirmed_at__rn: ATDatetimeRN

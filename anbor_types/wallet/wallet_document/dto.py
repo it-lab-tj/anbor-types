@@ -28,6 +28,7 @@ class WalletDocumentListDTO(msgspec.Struct):
     confirmed_at: datetime
     kind: WalletDocumentKindEnum
     created_by: AuthorInfoShortDTO
+    created_at: datetime
     subject: Optional[NameIdDTO] = None
     operating_expense: Optional[OperatingExpenseShortListDTO] = None
     business_document_id: Optional[ID_T] = None
