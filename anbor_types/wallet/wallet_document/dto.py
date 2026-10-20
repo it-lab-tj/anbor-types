@@ -56,6 +56,7 @@ class WalletDocumentDetailedDTO(msgspec.Struct):
     # «Сумма прописью» — `amount` written out in Russian words, built with
     # `numeric_funcs.get_capstone` at the repository. Printed on documents.
     capstone: str
+    converted_capstone: Optional[str]
     operating_expense: OperatingExpenseShortListDTO
     vendor_code: Optional[str] = None
     business_document_id: Optional[ID_T] = None
