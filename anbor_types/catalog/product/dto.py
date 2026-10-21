@@ -184,6 +184,7 @@ class ProductDetailedDTO(CatalogEntryDetailedDTO):
         ),
     ]
     vendor_code: str
+    slug: str
     remains: Annotated[
         Union[Decimal, msgspec.UnsetType],
         msgspec.Meta(description="Omitted when the caller lacks product.read_stock."),
