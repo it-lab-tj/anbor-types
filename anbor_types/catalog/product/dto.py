@@ -4,7 +4,7 @@ from typing import Annotated, List, Optional, Tuple, Union
 import msgspec
 from pydantic import conlist, Field
 
-from anbor_types import ID_T, BasePydanticModel
+from anbor_types import INT_ID_T, ID_T, BasePydanticModel
 from anbor_types.api.constants import DECIMAL_ZERO
 from anbor_types.catalog import annotated
 from anbor_types.catalog.catalog_entry.dto import (
@@ -137,8 +137,8 @@ class ProductDetailedListImageDTO(msgspec.Struct):
 class ProductDetailedListCharValueDTO(msgspec.Struct):
     """A single characteristic/value pair of a product profile."""
 
-    characteristic_id: ID_T
-    value_id: ID_T
+    characteristic_id: INT_ID_T
+    value_id: INT_ID_T
 
 
 class ProductDetailedListProfileDTO(msgspec.Struct):

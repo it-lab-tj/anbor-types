@@ -13,7 +13,7 @@ from anbor_types.utils.mixins import OrderingQueryMixin
 from anbor_types.wallet.constraints import SUBJECT_BALANCE_MAX, SUBJECT_BALANCE_MIN
 from anbor_types.warehouse.constants.enums import SubjectKindEnum
 from anbor_types.utils.filter.types import FilterSpec
-from anbor_types.api.constants import DECIMAL_ZERO, ID_MAX, PRICE_MAX
+from anbor_types.api.constants import DECIMAL_ZERO, PRICE_MAX
 
 
 class SubjectListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMeta):
@@ -109,50 +109,35 @@ class SubjectClientHistoryListQuery(ListQuery, metaclass=FilterMeta):
     cash_desk_id: Optional[
         Annotated[
             ID_T,
-            FilterSpec.numeric(
-                int,
-                lte=ID_MAX,
-            ),
+            FilterSpec.identifier(),
         ]
     ] = None
 
     id: Optional[
         Annotated[
             ID_T,
-            FilterSpec.numeric(
-                int,
-                lte=ID_MAX,
-            ),
+            FilterSpec.identifier(),
         ]
     ] = None
 
     created_by_id: Optional[
         Annotated[
             ID_T,
-            FilterSpec.numeric(
-                int,
-                lte=ID_MAX,
-            ),
+            FilterSpec.identifier(),
         ]
     ] = None
 
     currency_id: Optional[
         Annotated[
             ID_T,
-            FilterSpec.numeric(
-                int,
-                lte=ID_MAX,
-            ),
+            FilterSpec.identifier(),
         ]
     ] = None
 
     operating_expense_id: Optional[
         Annotated[
             ID_T,
-            FilterSpec.numeric(
-                int,
-                lte=ID_MAX,
-            ),
+            FilterSpec.identifier(),
         ]
     ] = None
 
@@ -166,10 +151,7 @@ class SubjectClientHistoryListQuery(ListQuery, metaclass=FilterMeta):
     business_document_id: Optional[
         Annotated[
             ID_T,
-            FilterSpec.numeric(
-                int,
-                lte=ID_MAX,
-            ),
+            FilterSpec.identifier(),
         ]
     ] = None
 
@@ -185,10 +167,7 @@ class SubjectClientHistoryListQuery(ListQuery, metaclass=FilterMeta):
     project_id: Optional[
         Annotated[
             ID_T,
-            FilterSpec.numeric(
-                int,
-                lte=ID_MAX,
-            ),
+            FilterSpec.identifier(),
         ]
     ] = None
 

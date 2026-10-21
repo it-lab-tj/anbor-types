@@ -7,7 +7,7 @@ from anbor_types.api.types import OrderingAllowedFieldsT
 from anbor_types.common.annotated import ATDatetimeRN
 from anbor_types.utils.mixins import OrderingQueryMixin
 from anbor_types.wallet.constants import WalletDocumentKindEnum
-from anbor_types.api.constants import PRICE_MAX, ID_MAX, DECIMAL_ZERO
+from anbor_types.api.constants import PRICE_MAX, DECIMAL_ZERO
 from anbor_types.utils.filter.types import FilterSpec
 from anbor_types.utils.filter.meta import FilterMeta
 
@@ -22,18 +22,12 @@ class WalletTransferListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMet
     # Filters transfers where the desk is either the source or the destination.
     cash_desk_id: Annotated[
         ID_T,
-        FilterSpec.numeric(
-            int,
-            lte=ID_MAX,
-        ),
+        FilterSpec.identifier(),
     ]
 
     operating_expense_id: Annotated[
         ID_T,
-        FilterSpec.numeric(
-            int,
-            lte=ID_MAX,
-        ),
+        FilterSpec.identifier(),
     ]
 
     amount__rn: Annotated[
@@ -46,7 +40,7 @@ class WalletTransferListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMet
     ]
 
     created_by_id: Annotated[
-        ID_T, FilterSpec.numeric(int, lte=ID_MAX, description="По создателю документа")
+        ID_T, FilterSpec.identifier(description="По создателю документа")
     ]
 
     created_at__rn: ATDatetimeRN
@@ -62,50 +56,32 @@ class WalletDocumentListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMet
 
     cash_desk_id: Annotated[
         ID_T,
-        FilterSpec.numeric(
-            int,
-            lte=ID_MAX,
-        ),
+        FilterSpec.identifier(),
     ]
 
     counterparty_id: Annotated[
         ID_T,
-        FilterSpec.numeric(
-            int,
-            lte=ID_MAX,
-        ),
+        FilterSpec.identifier(),
     ]
 
     created_by_id: Annotated[
         ID_T,
-        FilterSpec.numeric(
-            int,
-            lte=ID_MAX,
-        ),
+        FilterSpec.identifier(),
     ]
 
     updated_by_id: Annotated[
         ID_T,
-        FilterSpec.numeric(
-            int,
-            lte=ID_MAX,
-        ),
+        FilterSpec.identifier(),
     ]
 
     currency_id: Annotated[
         ID_T,
-        FilterSpec.numeric(
-            int,
-            lte=ID_MAX,
-        ),
+        FilterSpec.identifier(),
     ]
 
     operating_expense_id: Annotated[
         ID_T,
-        FilterSpec.numeric(
-            int,
-            lte=ID_MAX,
-        ),
+        FilterSpec.identifier(),
     ]
 
     kind: Annotated[
@@ -115,10 +91,7 @@ class WalletDocumentListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMet
 
     business_document_id: Annotated[
         ID_T,
-        FilterSpec.numeric(
-            int,
-            lte=ID_MAX,
-        ),
+        FilterSpec.identifier(),
     ]
 
     amount__rn: Annotated[
@@ -132,10 +105,7 @@ class WalletDocumentListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMet
 
     project_id: Annotated[
         ID_T,
-        FilterSpec.numeric(
-            int,
-            lte=ID_MAX,
-        ),
+        FilterSpec.identifier(),
     ]
 
     created_at__rn: ATDatetimeRN

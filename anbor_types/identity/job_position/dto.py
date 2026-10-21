@@ -4,7 +4,7 @@ from typing import List, Optional
 import msgspec
 from pydantic import Field
 
-from anbor_types import ID_T, BasePydanticModel
+from anbor_types import INT_ID_T, ID_T, BasePydanticModel
 from anbor_types.common.dto import NameIdDTO
 from anbor_types.common.enums import StatusEnum
 
@@ -35,7 +35,7 @@ class JobPositionWriteDTO(BasePydanticModel):
     """
 
     name: str = Field(min_length=1, max_length=100)
-    permission_ids: List[ID_T] = Field(default_factory=list)
+    permission_ids: List[INT_ID_T] = Field(default_factory=list)
     object_scopes: List[JobPositionObjectScopeInputDTO] = Field(default_factory=list)
 
 
@@ -48,13 +48,13 @@ class PermissionDTO(msgspec.Struct):
     (`<boundary>.<action>`) is the key a translation table is keyed by.
     """
 
-    id: ID_T
+    id: INT_ID_T
     codename: str
     boundary: str
     action: str
     # Ids this permission pulls in when granted. The UI should tick these too,
     # so what the user sees matches what the server will store.
-    requires: List[ID_T]
+    requires: List[INT_ID_T]
 
 
 class PermissionBoundaryDTO(msgspec.Struct):
@@ -71,7 +71,7 @@ class PermissionBoundaryDTO(msgspec.Struct):
     code: str
     order: int
     scopable: bool
-    object_scope_permission_id: Optional[ID_T]
+    object_scope_permission_id: Optional[INT_ID_T]
     permissions: List[PermissionDTO]
 
 
@@ -106,7 +106,7 @@ class JobPositionDetailedDTO(msgspec.Struct):
     updated_at: Optional[datetime]
 
     # The stored grant set, already dependency-expanded on write.
-    permission_ids: List[ID_T]
+    permission_ids: List[INT_ID_T]
 
     object_scopes: List[JobPositionObjectScopeDTO]
     staff: List[NameIdDTO]
@@ -122,5 +122,5 @@ class StaffJobPositionsDTO(msgspec.Struct):
 
     user_id: ID_T
     job_positions: List[NameIdDTO]
-    permission_ids: List[ID_T]
+    permission_ids: List[INT_ID_T]
     object_scopes: List[JobPositionObjectScopeDTO]

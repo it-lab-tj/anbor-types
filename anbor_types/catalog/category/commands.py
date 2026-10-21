@@ -1,14 +1,14 @@
 from typing import List, Optional
 
-from anbor_types import BasePydanticModel, Command, ID_T
+from anbor_types import INT_ID_T, BasePydanticModel, Command, ID_T
 from anbor_types.catalog.annotated import ATSingleLineStr
 from anbor_types.catalog.enums import CategoryKindEnum
 
 
 class CategoryCreateCommand(Command):
     name: ATSingleLineStr
-    parent_id: Optional[int] = None
-    image_id: Optional[int] = None
+    parent_id: Optional[ID_T] = None
+    image_id: Optional[ID_T] = None
     kind: CategoryKindEnum
 
 
@@ -35,7 +35,7 @@ class CharacteristicSetItem(BasePydanticModel):
     kind: str
     values: List[str]
     is_required: bool
-    id: Optional[ID_T] = None
+    id: Optional[INT_ID_T] = None
 
 
 class CategorySetCharacteristicsCommand(Command):
@@ -56,7 +56,7 @@ class CategoryToggleCommand(BasePydanticModel, Command):
 
 
 class CharacteristicDeleteCommand(Command):
-    id: ID_T
+    id: INT_ID_T
 
 
 class CharAddValueCommand(Command):
@@ -64,5 +64,5 @@ class CharAddValueCommand(Command):
 
 
 class CharacateristicAddValueCommand(Command):
-    characteristic_id: ID_T
+    characteristic_id: INT_ID_T
     value: str

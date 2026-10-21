@@ -4,7 +4,7 @@ from typing import Annotated, Tuple
 from pydantic import Field
 
 from anbor_types import ID_T, Query
-from anbor_types.api.constants import DECIMAL_ZERO, ID_MAX
+from anbor_types.api.constants import DECIMAL_ZERO
 from anbor_types.common.annotated import ATDatetimeRN
 from anbor_types.common.constraints import (
     DECIMAL_DISCOUNT_DIGITS,
@@ -41,11 +41,9 @@ class StaffBusinessDocumentSummaryQuery(Query, metaclass=FilterMeta):
 
     user_id: Annotated[
         ID_T,
-        FilterSpec.numeric(
-            int,
+        FilterSpec.identifier(
             field="created_by_id",
             required=True,
-            lte=ID_MAX,
             description="ID сотрудника (автора документов)",
         ),
     ]

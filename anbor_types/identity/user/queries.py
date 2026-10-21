@@ -2,7 +2,7 @@ from typing import Annotated, Optional
 
 from anbor_types import ID_T, ListQuery, Query
 from anbor_types.api.annotated import ATSearch
-from anbor_types.api.constants import ID_MAX
+
 from anbor_types.api.filter_specs import AFStatus
 from anbor_types.api.queries import ShortListQuery
 from anbor_types.api.types import OrderingAllowedFieldsT
@@ -26,7 +26,7 @@ class StaffMemberListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMeta):
     # Filters staff assigned to this job position (join to user_job_position).
     job_position_id: Annotated[
         ID_T,
-        FilterSpec.numeric(int, lte=ID_MAX),
+        FilterSpec.identifier(),
     ]
 
     created_at__rn: ATDatetimeRN

@@ -1,6 +1,6 @@
 from typing import Annotated, Optional
 
-from anbor_types import ID_T, ListQuery, Query
+from anbor_types import INT_ID_T, ID_T, ListQuery, Query
 from anbor_types.api.annotated import ATSearch
 from anbor_types.api.constants import ID_MAX
 from anbor_types.api.filter_specs import AFStatus
@@ -24,11 +24,11 @@ class JobPositionListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMeta):
 
     # Positions that grant this permission -- "who can do X?", which is the
     # question an admin actually asks. Compiles to EXISTS over the grant table.
-    permission_id: Annotated[ID_T, FilterSpec.numeric(int, lte=ID_MAX)]
+    permission_id: Annotated[INT_ID_T, FilterSpec.numeric(int, lte=ID_MAX)]
 
     # Positions held by this user (EXISTS over user_job_position); a user may
     # hold several.
-    user_id: Annotated[ID_T, FilterSpec.numeric(int, lte=ID_MAX)]
+    user_id: Annotated[ID_T, FilterSpec.identifier()]
 
     created_at__rn: ATDatetimeRN
 

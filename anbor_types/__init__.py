@@ -1,4 +1,5 @@
 from decimal import Decimal
+from uuid import UUID
 
 import msgspec
 from pydantic import BaseModel, ConfigDict, Field, GetJsonSchemaHandler
@@ -21,7 +22,12 @@ from typing import (
 )
 
 T = TypeVar("T")
-ID_T: TypeAlias = int
+# Row ids are UUIDv7. `INT_ID_T` is for the ids that stayed integers on
+# purpose: permission codes (the boundary.action windows), characteristic and
+# value ids (packed as 32-bit halves into a variant's `pair_keys`), default
+# module codes, and the log/telemetry tables.
+ID_T: TypeAlias = UUID
+INT_ID_T: TypeAlias = int
 type Numeric = Union[int, float, Decimal]
 Pipeline: TypeAlias = Callable[
     [Callable[..., Awaitable[Any]]], Callable[..., Awaitable[Any]]

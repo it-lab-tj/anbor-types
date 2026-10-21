@@ -4,7 +4,7 @@ from typing import Annotated, Tuple
 from pydantic import StringConstraints
 
 from anbor_types import ID_T, ListQuery, Query
-from anbor_types.api.constants import ID_MAX, PRICE_MAX, DECIMAL_ZERO
+from anbor_types.api.constants import PRICE_MAX, DECIMAL_ZERO
 from anbor_types.catalog.enums import CatalogEntryKindEnum
 from anbor_types.api.types import OrderingAllowedFieldsT
 from anbor_types.common.annotated import ATDatetimeRN
@@ -81,37 +81,35 @@ class BusinessDocumentListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterM
     # Matches documents where the subject is the debit OR the credit party.
     subject_id: Annotated[
         ID_T,
-        FilterSpec.numeric(
-            int,
-            lte=ID_MAX,
+        FilterSpec.identifier(
             description="Matches documents where the subject is on either side (debit or credit).",
         ),
     ]
 
     debit_id: Annotated[
         ID_T,
-        FilterSpec.numeric(int, lte=ID_MAX),
+        FilterSpec.identifier(),
     ]
 
     credit_id: Annotated[
         ID_T,
-        FilterSpec.numeric(int, lte=ID_MAX),
+        FilterSpec.identifier(),
     ]
 
     currency_id: Annotated[
         ID_T,
-        FilterSpec.numeric(int, lte=ID_MAX),
+        FilterSpec.identifier(),
     ]
 
     project_id: Annotated[
         ID_T,
-        FilterSpec.numeric(int, lte=ID_MAX),
+        FilterSpec.identifier(),
     ]
 
     # Matches documents created OR last updated by the given user.
     staff_member_id: Annotated[
         ID_T,
-        FilterSpec.numeric(int, lte=ID_MAX),
+        FilterSpec.identifier(),
     ]
 
     amount__rn: Annotated[

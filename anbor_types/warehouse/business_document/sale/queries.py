@@ -108,22 +108,22 @@ class SaleDocumentItemsProfitQuery(ListQuery, OrderingQueryMixin, metaclass=Filt
 
     entry_id: Annotated[
         ID_T,
-        FilterSpec.numeric(int, lte=ID_MAX),
+        FilterSpec.identifier(),
     ]
 
     debit_id: Annotated[
         ID_T,
-        FilterSpec.numeric(int, lte=ID_MAX),
+        FilterSpec.identifier(),
     ]
 
     credit_id: Annotated[
         ID_T,
-        FilterSpec.numeric(int, lte=ID_MAX),
+        FilterSpec.identifier(),
     ]
 
     vendor_code: Annotated[
-        ID_T,
+        int,
         FilterSpec.numeric(int, lte=ID_MAX),
     ]
 
-    project_id: Annotated[ID_T, FilterSpec.numeric(int, lte=ID_MAX)]
+    project_id: Annotated[ID_T, FilterSpec.identifier()]

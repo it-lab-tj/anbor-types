@@ -9,7 +9,7 @@ from anbor_types.common.annotated import ATDatetimeRN
 from anbor_types.common.enums import StatusEnum
 from anbor_types.utils.filter.meta import FilterMeta, FilterSpec
 from anbor_types.utils.mixins import OrderingQueryMixin
-from anbor_types.api.constants import ID_MAX, PRICE_MAX, DECIMAL_ZERO
+from anbor_types.api.constants import PRICE_MAX, DECIMAL_ZERO
 from anbor_types.api.annotated import ATSearch
 
 
@@ -22,20 +22,17 @@ class CatalogEntryBaseListQuery(ListQuery, OrderingQueryMixin, metaclass=FilterM
 
     category_id: Annotated[
         ID_T,
-        FilterSpec.numeric(int, lte=ID_MAX),
+        FilterSpec.identifier(),
     ]
 
     measurement_unit_id: Annotated[
         ID_T,
-        FilterSpec.numeric(
-            int,
-            lte=ID_MAX,
-        ),
+        FilterSpec.identifier(),
     ]
 
     currency_id: Annotated[
         ID_T,
-        FilterSpec.numeric(int, lte=ID_MAX),
+        FilterSpec.identifier(),
     ]
 
     status: Annotated[

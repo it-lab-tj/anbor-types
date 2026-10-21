@@ -5,7 +5,7 @@ from typing import Annotated, List, Optional, Union
 import msgspec
 from pydantic import Field
 
-from anbor_types import ID_T, BasePydanticModel
+from anbor_types import INT_ID_T, ID_T, BasePydanticModel
 from anbor_types.api.constants import PRICE_MAX
 from anbor_types.catalog.catalog_entry.dto import CatalogEntryImageListDTO
 from anbor_types.common.constraints import (
@@ -160,9 +160,9 @@ class SubjectRebalanceDTO(BasePydanticModel):
 
 class SubjectStockProductsDTO(msgspec.Struct):
     class Characteristics(msgspec.Struct):
-        characteristic_id: ID_T
+        characteristic_id: INT_ID_T
         characteristic: str
-        value_id: ID_T
+        value_id: INT_ID_T
         value: str
 
     product_id: ID_T

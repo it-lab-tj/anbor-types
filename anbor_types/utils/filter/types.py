@@ -3,6 +3,7 @@ import datetime as datetime_package
 from decimal import Decimal
 from enum import Enum
 from typing import Any, Optional, Tuple, Type
+from uuid import UUID
 
 from anbor_types import Numeric
 from anbor_types.utils.filter.enums import FilterLookupEnum
@@ -122,6 +123,22 @@ class FilterSpec[TValue]:
             lt=_to_decimal(lt),
             lte=_to_decimal(lte),
             choices=cls._parse_choices(choices),
+            description=description,
+        )
+
+    @classmethod
+    def identifier(
+        cls,
+        field: Optional[str] = None,
+        required: bool = False,
+        description: Optional[str] = None,
+    ) -> "FilterSpec[UUID]":
+        """Equality on a row id. Ids are UUIDv7: no bounds, no ordering lookups."""
+        return cls(
+            base_type=UUID,
+            lookup=FilterLookupEnum.EQ,
+            field=field,
+            required=required,
             description=description,
         )
 

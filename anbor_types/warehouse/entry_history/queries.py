@@ -2,7 +2,7 @@ from decimal import Decimal
 from typing import Annotated, List, Tuple
 
 from anbor_types import ID_T, ListQuery
-from anbor_types.api.constants import ID_MAX, DECIMAL_ZERO
+from anbor_types.api.constants import DECIMAL_ZERO
 from anbor_types.api.types import OrderingAllowedFieldsT
 from anbor_types.catalog.category.dto import CharValueDTO
 from anbor_types.common.annotated import ATDatetimeRN
@@ -60,9 +60,7 @@ class CatalogEntryHistoryListQuery(ListQuery, OrderingQueryMixin, metaclass=Filt
 
     client_id: Annotated[
         ID_T,
-        FilterSpec.numeric(
-            int,
-            lte=ID_MAX,
+        FilterSpec.identifier(
             description="Counterparty side: credit on purchase, debit on sale, "
             "counterparty on service.",
         ),
@@ -70,9 +68,7 @@ class CatalogEntryHistoryListQuery(ListQuery, OrderingQueryMixin, metaclass=Filt
 
     storage_id: Annotated[
         ID_T,
-        FilterSpec.numeric(
-            int,
-            lte=ID_MAX,
+        FilterSpec.identifier(
             description="Stock side: debit on purchase, credit on sale, "
             "performer on service, storage on adjustment, either side on "
             "transfer.",
@@ -81,14 +77,12 @@ class CatalogEntryHistoryListQuery(ListQuery, OrderingQueryMixin, metaclass=Filt
 
     created_by_id: Annotated[
         ID_T,
-        FilterSpec.numeric(
-            int, lte=ID_MAX, description="Author of the document *item*."
-        ),
+        FilterSpec.identifier(description="Author of the document *item*."),
     ]
 
     project_id: Annotated[
         ID_T,
-        FilterSpec.numeric(int, lte=ID_MAX),
+        FilterSpec.identifier(),
     ]
 
     count__rn: Annotated[
