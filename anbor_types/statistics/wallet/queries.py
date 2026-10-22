@@ -9,7 +9,7 @@ from anbor_types.utils.filter.types import FilterSpec
 
 class WalletIncomeStatementQuery(Query, metaclass=FilterMeta):
     date__rn: Annotated[
-        Tuple[Optional[date], Optional[date]],
+        Tuple[date, date],
         FilterSpec.date_range(both_required=True),
     ]
     project_id: Annotated[
