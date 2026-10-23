@@ -14,6 +14,7 @@ from anbor_types.common.constraints import (
     MIN_RATE,
     MAX_RATE,
     DISCOUNT_MAX,
+    DESCRIPTION_MAX_LENGTH,
 )
 from anbor_types.utils.filter.types import FilterSpec
 from anbor_types.utils.functions import (
@@ -21,6 +22,13 @@ from anbor_types.utils.functions import (
     parse_single_line_str,
     default_utc_now,
 )
+from src.app.shared_kernel.constants.entity_common_constraints import (
+    ADDRESS_MAX_LENGTH,
+    ADDRESS_REGEX,
+    PASSWORD_MAX_LENGTH,
+    PASSWORD_MIN_LENGTH,
+)
+from src.app.shared_kernel.pydantic.validators import regex_validator_factory
 
 # ===== Str =====
 type ATSingleLineStr = Annotated[str, BeforeValidator(parse_single_line_str)]
@@ -31,6 +39,28 @@ type ATInformationStr = Annotated[
 
 type ATComment = Annotated[str, constr(max_length=COMMENT_MAX_LENGTH)]
 
+type ATAddress = Annotated[
+    str,
+    StringConstraints(max_length=ADDRESS_MAX_LENGTH, strip_whitespace=True),
+    regex_validator_factory(ADDRESS_REGEX, normalize=True),
+]
+
+type ATDescription = Annotated[
+    str,
+    StringConstraints(
+        max_length=DESCRIPTION_MAX_LENGTH,
+        strip_whitespace=True,
+    ),
+]
+
+type ATPassword = Annotated[
+    str,
+    StringConstraints(
+        min_length=PASSWORD_MIN_LENGTH,
+        max_length=PASSWORD_MAX_LENGTH,
+        strip_whitespace=True,
+    ),
+]
 
 # ===== Decimal =====
 type ATPrice = Annotated[

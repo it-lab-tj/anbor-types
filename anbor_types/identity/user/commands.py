@@ -1,10 +1,12 @@
 from anbor_types import ID_T, BasePydanticModel, Command
+from anbor_types.common.annotated import ATPassword
 from anbor_types.identity.constants import OtpKindEnum
 from anbor_types.identity.user.dto import (
     StaffMemberCreateDTO,
     StaffMemberUpdateDTO,
     UserConfirmationRequestDTO,
 )
+from src.app.application.identity.validators.annotations import ATUserUsername
 
 # --------------------------------------------------------------------------- #
 # Common, kind-agnostic user commands
@@ -23,12 +25,17 @@ class UserConfirmationCommand(UserConfirmationRequestDTO, Command):
     kind: OtpKindEnum
 
 
-class UserResendConfirmationCommand(BasePydanticModel, Command):
+class UserResendConfirmationCommand(Command):
     user_id: ID_T
 
 
-class UserToggleStatusCommand(BasePydanticModel, Command):
+class UserToggleStatusCommand(Command):
     id: ID_T
+
+
+class UserLoginCommand(Command):
+    username: ATUserUsername
+    password: ATPassword
 
 
 # --------------------------------------------------------------------------- #

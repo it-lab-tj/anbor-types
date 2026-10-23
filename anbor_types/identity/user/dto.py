@@ -2,10 +2,18 @@ from datetime import datetime
 from typing import List, Optional
 
 import msgspec
+from anbor_types.common.annotated import ATInformationStr, ATAddress, ATDescription
 from pydantic import Field
 
 from anbor_types import ID_T, BasePydanticModel
 from anbor_types.common.dto import FileShortDTO, NameIdDTO
+from src.app.application.identity.validators.annotations import (
+    ATUserName,
+    ATEmail,
+    ATPhone,
+    ATOtp,
+)
+from src.app.domain.identity.constants.enums import UserSessionPlatformEnum
 
 
 class AuthorInfoShortDTO(msgspec.Struct):
@@ -28,28 +36,28 @@ class StaffMemberShortDTO(msgspec.Struct):
 
 
 class StaffMemberCreateDTO(BasePydanticModel):
-    username: str
-    email: str
-    first_name: str
-    last_name: str
+    username: ATUserName
+    email: ATEmail
+    first_name: ATUserName
+    last_name: ATUserName
     # Phone is required by the domain user-creation validation profile.
-    phone: str
-    information: Optional[str] = None
-    address: Optional[str] = None
-    description: Optional[str] = None
+    phone: ATPhone
+    information: Optional[ATInformationStr] = None
+    address: Optional[ATAddress] = None
+    description: Optional[ATDescription] = None
     avatar_id: Optional[ID_T] = None
     job_position_id: Optional[ID_T] = None
     files: Optional[List[ID_T]] = Field(default=None)
 
 
 class StaffMemberUpdateDTO(BasePydanticModel):
-    email: str
-    first_name: str
-    last_name: str
-    phone: str
-    information: Optional[str] = None
-    address: Optional[str] = None
-    description: Optional[str] = None
+    email: ATEmail
+    first_name: ATUserName
+    last_name: ATUserName
+    phone: ATPhone
+    information: Optional[ATInformationStr] = None
+    address: Optional[ATAddress] = None
+    description: Optional[ATDescription] = None
     avatar_id: Optional[ID_T] = None
     job_position_id: Optional[ID_T] = None
     files: Optional[List[ID_T]] = Field(default=None)
@@ -114,4 +122,8 @@ class UserConfirmationRequestDTO(BasePydanticModel):
     the client decodes it before posting.
     """
 
-    otp: str
+    otp: ATOtp
+
+
+class UserAuthMeta(BasePydanticModel):
+    platform: UserSessionPlatformEnum

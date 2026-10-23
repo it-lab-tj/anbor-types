@@ -1,4 +1,5 @@
 from decimal import Decimal
+from uuid import UUID
 
 import regex
 
@@ -18,4 +19,5 @@ TITLE_REGEX = regex.compile(r"^[\p{L}\p{N} .,:_+/-]+$")
 ID_MAX = 2**31 - 1  # 32 bits
 PRICE_MAX = Decimal("9_999_999_999")
 DECIMAL_ZERO = Decimal("0.00")
+NIL_UUID = UUID(int=0)
 PRICE_GT = DECIMAL_ZERO
