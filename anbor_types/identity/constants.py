@@ -91,6 +91,10 @@ class PermissionBoundaryEnum(StrEnum):
     TAG = "tag"
     PROMOTION = "promotion"
 
+    # organisation, continued -- the customer-facing screen's look (titles,
+    # slides, QR, social links). Same append-only rule as TRANSFER_ORDER above.
+    CUSTOMER_DISPLAY = "customer_display"
+
 
 class PermissionActionEnum(StrEnum):
     """What a permission lets you do within its boundary.
