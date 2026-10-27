@@ -2,7 +2,7 @@ from decimal import Decimal
 from typing import Annotated, Optional
 
 
-from anbor_types import ID_T, ListQuery
+from anbor_types import ID_T, UUID, ListQuery, Query
 from anbor_types.api.types import OrderingAllowedFieldsT
 from anbor_types.catalog.enums import CatalogEntryKindEnum
 from anbor_types.common.annotated import ATDatetimeRN
@@ -71,4 +71,25 @@ class CatalogEntryPositionsListQuery(CatalogEntryBaseListQuery):
             CatalogEntryKindEnum,
             choices=CatalogEntryKindEnum,
         ),
+    ]
+
+
+class CatalogEntryProfitQuery(Query, metaclass=FilterMeta):
+    id: ID_T = UUID(int=0)
+
+    project_id__eq: Annotated[
+        Optional[ID_T],
+        FilterSpec.identifier(),
+    ]
+
+    shipped_at__rn: ATDatetimeRN
+
+    storage_id__eq: Annotated[
+        Optional[ID_T],
+        FilterSpec.identifier(),
+    ]
+
+    staff_id__eq: Annotated[
+        Optional[ID_T],
+        FilterSpec.identifier(),
     ]
