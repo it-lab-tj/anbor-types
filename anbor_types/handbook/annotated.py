@@ -9,6 +9,7 @@ from anbor_types.handbook.constraints import (
     PROMOTION_NAME_MIN_LENGTH,
 )
 
+# TOFIX: constr() inside Annotated is dropped -- this enforces nothing.
 type ATPromotionName = Annotated[
     str,
     constr(max_length=PROMOTION_NAME_MAX_LENGTH, min_length=PROMOTION_NAME_MIN_LENGTH),

@@ -1,19 +1,29 @@
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, Annotated
+from uuid import UUID
 
 import msgspec
-from anbor_types.common.annotated import ATInformationStr, ATAddress, ATDescription
-from pydantic import Field
+from anbor_types.utils.functions import parse_single_line_str
+
+from anbor_types.common.annotated import (
+    ATInformationStr,
+    ATAddress,
+    ATDescription,
+    ATAppVersion,
+)
+from pydantic import Field, StringConstraints, BeforeValidator
 
 from anbor_types import ID_T, BasePydanticModel
 from anbor_types.common.dto import FileShortDTO, NameIdDTO
-from src.app.application.identity.validators.annotations import (
+from anbor_types.identity.annotated import (
     ATUserName,
     ATEmail,
     ATPhone,
     ATOtp,
 )
-from src.app.domain.identity.constants.enums import UserSessionPlatformEnum
+from anbor_types.identity.constants import UserSessionPlatformEnum
+from anbor_types.identity.constraints import USER_SESSION_DEVICE_NAME_MAX_LENGTH
+from src.app.shared_kernel.types.base_types import IPAddressT
 
 
 class AuthorInfoShortDTO(msgspec.Struct):
@@ -127,3 +137,16 @@ class UserConfirmationRequestDTO(BasePydanticModel):
 
 class UserAuthMeta(BasePydanticModel):
     platform: UserSessionPlatformEnum
+    device_id: Optional[UUID] = None
+    device_name: Annotated[
+        Optional[str],
+        StringConstraints(min_length=1, max_length=USER_SESSION_DEVICE_NAME_MAX_LENGTH),
+        BeforeValidator(parse_single_line_str),
+    ]
+    app_version: ATAppVersion
+
+    # Settable after init. Must be set after init. NOT Optional on usage after controller.
+    ip: Optional[IPAddressT] = Field(init=False)
+
+    def set_ip(self, ip: IPAddressT) -> None:
+        object.__setattr__(self, "ip", ip)

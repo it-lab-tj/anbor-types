@@ -1,3 +1,7 @@
+from typing import Annotated
+
+from pydantic import StringConstraints
+
 from anbor_types import ID_T, BasePydanticModel, Command
 from anbor_types.common.annotated import ATPassword
 from anbor_types.identity.constants import OtpKindEnum
@@ -5,8 +9,9 @@ from anbor_types.identity.user.dto import (
     StaffMemberCreateDTO,
     StaffMemberUpdateDTO,
     UserConfirmationRequestDTO,
+    UserAuthMeta,
 )
-from src.app.application.identity.validators.annotations import ATUserUsername
+from anbor_types.identity.annotated import ATUserUsername
 
 # --------------------------------------------------------------------------- #
 # Common, kind-agnostic user commands
@@ -36,6 +41,16 @@ class UserToggleStatusCommand(Command):
 class UserLoginCommand(Command):
     username: ATUserUsername
     password: ATPassword
+    meta: UserAuthMeta
+
+
+class UserSessionRefreshCommand(Command):
+    refresh: Annotated[
+        str,
+        StringConstraints(max_length=1000, ascii_only=True, strip_whitespace=True),
+    ]
+
+    meta: UserAuthMeta
 
 
 # --------------------------------------------------------------------------- #

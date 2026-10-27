@@ -15,6 +15,17 @@ class OtpKindEnum(IntEnum):
     INVITATION = 4
 
 
+class UserSessionPlatformEnum(IntEnum):
+    """Which client a session was opened from.
+
+    Persisted in ``identity_usersession.platform``, so append-only.
+    """
+
+    WEB = 1
+    ANDROID = 2
+    IOS = 3
+
+
 class PermissionBoundaryEnum(StrEnum):
     """The area of the product a permission applies to.
 

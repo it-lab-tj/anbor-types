@@ -12,3 +12,14 @@ TAG_BG_COLOR_MAX_VALUE = 33
 
 TAG_ICON_MIN_VALUE = 1
 TAG_ICON_MAX_VALUE = 33
+
+
+# OPERATING EXPENSE
+# TODO: rename to OPERATING_* -- the typo is load-bearing until its one ORM
+# column reference is updated.
+OPERING_EXPENSE_TITLE_MAX_LENGTH = 100
+
+
+# TAG (lengths; the colour/icon bounds are above)
+TAG_NAME_MAX_LENGTH = 50
+TAG_CONTENT_TYPE_MAX_LENGTH = 100
