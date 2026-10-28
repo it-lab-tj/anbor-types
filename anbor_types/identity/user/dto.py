@@ -1,11 +1,29 @@
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, Annotated
+from uuid import UUID
 
 import msgspec
-from pydantic import Field
+from anbor_types.utils.functions import parse_single_line_str
 
-from anbor_types import ID_T, BasePydanticModel
+from anbor_types.common.annotated import (
+    ATInformationStr,
+    ATAddress,
+    ATDescription,
+    ATAppVersion,
+)
+from pydantic import Field, StringConstraints, BeforeValidator
+
+from anbor_types import ID_T, BasePydanticModel, Command
 from anbor_types.common.dto import FileShortDTO, NameIdDTO
+from anbor_types.identity.annotated import (
+    ATUserName,
+    ATEmail,
+    ATPhone,
+    ATOtp,
+)
+from anbor_types.identity.constants import UserSessionPlatformEnum
+from anbor_types.identity.constraints import USER_SESSION_DEVICE_NAME_MAX_LENGTH
+from src.app.shared_kernel.types.base_types import IPAddressT
 
 
 class AuthorInfoShortDTO(msgspec.Struct):
@@ -28,28 +46,28 @@ class StaffMemberShortDTO(msgspec.Struct):
 
 
 class StaffMemberCreateDTO(BasePydanticModel):
-    username: str
-    email: str
-    first_name: str
-    last_name: str
+    username: ATUserName
+    email: ATEmail
+    first_name: ATUserName
+    last_name: ATUserName
     # Phone is required by the domain user-creation validation profile.
-    phone: str
-    information: Optional[str] = None
-    address: Optional[str] = None
-    description: Optional[str] = None
+    phone: ATPhone
+    information: Optional[ATInformationStr] = None
+    address: Optional[ATAddress] = None
+    description: Optional[ATDescription] = None
     avatar_id: Optional[ID_T] = None
     job_position_id: Optional[ID_T] = None
     files: Optional[List[ID_T]] = Field(default=None)
 
 
 class StaffMemberUpdateDTO(BasePydanticModel):
-    email: str
-    first_name: str
-    last_name: str
-    phone: str
-    information: Optional[str] = None
-    address: Optional[str] = None
-    description: Optional[str] = None
+    email: ATEmail
+    first_name: ATUserName
+    last_name: ATUserName
+    phone: ATPhone
+    information: Optional[ATInformationStr] = None
+    address: Optional[ATAddress] = None
+    description: Optional[ATDescription] = None
     avatar_id: Optional[ID_T] = None
     job_position_id: Optional[ID_T] = None
     files: Optional[List[ID_T]] = Field(default=None)
@@ -114,4 +132,25 @@ class UserConfirmationRequestDTO(BasePydanticModel):
     the client decodes it before posting.
     """
 
-    otp: str
+    otp: ATOtp
+
+
+class UserAuthMeta(BasePydanticModel):
+    platform: UserSessionPlatformEnum
+    device_id: Optional[UUID] = None
+    device_name: Annotated[
+        Optional[str],
+        StringConstraints(min_length=1, max_length=USER_SESSION_DEVICE_NAME_MAX_LENGTH),
+        BeforeValidator(parse_single_line_str),
+    ] = None
+    app_version: Optional[ATAppVersion] = None
+
+    # Settable after init. Must be set after init. NOT Optional on usage after controller.
+    ip: Optional[IPAddressT] = Field(init=False, default=None)
+
+    def set_ip(self, ip: IPAddressT) -> None:
+        object.__setattr__(self, "ip", ip)
+
+
+class UserAccountDeleteCommand(Command):
+    id: ID_T

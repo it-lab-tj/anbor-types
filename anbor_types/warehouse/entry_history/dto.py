@@ -52,6 +52,7 @@ class CatalogEntryHistoryListDTO(msgspec.Struct):
     currency: Optional[CurrencyCodeSymbolDTO] = None
     project: Optional[NameIdDTO] = None
     subject: Optional[SubjectShortDTO] = None
+    profit: Optional[Decimal] = None
     # Both of the ENTRY's units, repeated per row to keep a history row
     # self-contained the way `vendor_code` and `characteristics` already are.
     measurement_unit: Optional[NameIdDTO] = None

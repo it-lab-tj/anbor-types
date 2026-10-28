@@ -10,6 +10,9 @@ from anbor_types.common import constraints as common_constraints
 from anbor_types.common.annotated import ATSingleLineStr
 
 # ===== BASE =====
+# TOFIX: every alias defined in this file wraps `constr(...)` inside
+# `Annotated[...]`, which pydantic drops -- so none of them enforce anything.
+# Use StringConstraints(...); see docs/architecture/validation.md.
 type ATCatalogEntryName = Annotated[
     ATSingleLineStr,
     constr(

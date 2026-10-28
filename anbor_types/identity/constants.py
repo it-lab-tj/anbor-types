@@ -13,6 +13,18 @@ class OtpKindEnum(IntEnum):
     PHONE_CONFIRMATION = 2
     FORGOT_PASSWORD = 3
     INVITATION = 4
+    USER_DELETION = 5
+
+
+class UserSessionPlatformEnum(IntEnum):
+    """Which client a session was opened from.
+
+    Persisted in ``identity_usersession.platform``, so append-only.
+    """
+
+    WEB = 1
+    ANDROID = 2
+    IOS = 3
 
 
 class PermissionBoundaryEnum(StrEnum):

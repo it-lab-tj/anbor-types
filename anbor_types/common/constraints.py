@@ -1,6 +1,8 @@
 from datetime import datetime, timezone
 from decimal import Decimal
 
+import regex
+
 
 from anbor_types.api.constants import DECIMAL_ZERO, TITLE_REGEX
 from anbor_types import Numeric
@@ -84,3 +86,22 @@ DATETIME_MIN = datetime(
 FILE_IDS_MAX_COUNT = 15
 
 CONTENT_TYPE_MAX_LENGTH = 20
+
+# ADDRESS
+ADDRESS_MAX_LENGTH = 255
+# TOFIX: matches exactly one character under `fullmatch` -- would reject every
+# real address if the validator were enabled.
+ADDRESS_REGEX = regex.compile(r"^[\w\s.,/№#-]$")
+
+# PASSWORD
+PASSWORD_MIN_LENGTH = 8
+PASSWORD_MAX_LENGTH = 200
+
+
+DECIMAL_AMOUNT_DIGITS = 14
+DECIMAL_AMOUNT_PLACES = 4
+
+# APP
+APP_VERSION_REGEX = regex.compile(r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)\Z")
+
+MAX_FILE_SIZE = 5  # MB
