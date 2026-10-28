@@ -142,11 +142,11 @@ class UserAuthMeta(BasePydanticModel):
         Optional[str],
         StringConstraints(min_length=1, max_length=USER_SESSION_DEVICE_NAME_MAX_LENGTH),
         BeforeValidator(parse_single_line_str),
-    ]
-    app_version: ATAppVersion
+    ] = None
+    app_version: Optional[ATAppVersion] = None
 
     # Settable after init. Must be set after init. NOT Optional on usage after controller.
-    ip: Optional[IPAddressT] = Field(init=False)
+    ip: Optional[IPAddressT] = Field(init=False, default=None)
 
     def set_ip(self, ip: IPAddressT) -> None:
         object.__setattr__(self, "ip", ip)
