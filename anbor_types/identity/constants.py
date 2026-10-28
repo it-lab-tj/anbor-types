@@ -13,6 +13,7 @@ class OtpKindEnum(IntEnum):
     PHONE_CONFIRMATION = 2
     FORGOT_PASSWORD = 3
     INVITATION = 4
+    USER_DELETION = 5
 
 
 class UserSessionPlatformEnum(IntEnum):

@@ -13,7 +13,7 @@ from anbor_types.common.annotated import (
 )
 from pydantic import Field, StringConstraints, BeforeValidator
 
-from anbor_types import ID_T, BasePydanticModel
+from anbor_types import ID_T, BasePydanticModel, Command
 from anbor_types.common.dto import FileShortDTO, NameIdDTO
 from anbor_types.identity.annotated import (
     ATUserName,
@@ -150,3 +150,7 @@ class UserAuthMeta(BasePydanticModel):
 
     def set_ip(self, ip: IPAddressT) -> None:
         object.__setattr__(self, "ip", ip)
+
+
+class UserAccountDeleteCommand(Command):
+    id: ID_T

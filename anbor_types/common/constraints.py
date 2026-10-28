@@ -103,3 +103,5 @@ DECIMAL_AMOUNT_PLACES = 4
 
 # APP
 APP_VERSION_REGEX = regex.compile(r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)\Z")
+
+MAX_FILE_SIZE = 5  # MB
