@@ -208,9 +208,9 @@ class CatalogEntryPositionListDTO(msgspec.Struct):
     variant_id: Optional[ID_T]
     name: str
     slug: str
-    identifier: str
     kind: CatalogEntryKindEnum
     images: Tuple[CatalogEntryImageListDTO, ...] = msgspec.field(default_factory=list)
+    identifier: Optional[str] = None
     remains: Annotated[
         Union[Decimal, None, msgspec.UnsetType],
         msgspec.Meta(description="Omitted when the caller lacks product.read_stock."),

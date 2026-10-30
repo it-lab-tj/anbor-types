@@ -27,8 +27,9 @@ class WalletDocumentListDTO(msgspec.Struct):
     amount: Decimal
     confirmed_at: datetime
     kind: WalletDocumentKindEnum
-    created_by: AuthorInfoShortDTO
     created_at: datetime
+    number: str
+    created_by: Optional[AuthorInfoShortDTO] = None
     subject: Optional[NameIdDTO] = None
     operating_expense: Optional[OperatingExpenseShortListDTO] = None
     business_document_id: Optional[ID_T] = None
@@ -51,13 +52,14 @@ class WalletDocumentDetailedDTO(msgspec.Struct):
     kind: WalletDocumentKindEnum
     created_at: datetime
     confirmed_at: datetime
-    created_by: AuthorInfoShortDTO
     rate: Decimal
     # «Сумма прописью» — `amount` written out in Russian words, built with
     # `numeric_funcs.get_capstone` at the repository. Printed on documents.
     capstone: str
+    number: str
     converted_capstone: Optional[str]
     operating_expense: OperatingExpenseShortListDTO
+    created_by: Optional[AuthorInfoShortDTO] = None
     vendor_code: Optional[str] = None
     business_document_id: Optional[ID_T] = None
     receiver: Optional[CounterpartyShortDTO] = None
@@ -138,6 +140,7 @@ class WalletTransferListDTO(msgspec.Struct):
     debit: CashDeskShortListDTO
     credit: CashDeskShortListDTO
     amount: Decimal
+    number: str
     created_at: datetime
     created_by: AuthorInfoShortDTO
     operating_expense: OperatingExpenseShortListDTO
