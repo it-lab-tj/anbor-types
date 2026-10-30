@@ -152,5 +152,12 @@ class UserAuthMeta(BasePydanticModel):
         object.__setattr__(self, "ip", ip)
 
 
-class UserAccountDeleteCommand(Command):
+class UserAccountDeactivateRequestCommand(Command):
     id: ID_T
+
+
+class UserAccountDeactivateConfirmCommand(Command):
+    # The account whose latest deactivation code is checked: without it a code
+    # could only be found by guessing it, with nothing to count failures against.
+    id: ID_T
+    otp: ATOtp
