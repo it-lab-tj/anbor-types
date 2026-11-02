@@ -2,6 +2,7 @@ from decimal import Decimal
 from uuid import UUID
 
 import msgspec
+from ipaddress import IPv4Network, IPv6Network
 from pydantic import BaseModel, ConfigDict, Field, GetJsonSchemaHandler
 from pydantic.json_schema import JsonSchemaValue
 from pydantic_core import CoreSchema
@@ -33,6 +34,7 @@ Pipeline: TypeAlias = Callable[
     [Callable[..., Awaitable[Any]]], Callable[..., Awaitable[Any]]
 ]
 type ListLike[T: Any] = Union[Sequence[T], Set[T]]
+IPAddressT = Union[IPv4Network, IPv6Network]
 
 
 class FactoryT(Protocol[T]):

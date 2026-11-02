@@ -23,7 +23,7 @@ from anbor_types.identity.annotated import (
 )
 from anbor_types.identity.constants import UserSessionPlatformEnum
 from anbor_types.identity.constraints import USER_SESSION_DEVICE_NAME_MAX_LENGTH
-from src.app.shared_kernel.types.base_types import IPAddressT
+from anbor_types import IPAddressT
 
 
 class AuthorInfoShortDTO(msgspec.Struct):
