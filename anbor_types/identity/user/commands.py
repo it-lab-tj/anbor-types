@@ -47,7 +47,7 @@ class UserLoginCommand(Command):
 class UserSessionRefreshCommand(Command):
     refresh: Annotated[
         str,
-        StringConstraints(max_length=1000, ascii_only=True, strip_whitespace=True),
+        StringConstraints(max_length=1000, strip_whitespace=True),
     ]
 
     meta: UserAuthMeta

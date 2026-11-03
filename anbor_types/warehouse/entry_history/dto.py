@@ -61,3 +61,21 @@ class CatalogEntryHistoryListDTO(msgspec.Struct):
     # the primary unit, a value means the second one at that rate. Informational
     # -- `count`, `price` and `amount` above are in the primary unit either way.
     measurement_units_ratio: Optional[Decimal] = None
+
+
+class CatalogEntryProfitHistoryListDTO(msgspec.Struct):
+    shipped_at: datetime
+    name: str
+    count: Decimal
+    characteristics: Tuple[CharacteristicValuePairDTO, ...]
+    price: Annotated[
+        Union[Decimal, msgspec.UnsetType],
+        msgspec.Meta(
+            description="Omitted when the caller lacks product.read_purchase_price."
+        ),
+    ]
+    discount: Decimal
+    amount: Decimal
+    created_by: AuthorInfoShortDTO
+    project: NameIdDTO
+    profit: Decimal

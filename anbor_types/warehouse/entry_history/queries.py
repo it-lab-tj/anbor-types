@@ -1,6 +1,6 @@
 from decimal import Decimal
-from typing import Annotated, List, Tuple
-
+from typing import Annotated, List, Optional, Tuple
+from anbor_types.catalog.enums import CatalogEntryKindEnum
 from anbor_types import ID_T, ListQuery
 from anbor_types.api.constants import DECIMAL_ZERO
 from anbor_types.api.types import OrderingAllowedFieldsT
@@ -119,4 +119,55 @@ class CatalogEntryHistoryListQuery(ListQuery, OrderingQueryMixin, metaclass=Filt
             "items whose variant carries *all* of the given pairs, so extra "
             "characteristics on the variant do not disqualify it.",
         ),
+    ]
+
+
+class CatalogEntryProfitHistoryListQuery(
+    ListQuery, OrderingQueryMixin, metaclass=FilterMeta
+):
+    _ordering_allowed_fields: OrderingAllowedFieldsT = {
+        "name",
+        "count",
+        "price",
+        "amount",
+        "shipped_at",
+    }
+    entry_id: Annotated[
+        Optional[ID_T],
+        FilterSpec.identifier(),
+    ]
+
+    kind: Annotated[
+        CatalogEntryKindEnum,
+        FilterSpec.numeric(
+            CatalogEntryKindEnum,
+            choices=CatalogEntryKindEnum,
+        ),
+    ]
+
+    project_id: Annotated[
+        Optional[ID_T],
+        FilterSpec.identifier(),
+    ]
+
+    shipped_at__rn: ATDatetimeRN
+
+    storage_id: Annotated[
+        Optional[ID_T],
+        FilterSpec.identifier(),
+    ]
+
+    created_by_id: Annotated[
+        Optional[ID_T],
+        FilterSpec.identifier(),
+    ]
+
+    client_id: Annotated[
+        Optional[ID_T],
+        FilterSpec.identifier(),
+    ]
+
+    category_id: Annotated[
+        Optional[ID_T],
+        FilterSpec.identifier(),
     ]
