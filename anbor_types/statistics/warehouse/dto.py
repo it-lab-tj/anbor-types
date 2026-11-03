@@ -2,10 +2,11 @@ from datetime import datetime
 
 import msgspec
 from decimal import Decimal
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
-from anbor_types import ListQueryResponse
+from anbor_types import ListQueryResponse, ID_T
 from anbor_types.common.dto import NameIdDTO
+from anbor_types.gallery.dto import ImageMediumDTO
 
 
 class InventoryAnalyticsOverviewDTO(msgspec.Struct):
@@ -51,23 +52,33 @@ class InventoryAnalyticsLiquidDTO(msgspec.Struct):
 class InventoryAnalyticsIlliquidDTO(msgspec.Struct):
     """One row of the stale-stock top.
 
-    ``last_sold_at`` is null for a product that has never been sold at all --
-    stock that has never moved is the most illiquid there is, so it belongs in
-    this list rather than outside it. The frontend derives "N days without a
-    sale" from this field and has to render that null case.
+    ``days_without_sale`` is counted to now(), the same instant the staleness
+    threshold uses, so it agrees with the threshold that selected the row. It
+    is null exactly when ``last_sold_at`` is -- stock that has never been sold
+    has no last sale to count from, and inventing a number from the receipt
+    date would mean something different from every other row.
+
+    ``last_sold_at`` is kept alongside it: null for a product never sold at all.
+    Stock that has never moved is the most illiquid there is, so it belongs in
+    this list rather than outside it.
 
     ``frozen_amount`` is what the remaining stock cost to acquire
     (``Σ remains × lot price``, base currency), not what it would sell for.
-    ``revenue`` covers the requested period, so it is 0 whenever that period is
-    no longer than the staleness threshold -- nothing in this list sold inside
-    such a window, by construction.
+
+    ``images`` holds the product's first image, or nothing -- a collection so
+    the field keeps the shape every other catalog surface sends, and so a
+    second one can be added without a contract change. An image whose medium
+    render is missing is left out rather than sent with a null URL: there is
+    nothing to draw either way, and ``medium_url`` stays a plain ``str``.
     """
 
+    product_id: ID_T
     product_name: str
-    last_sold_at: Optional[datetime]
     remains: Decimal
     frozen_amount: Decimal
-    revenue: Decimal
+    last_sold_at: Optional[datetime] = None
+    days_without_sale: Optional[int] = None
+    images: Tuple[ImageMediumDTO, ...] = ()
 
 
 class InventoryAnalyticsIlliquidListDTO(

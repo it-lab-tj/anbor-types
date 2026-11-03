@@ -18,3 +18,8 @@ class ImageOriginalUrlDTO(msgspec.Struct):
 class ImageShortDTO(msgspec.Struct):
     id: ID_T
     original_url: str
+
+
+class ImageMediumDTO(msgspec.Struct):
+    id: ID_T
+    medium_url: str

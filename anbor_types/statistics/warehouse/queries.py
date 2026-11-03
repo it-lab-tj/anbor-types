@@ -6,10 +6,10 @@ from anbor_types.common.annotated import ATDatetimeRN
 from anbor_types.utils.filter.meta import FilterMeta
 from anbor_types.utils.filter.types import FilterSpec
 
-# The reporting window both top-lists are read through. Spelled `date__rn`
-# because that is the name every other report's period filter carries, and the
-# frontend sends one filter for the whole dashboard; `field` names the column it
-# actually means, since `business_document` has no `date`.
+# The reporting window the best-selling top is read through. Spelled
+# `date__rn` because that is the name every other report's period filter
+# carries, and the frontend sends one filter for the whole dashboard; `field`
+# names the column it actually means, since `business_document` has no `date`.
 InventoryAnalyticsPeriod = Annotated[
     Tuple[Optional[date], Optional[date]],
     FilterSpec.date_range(field="shipped_at", both_required=True),
@@ -26,8 +26,14 @@ class InventoryAnalyticsLiquidQuery(ListQuery, metaclass=FilterMeta):
     date__rn: InventoryAnalyticsPeriod
 
 
-class InventoryAnalyticsIlliquidQuery(ListQuery, metaclass=FilterMeta):
-    date__rn: InventoryAnalyticsPeriod
+class InventoryAnalyticsIlliquidQuery(ListQuery):
+    """Pagination only.
+
+    Staleness is measured back from now(), so there is no window to pass: a
+    period filter could only move the threshold, and a report of "what is
+    sitting on the shelf today" has no use for that. It carried a `date__rn`
+    until 2026-11-03.
+    """
 
 
 class InventoryAnalyticsCashFlowQuery(Query, metaclass=FilterMeta):
