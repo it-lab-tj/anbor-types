@@ -102,6 +102,43 @@ class InventoryAnalyticsIlliquidListDTO(
     total_frozen_amount: Decimal
 
 
+class TopSellingEntryDTO(msgspec.Struct):
+    """One row of the best-selling top, over the requested window.
+
+    ``sold_count`` is units, not documents -- the sum of the line counts, so a
+    receipt for ten pieces contributes ten. ``revenue`` is what those lines
+    charged in company currency: price x count, less the line discount, at the
+    document's rate. The same expression every other report in this boundary
+    uses, so two panels cannot disagree about one product's takings.
+    """
+
+    entry_id: ID_T
+    entry_name: str
+    sold_count: Decimal
+    revenue: Decimal
+    images: Tuple[ImageMediumDTO, ...] = ()
+
+
+class TopSellingListDTO(ListQueryResponse[TopSellingEntryDTO]):
+    """The top plus its footer total.
+
+    ``count``, ``total_sold_count`` and ``total_revenue`` describe the WHOLE
+    selection rather than the returned page, and all three are read off the
+    same grouped subquery the rows come from -- including the
+    ``sold_count__rn`` bound. A footer counted over one set and summed over
+    another would simply be wrong.
+
+    ``rows`` is redeclared, identically to what the generic already says: the
+    OpenAPI generator does not follow a type parameter through a subclass, so
+    without this the schema documents the rows as bare objects and the frontend
+    loses every field name.
+    """
+
+    rows: List[TopSellingEntryDTO]
+    total_sold_count: Decimal
+    total_revenue: Decimal
+
+
 class InventoryAnalyticsCashFlowDTO(msgspec.Struct):
     income: Decimal
     expense: Decimal

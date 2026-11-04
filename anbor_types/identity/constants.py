@@ -210,3 +210,4 @@ class PermissionActionEnum(StrEnum):
     READ_PERFORMER_SUMMARY = "read_performer_summary"
     READ_STAFF_SUMMARY = "read_staff_summary"
     READ_COMPANY_MONEY_SUMMARY = "read_company_money_summary"
+    READ_TOP_SELLING = "read_top_selling"
