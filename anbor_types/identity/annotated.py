@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from pydantic import EmailStr, StringConstraints
+from pydantic import EmailStr, StringConstraints, Field
 
 from anbor_types.identity.constraints import (
     COMPANY_NICK_MAX_LENGTH,
@@ -20,6 +20,8 @@ from anbor_types.identity.constraints import (
     USER_USERNAME_MAX_LENGTH,
     USER_USERNAME_MIN_LENGTH,
     USER_USERNAME_REGEX,
+    OTP_BASE64_LENGTH,
+    OTP_BASE64_REGEX,
 )
 from anbor_types.utils.validators import regex_validator_factory
 
@@ -98,3 +100,17 @@ type ATOtp = Annotated[
     ),
     regex_validator_factory(OTP_REGEX),
 ]
+
+
+type ATOtpBase64 = Annotated[
+    str,
+    StringConstraints(
+        min_length=OTP_BASE64_LENGTH,
+        max_length=OTP_BASE64_LENGTH,
+        strip_whitespace=True,
+    ),
+    regex_validator_factory(OTP_BASE64_REGEX),
+]
+
+
+type ATOtpAny = Annotated[ATOtp | ATOtpBase64, Field(union_mode="left_to_right")]

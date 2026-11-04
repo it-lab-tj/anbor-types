@@ -24,6 +24,10 @@ COMPANY_NICK_MIN_LENGTH = 2
 OTP_MIN_LENGTH = 5
 OTP_MAX_LENGTH = 5
 OTP_REGEX = regex.compile(r"^[0-9]{5}$")
+OTP_BASE64_LENGTH = 32
+OTP_BASE64_REGEX = regex.compile(
+    r"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$"
+)
 
 # ROLE
 ROLE_NAME_MAX_LENGTH = 100

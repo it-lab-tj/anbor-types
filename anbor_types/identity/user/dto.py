@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List, Optional, Annotated
+from typing import List, Optional, Annotated, Union
 from uuid import UUID
 
 import msgspec
@@ -20,6 +20,7 @@ from anbor_types.identity.annotated import (
     ATEmail,
     ATPhone,
     ATOtp,
+    ATOtpBase64,
 )
 from anbor_types.identity.constants import UserSessionPlatformEnum
 from anbor_types.identity.constraints import USER_SESSION_DEVICE_NAME_MAX_LENGTH
@@ -132,7 +133,7 @@ class UserConfirmationRequestDTO(BasePydanticModel):
     the client decodes it before posting.
     """
 
-    otp: ATOtp
+    otp: Union[ATOtp | ATOtpBase64]
 
 
 class UserAuthMeta(BasePydanticModel):
