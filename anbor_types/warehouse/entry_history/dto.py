@@ -1,8 +1,9 @@
 from datetime import datetime
 from decimal import Decimal
-from typing import Annotated, Optional, Tuple, Union
+from typing import Annotated, List, Optional, Tuple, Union
 
 import msgspec
+from anbor_types.catalog.catalog_entry.dto import CatalogEntryImageListDTO
 from anbor_types.catalog.category.dto import CharacteristicValuePairDTO
 
 from anbor_types import ID_T
@@ -79,3 +80,4 @@ class CatalogEntryProfitHistoryListDTO(msgspec.Struct):
     created_by: AuthorInfoShortDTO
     project: NameIdDTO
     profit: Decimal
+    images: List[CatalogEntryImageListDTO] = msgspec.field(default_factory=list)
