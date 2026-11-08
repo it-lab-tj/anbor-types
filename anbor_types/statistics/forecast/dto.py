@@ -5,6 +5,7 @@ import msgspec
 
 from anbor_types import ID_T
 from anbor_types.catalog.category.dto import CharacteristicValuePairDTO
+from anbor_types.common.dto import NameIdDTO
 
 
 class ProductForecastEntryDTO(msgspec.Struct):
@@ -14,6 +15,10 @@ class ProductForecastEntryDTO(msgspec.Struct):
 
     id: ID_T
     name: str
+    # The unit the sibling quantities are counted in, so a `recommend_to_buy`
+    # of 3 reads as 3 pieces or 3 kilograms. `name` is the short form
+    # (`шт`, `кг`), as everywhere else this DTO is used.
+    measurement_unit: NameIdDTO
     characteristic_values: List[CharacteristicValuePairDTO]
 
 
