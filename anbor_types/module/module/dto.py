@@ -30,3 +30,7 @@ class ModuleConnectListDTO(ModuleConnectDTO):
 
 class MarketplaceIntegrationPayloadDTO(BasePydanticModel):
     domain: str
+    # The CLIENT subject every marketplace sale is booked against. Optional only
+    # so modules connected before it existed still parse; a sale is refused
+    # while it is unset.
+    client_id: Optional[ID_T] = None
