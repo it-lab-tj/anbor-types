@@ -93,6 +93,7 @@ class SaleProfitQuery(Query):
 class SaleDocumentItemsProfitQuery(ListQuery, OrderingQueryMixin, metaclass=FilterMeta):
     _ordering_allowed_fields: OrderingAllowedFieldsT = {
         "created_at",
+        "shipped_at"
     }
 
     shipped_at__rn: ATDatetimeRN
