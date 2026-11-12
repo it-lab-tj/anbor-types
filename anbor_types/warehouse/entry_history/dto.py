@@ -48,6 +48,7 @@ class CatalogEntryHistoryListDTO(msgspec.Struct):
     ]
     created_by: AuthorInfoShortDTO
     characteristics: Tuple[CharacteristicValuePairDTO, ...]
+    created_at: datetime
     shipped_at: Optional[datetime] = None
     tag: Optional[NameIdDTO] = None
     currency: Optional[CurrencyCodeSymbolDTO] = None
