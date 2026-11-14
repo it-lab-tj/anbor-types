@@ -142,6 +142,9 @@ class TopSellingListDTO(ListQueryResponse[TopSellingEntryDTO]):
 class InventoryAnalyticsCashFlowDTO(msgspec.Struct):
     income: Decimal
     expense: Decimal
+    # Cost of goods sold over the same window, at lot cost -- the same basis as
+    # the income statement's `cost_price`.
+    sold_cost: Decimal
 
 
 class PerformerSummaryDTO(msgspec.Struct):

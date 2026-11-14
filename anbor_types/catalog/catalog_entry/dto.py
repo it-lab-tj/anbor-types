@@ -143,6 +143,7 @@ class CatalogEntryCreateDTO(BasePydanticModel):
     minimum_price: ATPrice
     selling_price: ATPrice
     max_discount: ATDiscount
+    vendor_code: ATCatalogEntryVendorCode
 
     # Non-validate
     category_id: ID_T
@@ -161,7 +162,6 @@ class CatalogEntryCreateDTO(BasePydanticModel):
     second_measurement_unit_id: Optional[ID_T] = None
     description: Optional[ATCatalogEntryDescription] = None
     information: Optional[ATInformationStr] = None
-    vendor_code: Optional[ATCatalogEntryVendorCode] = None
 
 
 class CatalogEntryUpdateDTO(BasePydanticModel):
@@ -170,7 +170,7 @@ class CatalogEntryUpdateDTO(BasePydanticModel):
     minimum_price: ATPrice
     selling_price: ATPrice
     max_discount: ATDiscount
-    vendor_code: Optional[ATCatalogEntryVendorCode] = None
+    vendor_code: ATCatalogEntryVendorCode
 
     description: Optional[ATCatalogEntryDescription] = None
     information: Optional[ATInformationStr] = None

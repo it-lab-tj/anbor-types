@@ -1,6 +1,6 @@
 from typing import Annotated, Optional
 
-from pydantic import constr, conlist
+from pydantic import StringConstraints, constr, conlist
 
 from anbor_types import ID_T
 from anbor_types.catalog.category.dto import CharValueDTO
@@ -10,8 +10,9 @@ from anbor_types.common import constraints as common_constraints
 from anbor_types.common.annotated import ATSingleLineStr
 
 # ===== BASE =====
-# TOFIX: every alias defined in this file wraps `constr(...)` inside
-# `Annotated[...]`, which pydantic drops -- so none of them enforce anything.
+# TOFIX: every alias in this file except ATCatalogEntryVendorCode wraps
+# `constr(...)` inside `Annotated[...]`, which pydantic drops -- so none of them
+# enforce anything.
 # Use StringConstraints(...); see docs/architecture/validation.md.
 type ATCatalogEntryName = Annotated[
     ATSingleLineStr,
@@ -46,10 +47,10 @@ type ATProductProfileCharValues = Annotated[
 ]
 type ATCatalogEntryVendorCode = Annotated[
     str,
-    constr(
+    StringConstraints(
         max_length=catalog_enty_constraints.VENDOR_CODE_MAX_LENGTH,
         min_length=catalog_enty_constraints.VENDOR_CODE_MIN_LENGTH,
-        pattern=catalog_enty_constraints.VENDOR_CODE_REGEX,
+        pattern=catalog_enty_constraints.VENDOR_CODE_REGEX.pattern,
         strip_whitespace=True,
     ),
 ]
