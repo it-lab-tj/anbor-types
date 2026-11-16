@@ -21,6 +21,14 @@ USER_PHONE_REGEX = regex.compile(r"^\+?[1-9]\d{7,14}$")
 COMPANY_NICK_MAX_LENGTH = 40
 COMPANY_NICK_MIN_LENGTH = 2
 
+# Cities name
+CITY_NAME_MAX_LENGTH = 50
+CITY_NAME_MIN_LENGTH = 1
+CITY_NAME_REGEX = regex.compile(r"^[А-ЯЁа-яёA-Za-z\s-]+$")
+
+OCCUPATION_MAX_LENGTH = 50
+OCCUPATION_MIN_LENGTH = 3
+
 OTP_MIN_LENGTH = 5
 OTP_MAX_LENGTH = 5
 OTP_REGEX = regex.compile(r"^[0-9]{5}$")

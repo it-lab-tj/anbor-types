@@ -21,3 +21,4 @@ class ContentTypeEnum(StrEnum):
     SERVICE = "handbook_service"
     PRODUCT = "handbook_product"
     STOCK_OPERATION_GROUP = "storage_stockoperationgroup"
+    LEAD = "identity_lead"

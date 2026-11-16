@@ -3,8 +3,13 @@ from typing import Annotated
 from pydantic import EmailStr, StringConstraints, Field
 
 from anbor_types.identity.constraints import (
+    CITY_NAME_MAX_LENGTH,
+    CITY_NAME_MIN_LENGTH,
+    CITY_NAME_REGEX,
     COMPANY_NICK_MAX_LENGTH,
     COMPANY_NICK_MIN_LENGTH,
+    OCCUPATION_MAX_LENGTH,
+    OCCUPATION_MIN_LENGTH,
     OTP_MAX_LENGTH,
     OTP_MIN_LENGTH,
     OTP_REGEX,
@@ -37,6 +42,26 @@ type ATUserName = Annotated[
         strip_whitespace=True,
     ),
     regex_validator_factory(USER_NAME_REGEX, normalize=True),
+]
+
+
+type ATCityName = Annotated[
+    str,
+    StringConstraints(
+        min_length=CITY_NAME_MIN_LENGTH,
+        max_length=CITY_NAME_MAX_LENGTH,
+        strip_whitespace=True,
+    ),
+    regex_validator_factory(CITY_NAME_REGEX, normalize=True),
+]
+
+ATOccupation = Annotated[
+    str,
+    StringConstraints(
+        min_length=OCCUPATION_MIN_LENGTH,
+        max_length=OCCUPATION_MAX_LENGTH,
+        strip_whitespace=True,
+    ),
 ]
 
 

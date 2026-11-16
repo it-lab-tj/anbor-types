@@ -14,6 +14,7 @@ class OtpKindEnum(IntEnum):
     FORGOT_PASSWORD = 3
     INVITATION = 4
     USER_DEACTIVATION = 5
+    DEMO_REGISTER = 6
 
 
 class UserSessionPlatformEnum(IntEnum):
