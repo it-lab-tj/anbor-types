@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, Optional
 
 from pydantic import StringConstraints
 
@@ -36,6 +36,23 @@ class UserResendConfirmationCommand(Command):
 
 class UserToggleStatusCommand(Command):
     id: ID_T
+
+
+PUSH_TOKEN_MAX_LENGTH = 4096
+PUSH_TOKEN_REGEX = r"^[A-Za-z0-9_:\-]+$"
+
+type ATPushToken = Annotated[
+    str,
+    StringConstraints(
+        min_length=1, max_length=PUSH_TOKEN_MAX_LENGTH, pattern=PUSH_TOKEN_REGEX
+    ),
+]
+
+
+class SetMyPushTokenCommand(Command):
+    """FCM token of the caller's CURRENT session; None stops pushes to it."""
+
+    push_token: Optional[ATPushToken] = None
 
 
 class UserLoginCommand(Command):
