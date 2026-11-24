@@ -2,7 +2,7 @@ from decimal import Decimal
 from typing import Annotated, List, Optional, Tuple
 from anbor_types.catalog.enums import CatalogEntryKindEnum
 from anbor_types import ID_T, ListQuery
-from anbor_types.api.constants import DECIMAL_ZERO
+from anbor_types.api.constants import DECIMAL_ZERO, PRICE_MAX
 from anbor_types.api.types import OrderingAllowedFieldsT
 from anbor_types.catalog.category.dto import CharValueDTO
 from anbor_types.common.annotated import ATDatetimeRN
@@ -12,7 +12,6 @@ from anbor_types.utils.mixins import OrderingQueryMixin
 from anbor_types.warehouse.constants.constraints.document_item import (
     CHAR_VALUES_MAX_COUNT,
     COUNT_MAX,
-    PRICE_MAX,
 )
 from anbor_types.warehouse.constants.enums import BusinessDocumentActionEnum
 

@@ -8,7 +8,7 @@ from anbor_types import ID_T, BasePydanticModel, ListQuery, Query
 from anbor_types.api.constants import ID_MAX, PRICE_MAX, DECIMAL_ZERO
 from anbor_types.api.types import OrderingAllowedFieldsT
 from anbor_types.catalog.category.dto import CharValueDTO
-from anbor_types.common.annotated import ATDatetimeRN, ATRate
+from anbor_types.common.annotated import ATDatetimeRN, ATDiscount, ATPrice, ATRate
 from anbor_types.common.enums import StatusEnum
 from anbor_types.utils.filter.meta import FilterMeta
 from anbor_types.utils.filter.types import FilterSpec
@@ -39,8 +39,8 @@ class SaleProfitDocumentItemDTO(BasePydanticModel):
     """
 
     entry_id: ID_T
-    price: Decimal
-    discount: Decimal = DECIMAL_ZERO
+    price: ATPrice
+    discount: ATDiscount = DECIMAL_ZERO
     count: Decimal = Field(gt=DECIMAL_ZERO)
     expires_at: Optional[date] = None
     char_values: List[CharValueDTO] = Field(

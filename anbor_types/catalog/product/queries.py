@@ -1,8 +1,6 @@
 from decimal import Decimal
 from typing import Annotated, List, Optional
 
-from anbor_types.warehouse.constants.constraints import PRICE_MAX
-
 from anbor_types.utils.filter.types import FilterSpec
 from pydantic import Field, field_validator, PrivateAttr
 
@@ -10,7 +8,7 @@ from anbor_types import ID_T, ListQuery, Query
 from anbor_types.catalog.catalog_entry.queries import CatalogEntryBaseListQuery
 from anbor_types.catalog.category.dto import CharValueDTO
 from anbor_types.catalog.constraints import CATALOG_ENTRY_VARIANT_CHAR_VALUES_MAX_COUNT
-from anbor_types.api.constants import DECIMAL_ZERO
+from anbor_types.api.constants import DECIMAL_ZERO, PRICE_MAX
 
 
 class ProductDetailedQuery(Query):

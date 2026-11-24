@@ -4,6 +4,7 @@ from decimal import Decimal
 import regex
 
 
+from anbor_types.api import constants as api_constants
 from anbor_types.api.constants import DECIMAL_ZERO, TITLE_REGEX
 from anbor_types import Numeric
 
@@ -44,8 +45,8 @@ DECIMAL_BALANCE_PLACES = 4
 LONG_DECIMAL_DIGITS = 30
 LONG_DECIMAL_PLACES = 4
 
-DECIMAL_PRICE_DIGITS = 20
-DECIMAL_PRICE_PLACES = 4
+DECIMAL_PRICE_DIGITS = api_constants.DECIMAL_PRICE_DIGITS
+DECIMAL_PRICE_PLACES = api_constants.DECIMAL_PRICE_PLACES
 
 DECIMAL_RATE_DIGITS = 12
 DECIMAL_RATE_PLACES = 6

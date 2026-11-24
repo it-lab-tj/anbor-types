@@ -16,7 +16,13 @@ TITLE_MAX_LENGTH = 150
 TITLE_REGEX = regex.compile(r"^[\p{L}\p{N} .,:\_+\/\\-]+$")
 
 ID_MAX = 2**31 - 1  # 32 bits
-PRICE_MAX = Decimal("9_999_999_999")
+# Owned here, not in common.constraints: that module imports this one.
+DECIMAL_PRICE_DIGITS = 20
+DECIMAL_PRICE_PLACES = 4
+# The largest numeric(DIGITS, PLACES) value, so the API never accepts what the column refuses.
+PRICE_MAX = Decimal(10) ** (DECIMAL_PRICE_DIGITS - DECIMAL_PRICE_PLACES) - Decimal(
+    10
+) ** -DECIMAL_PRICE_PLACES
 DECIMAL_ZERO = Decimal("0.00")
 NIL_UUID = UUID(int=0)
 PRICE_GT = DECIMAL_ZERO

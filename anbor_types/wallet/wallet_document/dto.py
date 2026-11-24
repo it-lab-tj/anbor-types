@@ -8,7 +8,12 @@ from pydantic import Field, model_validator
 from pydantic_core import PydanticCustomError
 
 from anbor_types import ID_T, BasePydanticModel
-from anbor_types.common.annotated import ATComment, ATFileIds, ATDatetimeDefault
+from anbor_types.common.annotated import (
+    ATComment,
+    ATDatetimeDefault,
+    ATFileIds,
+    ATPrice,
+)
 from anbor_types.common.dto import FileShortDTO, NameIdDTO
 from anbor_types.common.enums import ContentTypeEnum
 from anbor_types.wallet.cash_desk.dto import CashDeskShortListDTO
@@ -71,7 +76,7 @@ class WalletDocumentDetailedDTO(msgspec.Struct):
 
 
 class WalletDocumentCreateDTO(BasePydanticModel):
-    amount: Annotated[Decimal, Field(gt=DECIMAL_ZERO, le=Decimal("9999999999.9999"))]
+    amount: Annotated[ATPrice, Field(gt=DECIMAL_ZERO)]
     cash_desk_id: ID_T
     comment: ATComment
     confirmed_at: ATDatetimeDefault = Field(default_factory=get_now_utc)
@@ -105,7 +110,7 @@ class WalletDocumentCreateDTO(BasePydanticModel):
 
 
 class WalletDocumentUpdateDTO(BasePydanticModel):
-    amount: Annotated[Decimal, Field(gt=DECIMAL_ZERO, le=Decimal("9999999999.9999"))]
+    amount: Annotated[ATPrice, Field(gt=DECIMAL_ZERO)]
     files_ids: List[ID_T]
     comment: ATComment
     project_id: ID_T
