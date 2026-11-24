@@ -5,6 +5,9 @@ USER_NAME_MAX_LENGTH = 50
 USER_NAME_MIN_LENGTH = 1
 USER_NAME_REGEX = regex.compile(r"^\p{L}+(?:[\s-]\p{L}+)*$", regex.UNICODE)
 
+# Lead
+LEAD_NAME_MAX_LENGTH = 15
+
 # User's `username`
 USER_USERNAME_MAX_LENGTH = 50
 USER_USERNAME_MIN_LENGTH = 1

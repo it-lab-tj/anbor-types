@@ -8,6 +8,7 @@ from anbor_types.identity.constraints import (
     CITY_NAME_REGEX,
     COMPANY_NICK_MAX_LENGTH,
     COMPANY_NICK_MIN_LENGTH,
+    LEAD_NAME_MAX_LENGTH,
     OCCUPATION_MAX_LENGTH,
     OCCUPATION_MIN_LENGTH,
     OTP_MAX_LENGTH,
@@ -39,6 +40,17 @@ type ATUserName = Annotated[
     StringConstraints(
         min_length=USER_NAME_MIN_LENGTH,
         max_length=USER_NAME_MAX_LENGTH,
+        strip_whitespace=True,
+    ),
+    regex_validator_factory(USER_NAME_REGEX, normalize=True),
+]
+
+
+type ATLeadName = Annotated[
+    str,
+    StringConstraints(
+        min_length=USER_NAME_MIN_LENGTH,
+        max_length=LEAD_NAME_MAX_LENGTH,
         strip_whitespace=True,
     ),
     regex_validator_factory(USER_NAME_REGEX, normalize=True),
