@@ -6,9 +6,10 @@ import msgspec
 from pydantic import Field
 
 from anbor_types import INT_ID_T, ID_T, BasePydanticModel
-from anbor_types.api.constants import PRICE_MAX
 from anbor_types.catalog.catalog_entry.dto import CatalogEntryImageListDTO
 from anbor_types.common.constraints import (
+    DECIMAL_BALANCE_DIGITS,
+    DECIMAL_BALANCE_PLACES,
     DECIMAL_DISCOUNT_DIGITS,
     DECIMAL_DISCOUNT_PLACES,
 )
@@ -16,6 +17,7 @@ from anbor_types.common.dto import FileShortDTO, NameIdDTO
 from anbor_types.handbook.region.dto import RegionShortDTO
 from anbor_types.identity.user.dto import AuthorInfoShortDTO
 from anbor_types.wallet.cash_desk.dto import CashDeskShortListDTO
+from anbor_types.wallet.constraints import SUBJECT_BALANCE_MAX, SUBJECT_BALANCE_MIN
 from anbor_types.wallet.currency.dto import CurrencyShortDTO
 from anbor_types.wallet.operating_expense.dto import OperatingExpenseShortListDTO
 from anbor_types.warehouse.business_document.subject.queries import (
@@ -152,7 +154,15 @@ class SubjectRebalanceDTO(BasePydanticModel):
     writes a single WalletOperation for the delta. No WalletDocument is created.
     """
 
-    target_balance: Decimal = Field(le=PRICE_MAX)
+    target_balance: Annotated[
+        Decimal,
+        Field(
+            ge=SUBJECT_BALANCE_MIN,
+            le=SUBJECT_BALANCE_MAX,
+            max_digits=DECIMAL_BALANCE_DIGITS,
+            decimal_places=DECIMAL_BALANCE_PLACES,
+        ),
+    ]
     operating_expense_id: ID_T
     comment: str
     files_ids: List[ID_T] = Field(default_factory=list)
